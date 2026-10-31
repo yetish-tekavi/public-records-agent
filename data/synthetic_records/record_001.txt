@@ -1,0 +1,15 @@
+Record ID: TEST-001
+Record Type: interaction_transcript
+Title: Synthetic Police Interaction Record
+Record Date: 2026-09-14
+Synthetic: yes
+
+Officer: Can you confirm your contact details?
+
+Person: My phone number is 609-555-0142.
+
+Officer: What is your driver's license number?
+
+Person: D12345678901234.
+
+Officer: Thank you. Have a good day.

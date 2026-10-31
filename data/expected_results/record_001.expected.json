@@ -1,0 +1,28 @@
+{
+  "request_id": "OPRA-TEST-001",
+  "record_id": "TEST-001",
+  "requires_redaction": true,
+  "findings": [
+    {
+      "finding_id": "TEST-001-F01",
+      "record_id": "TEST-001",
+      "category": "PHONE_NUMBER",
+      "text": "609-555-0142",
+      "start": 75,
+      "end": 87,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    },
+    {
+      "finding_id": "TEST-001-F02",
+      "record_id": "TEST-001",
+      "category": "DRIVERS_LICENSE_NUMBER",
+      "text": "D12345678901234",
+      "start": 146,
+      "end": 161,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    }
+  ],
+  "notes": "The person is not named. The phone number uses the fictional 555-01XX range. The driver's license number is synthetic (NJ format: one letter plus 14 digits)."
+}

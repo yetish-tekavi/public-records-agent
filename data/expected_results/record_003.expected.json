@@ -1,0 +1,7 @@
+{
+  "request_id": "OPRA-TEST-003",
+  "record_id": "TEST-003",
+  "requires_redaction": false,
+  "findings": [],
+  "notes": "No obvious PII. The asset tag PW-ASSET-0457 and work order WO-2026-0193 are internal identifiers, not personal data, and should not be flagged."
+}

@@ -1,0 +1,38 @@
+{
+  "request_id": "OPRA-TEST-002",
+  "record_id": "TEST-002",
+  "requires_redaction": true,
+  "findings": [
+    {
+      "finding_id": "TEST-002-F01",
+      "record_id": "TEST-002",
+      "category": "PERSON_NAME",
+      "text": "Renata Vossberg",
+      "start": 124,
+      "end": 139,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    },
+    {
+      "finding_id": "TEST-002-F02",
+      "record_id": "TEST-002",
+      "category": "STREET_ADDRESS",
+      "text": "47 Wrenfield Court",
+      "start": 279,
+      "end": 297,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    },
+    {
+      "finding_id": "TEST-002-F03",
+      "record_id": "TEST-002",
+      "category": "PHONE_NUMBER",
+      "text": "(201) 555-0187",
+      "start": 447,
+      "end": 461,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    }
+  ],
+  "notes": "The caller asks not to be identified to neighbors. Timestamps, the fictional township name, and the dispatcher role are not sensitive."
+}

@@ -1,0 +1,23 @@
+Record ID: TEST-002
+Record Type: call_transcript
+Title: Synthetic Non-Emergency Dispatch Call - Noise Complaint
+Record Date: 2026-09-22
+Synthetic: yes
+
+[21:04:12] Dispatcher: Larkspur Township Police, non-emergency line. How can I help you?
+
+[21:04:15] Caller: Hi, my name is Renata Vossberg. There has been loud music next door for about three hours.
+
+[21:04:22] Dispatcher: What address are you calling from?
+
+[21:04:25] Caller: 47 Wrenfield Court. The noise is coming from the house on the left.
+
+[21:04:31] Dispatcher: And a good callback number for you?
+
+[21:04:34] Caller: You can reach me at (201) 555-0187.
+
+[21:04:39] Dispatcher: Thank you. A patrol unit will drive by within the next thirty minutes.
+
+[21:04:44] Caller: Thanks. I would rather my neighbors not know I called.
+
+[21:04:48] Dispatcher: Understood. Call ended.

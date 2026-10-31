@@ -1,0 +1,18 @@
+Record ID: TEST-003
+Record Type: inspection_log
+Title: Synthetic Public Works Salt Dome Inspection Log
+Record Date: 2026-10-01
+Synthetic: yes
+
+Facility: Larkspur Township Public Works Yard, Salt Storage Dome B
+Inspection type: Quarterly structural and inventory inspection
+Asset tag: PW-ASSET-0457
+
+Findings:
+1. Roof membrane intact; no visible leaks after the September 28 rainfall.
+2. Salt inventory estimated at 640 tons, approximately 80 percent of capacity.
+3. Loader bay door sensor intermittently fails to close; work order WO-2026-0193 opened.
+4. Fire extinguisher inspection tags current through March 2027.
+
+Recommended actions: Replace the bay door sensor before the first forecast snow event.
+Next quarterly inspection due January 2027.
