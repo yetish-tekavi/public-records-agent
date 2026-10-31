@@ -49,6 +49,22 @@ def real_data_dir() -> Path:
     return DEFAULT_DATA_DIR
 
 
+@pytest.fixture(scope="session")
+def policy_chunks():
+    """Chunks of the real (public, official) policy documents. Extracted once per session."""
+    from app.policies.chunker import load_policy_chunks
+
+    return load_policy_chunks()
+
+
+@pytest.fixture(scope="session")
+def keyword_retriever(policy_chunks):
+    """Keyword-only retriever over the real corpus; needs no embedding model."""
+    from app.policies.retriever import PolicyRetriever
+
+    return PolicyRetriever(policy_chunks)
+
+
 @pytest.fixture
 def make_data_dir(tmp_path: Path):
     """Build a one-case data directory, letting a test override any file."""

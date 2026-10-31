@@ -1,0 +1,75 @@
+{
+  "documents": [
+    {
+      "doc_id": "opra_statute",
+      "title": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)",
+      "publisher": "New Jersey Government Records Council",
+      "file": "nj_opra_statute_2024.pdf",
+      "source_url": "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+      "landing_url": "https://www.nj.gov/grc/laws/act/",
+      "effective_date": "as of September 3, 2024 (P.L. 2024, c.16)",
+      "retrieved_date": "2026-10-18",
+      "section_style": "opra_statute",
+      "strip_line_patterns": [
+        "^Open Public Records Act . N\\.J\\.S\\.A\\. 47:1A-1 et seq\\. \\(as of September 3, 2024\\)$",
+        "^Page \\d+ of 37$"
+      ]
+    },
+    {
+      "doc_id": "grc_exemptions",
+      "title": "OPRA Exemptions (GRC list)",
+      "publisher": "New Jersey Government Records Council",
+      "file": "grc_opra_exemptions_2024.pdf",
+      "source_url": "https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+      "landing_url": "https://www.nj.gov/grc/custodians/exempt/",
+      "effective_date": "updated September 3, 2024",
+      "retrieved_date": "2026-10-18",
+      "section_style": "grc_exemptions",
+      "strip_line_patterns": [
+        "^Updated 9/3/2024 \\d+$"
+      ]
+    },
+    {
+      "doc_id": "grc_redacting",
+      "title": "Redacting Government Records (GRC guidance page)",
+      "publisher": "New Jersey Government Records Council",
+      "file": "grc_redacting_government_records.html",
+      "source_url": "https://www.nj.gov/grc/custodians/redacting/",
+      "landing_url": "https://www.nj.gov/grc/custodians/redacting/",
+      "effective_date": null,
+      "retrieved_date": "2026-10-31",
+      "section_style": "html_headings",
+      "strip_line_patterns": []
+    },
+    {
+      "doc_id": "grc_handbook",
+      "title": "The Open Public Records Act: Handbook for Records Custodians, Eighth Edition",
+      "publisher": "New Jersey Government Records Council",
+      "file": "grc_custodians_handbook_8th_ed_2025.pdf",
+      "source_url": "https://nj.gov/grc/custodians/handbook/Custodians%20Handbook%20(Eighth%20Edition%20-%20Jan%202025)(Final).pdf",
+      "landing_url": "https://www.nj.gov/grc/custodians/handbook/",
+      "effective_date": "Eighth Edition, January 2025",
+      "retrieved_date": "2026-10-18",
+      "section_style": "grc_handbook",
+      "strip_line_patterns": [
+        "^Eighth Edition . January 2025 Page \\d+ of 39$"
+      ]
+    },
+    {
+      "doc_id": "ag_bwc_directive",
+      "title": "Attorney General Law Enforcement Directive No. 2022-1: Update to Body Worn Camera Policy",
+      "publisher": "New Jersey Office of the Attorney General",
+      "file": "nj_ag_body_worn_camera_directive_2022-1.pdf",
+      "source_url": "https://www.nj.gov/oag/dcj/agguide/directives/ag-Directive-2022-1.pdf",
+      "landing_url": "https://www.nj.gov/oag/dcj/agguide/directives/",
+      "effective_date": "January 19, 2022",
+      "retrieved_date": "2026-10-18",
+      "section_style": "ag_directive",
+      "strip_line_patterns": [
+        "^New Jersey Is An Equal Opportunity Employer . Printed on Recycled Paper and Recyclable$",
+        "^BODY WORN CAMERA POLICY \\| January 2022 (\\d+|[ivx]+)$",
+        "^\\d{1,2}$"
+      ]
+    }
+  ]
+}

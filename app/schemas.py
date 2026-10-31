@@ -100,6 +100,8 @@ class PolicyReference(StrictModel):
     citation: str = Field(min_length=1)
     page: int | None = Field(default=None, ge=1)
     excerpt: str = Field(min_length=1)
+    source_url: str | None = None
+    chunk_id: str | None = None
 
 
 class RedactionRecommendation(StrictModel):
@@ -153,3 +155,89 @@ class ReviewCase(StrictModel):
     request: PublicRecordRequest
     record: PublicRecord
     expected: ExpectedResult
+
+
+# --- Policy retrieval --------------------------------------------------------
+
+SectionStyle = Literal["opra_statute", "grc_exemptions", "grc_handbook", "ag_directive", "html_headings"]
+
+
+class PolicyDocument(StrictModel):
+    """Manifest entry for one locally stored official policy document."""
+
+    doc_id: str = Field(pattern=r"^[a-z0-9_]+$")
+    title: str = Field(min_length=1)
+    publisher: str = Field(min_length=1)
+    file: str = Field(min_length=1)
+    source_url: str = Field(pattern=r"^https://")
+    landing_url: str | None = Field(default=None, pattern=r"^https://")
+    effective_date: str | None = None  # as stated by the source, e.g. "as of September 3, 2024"
+    retrieved_date: date
+    section_style: SectionStyle
+    strip_line_patterns: list[str] = Field(default_factory=list)
+
+
+class PolicyChunk(StrictModel):
+    """A verbatim passage of a policy document with its provenance."""
+
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=False)
+
+    chunk_id: str = Field(min_length=1)
+    doc_id: str = Field(min_length=1)
+    title: str = Field(min_length=1)
+    source_url: str = Field(min_length=1)
+    effective_date: str | None = None
+    section: str | None = None
+    page_start: int | None = Field(default=None, ge=1)
+    page_end: int | None = Field(default=None, ge=1)
+    text: str = Field(min_length=1)
+
+
+class RetrievalMethod(str, Enum):
+    KEYWORD = "keyword"
+    SEMANTIC = "semantic"
+    HYBRID = "hybrid"
+
+
+class EvidenceStatus(str, Enum):
+    SUFFICIENT = "SUFFICIENT"
+    INSUFFICIENT = "INSUFFICIENT"
+
+
+class RetrievedPassage(StrictModel):
+    """One retrieved chunk plus the scores that justified returning it."""
+
+    chunk: PolicyChunk
+    rank: int = Field(ge=1)
+    keyword_score: float | None = None
+    keyword_coverage: float | None = Field(default=None, ge=0.0, le=1.0)
+    semantic_similarity: float | None = None
+    matched_terms: list[str] = Field(default_factory=list)
+
+    def to_policy_reference(self) -> PolicyReference:
+        """Cite this passage verbatim. The citation is built only from document metadata."""
+        c = self.chunk
+        return PolicyReference(
+            source_document=c.title,
+            citation=f"{c.title}, {c.section}" if c.section else c.title,
+            page=c.page_start,
+            excerpt=c.text,
+            source_url=c.source_url,
+            chunk_id=c.chunk_id,
+        )
+
+
+class PolicyRetrievalResult(StrictModel):
+    """Retrieved evidence only. Contains no recommendation or legal conclusion."""
+
+    query: str = Field(min_length=1)
+    method: RetrievalMethod
+    status: EvidenceStatus
+    passages: list[RetrievedPassage] = Field(default_factory=list)
+    message: str = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def _status_matches_passages(self) -> PolicyRetrievalResult:
+        if (self.status is EvidenceStatus.SUFFICIENT) != bool(self.passages):
+            raise ValueError("status must be SUFFICIENT exactly when passages are returned")
+        return self

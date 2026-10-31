@@ -6,12 +6,12 @@ CMU capstone project - agentic AI assistant that examines a synthetic public-rec
 
 ## Status
 
-**Milestone 1: project setup, data models, and synthetic dataset** (complete)
+**Milestone 2: NJ public-records policy retrieval** (complete)
 
 | Stage | Description | Status |
 |---|---|---|
 | 1 | Python project, schemas, synthetic records | Done |
-| 2 | Deterministic policy retrieval and PII detection tools | Not started |
+| 2 | Deterministic policy retrieval and PII detection tools | Policy retrieval done; PII detection next |
 | 3 | Single ReAct agent | Not started |
 | 4 | MCP tool server | Not started |
 | 5 | Orchestrator with policy, record-analysis, and QA workers | Not started |
@@ -28,7 +28,7 @@ No LLM is used yet.
 - Every request and record file must carry a `Synthetic: yes` header. The loader refuses
   any file without it.
 - `data/policy_documents/` holds public New Jersey OPRA/GRC and Attorney General documents
-  downloaded from nj.gov.
+  downloaded from nj.gov. Their sources are listed in `manifest.json`.
 - Do not add real police records, agency records, or personal data to this repository.
 
 ## Setup
@@ -51,12 +51,31 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+The first semantic search downloads the all-MiniLM-L6-v2 embedding model (about 80 MB) to
+`~/.cache/chroma/` and builds a local index in `outputs/policy_index/`, which takes about a minute.
+Later runs reuse both. To skip the model entirely, use `--no-semantic`.
+
 ## Run
 
 ```bash
 python -m app.main             # summarise all synthetic review cases
 python -m app.main --verbose   # include debug logging for each file loaded
 ```
+
+### Policy retrieval
+
+```bash
+python -m app.policy_search --demo                                   # five example queries
+python -m app.policy_search "Is a driver license number confidential?"
+python -m app.policy_search "redact an electronic document" --method keyword -k 5
+python -m app.policy_search "juvenile information exemption" --json
+python -m app.policy_search "..." --no-semantic                      # keyword only, no model
+```
+
+Each result shows the evidence status, then for every passage: document title, section, page,
+effective date, source URL, scores, and the verbatim excerpt. If no passage meets the evidence
+thresholds, the status is `INSUFFICIENT` with the message *"Human review required."* See
+[docs/policy_retrieval.md](docs/policy_retrieval.md) for the design, the thresholds, and the limitations.
 
 Expected output (abridged):
 
@@ -74,8 +93,11 @@ The command exits with code `1` and logs the offending file if any data file is 
 ## Test
 
 ```bash
-python -m pytest
+python -m pytest                          # everything
+python -m pytest -m "not semantic_model"  # skip tests that need the embedding model
 ```
+
+The `semantic_model` tests are skipped automatically until the model has been downloaded once.
 
 ## Repository structure
 
@@ -84,15 +106,22 @@ app/
   schemas.py          Pydantic models: request, record, finding, policy reference,
                       redaction recommendation, expected result
   data_loader.py      Loads and cross-validates requests, records, and ground truth
-  main.py             Command-line entry point
-  agents/ policies/ tools/ workflows/   (reserved for later stages)
+  main.py             Command-line entry point (review cases)
+  policy_search.py    Command-line entry point (policy retrieval demo)
+  policies/
+    extract.py        Manifest loading; PDF/HTML text extraction and cleaning
+    chunker.py        Section-aware chunking with provenance
+    keyword.py        BM25 keyword index
+    semantic.py       ChromaDB semantic index
+    retriever.py      Hybrid retrieval with evidence thresholds
+  agents/ tools/ workflows/   (reserved for later stages)
 data/
   synthetic_requests/ request_NNN.txt          OPRA-style requests
   synthetic_records/  record_NNN.txt           Matching synthetic records
   expected_results/   record_NNN.expected.json Ground-truth findings
-  policy_documents/   Public NJ policy PDFs
-docs/                 Architecture and scope notes
-outputs/              Generated derivatives (git-ignored; originals are never modified)
+  policy_documents/   Public NJ policy documents + manifest.json
+docs/                 Architecture, scope, and policy retrieval notes
+outputs/              Generated files: policy index, derivatives (git-ignored)
 tests/                pytest suite (synthetic fixtures only)
 ```
 
