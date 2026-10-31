@@ -6,20 +6,21 @@ CMU capstone project - agentic AI assistant that examines a synthetic public-rec
 
 ## Status
 
-**Milestone 2: NJ public-records policy retrieval** (complete)
+**Milestone 3: tool calling, MCP server, and a single ReAct agent** (complete)
 
 | Stage | Description | Status |
 |---|---|---|
 | 1 | Python project, schemas, synthetic records | Done |
-| 2 | Deterministic policy retrieval and PII detection tools | Policy retrieval done; PII detection next |
-| 3 | Single ReAct agent | Not started |
-| 4 | MCP tool server | Not started |
+| 2 | Deterministic policy retrieval and PII detection tools | Done |
+| 3 | Single ReAct agent | Done (rule-based planner verified; Claude planner tested with a fake client only) |
+| 4 | MCP tool server | Done (local stdio server and client demo) |
 | 5 | Orchestrator with policy, record-analysis, and QA workers | Not started |
 | 6 | Human feedback and redaction workflow | Not started |
 | 7 | Safety, evaluation, observability, final demo | Not started |
 | 8 | Optional synthetic video | Not started |
 
-No LLM is used yet.
+The default agent demo uses a deterministic planner and needs no API key. The Claude planner
+needs Anthropic credentials (see `.env.example`).
 
 ## Data safety
 
@@ -51,6 +52,9 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+`requirements.txt` also installs the spaCy `en_core_web_md` model (about 40 MB) used by Presidio.
+For the Claude planner, copy `.env.example` to `.env` and set `ANTHROPIC_API_KEY`.
+
 The first semantic search downloads the all-MiniLM-L6-v2 embedding model (about 80 MB) to
 `~/.cache/chroma/` and builds a local index in `outputs/policy_index/`, which takes about a minute.
 Later runs reuse both. To skip the model entirely, use `--no-semantic`.
@@ -77,6 +81,20 @@ effective date, source URL, scores, and the verbatim excerpt. If no passage meet
 thresholds, the status is `INSUFFICIENT` with the message *"Human review required."* See
 [docs/policy_retrieval.md](docs/policy_retrieval.md) for the design, the thresholds, and the limitations.
 
+### MCP server and agent
+
+```bash
+python -m app.mcp_client_demo                             # start the MCP server, discover tools, call each one
+python -m app.agent_demo                                  # ReAct agent on all requests (rule-based planner)
+python -m app.agent_demo --request OPRA-TEST-002 --transport mcp   # same agent, tools called through MCP
+python -m app.agent_demo --planner claude                 # Claude chooses the tool calls (needs API key)
+python -m app.agent_demo --json                           # full structured reports
+```
+
+The agent demo prints the tool-call trace (each tool, its arguments, a result summary, and a short
+decision summary), then the recommendations with citations and open questions, and finally the
+escalations. Model reasoning is never displayed. See [docs/agent_architecture.md](docs/agent_architecture.md).
+
 Expected output (abridged):
 
 ```
@@ -95,6 +113,7 @@ The command exits with code `1` and logs the offending file if any data file is 
 ```bash
 python -m pytest                          # everything
 python -m pytest -m "not semantic_model"  # skip tests that need the embedding model
+python -m pytest -m "not integration"     # skip tests that start the MCP server subprocess
 ```
 
 The `semantic_model` tests are skipped automatically until the model has been downloaded once.
@@ -108,13 +127,26 @@ app/
   data_loader.py      Loads and cross-validates requests, records, and ground truth
   main.py             Command-line entry point (review cases)
   policy_search.py    Command-line entry point (policy retrieval demo)
+  mcp_server.py       MCP server exposing the three tools over stdio
+  mcp_client_demo.py  MCP client: discover and call the tools
+  agent_demo.py       Run the ReAct agent and print its trace
+  console.py          Console output helpers
   policies/
     extract.py        Manifest loading; PDF/HTML text extraction and cleaning
-    chunker.py        Section-aware chunking with provenance
+    chunker.py        Section-aware chunking with provenance (cached)
     keyword.py        BM25 keyword index
     semantic.py       ChromaDB semantic index
     retriever.py      Hybrid retrieval with evidence thresholds
-  agents/ tools/ workflows/   (reserved for later stages)
+  tools/
+    service.py        ToolService: validated search_policy / detect_pii / propose_redactions
+    pii.py            Presidio detector configuration
+    redaction.py      Conservative redaction-recommendation rules
+  agents/
+    react_agent.py    Bounded ReAct loop and guardrails
+    planners.py       Rule-based and Claude planners
+    executors.py      In-process and MCP tool executors
+    models.py         Actions, trace, and report models
+  workflows/          (reserved for later stages)
 data/
   synthetic_requests/ request_NNN.txt          OPRA-style requests
   synthetic_records/  record_NNN.txt           Matching synthetic records

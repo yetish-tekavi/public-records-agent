@@ -136,7 +136,7 @@ class PolicyRetriever:
         if method is not RetrievalMethod.KEYWORD and self.semantic is None:
             if method is RetrievalMethod.SEMANTIC:
                 raise SemanticUnavailableError("semantic index not loaded")
-            logger.warning("Hybrid requested without a semantic index; using keyword only")
+            logger.info("Hybrid requested without a semantic index; using keyword only")
             method = RetrievalMethod.KEYWORD
 
         place = OTHER_JURISDICTIONS.search(query)

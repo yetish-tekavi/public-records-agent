@@ -6,11 +6,14 @@ section drawn from the document itself; they never rewrite the passage text.
 
 from __future__ import annotations
 
+import hashlib
+import json
 import logging
 import re
 from collections.abc import Callable
 from pathlib import Path
 
+from app.data_loader import PROJECT_ROOT
 from app.policies.extract import (
     DEFAULT_POLICY_DIR,
     HTML_HEADING_PREFIX,
@@ -24,6 +27,7 @@ logger = logging.getLogger(__name__)
 
 MAX_CHUNK_CHARS = 900
 OVERLAP_LINES = 1
+DEFAULT_CACHE_DIR = PROJECT_ROOT / "outputs" / "policy_index"
 
 # A detector sees the current line and the next line and returns a new section label or None.
 SectionDetector = Callable[[str, str], str | None]
@@ -182,9 +186,35 @@ def chunk_document(
     return chunks
 
 
-def load_policy_chunks(policy_dir: Path = DEFAULT_POLICY_DIR) -> list[PolicyChunk]:
-    """Extract and chunk every document listed in the manifest."""
+def _cache_key(policy_dir: Path) -> str:
+    """Changes whenever the manifest, any source document, or the extraction code changes."""
+    h = hashlib.sha256()
+    for path in [policy_dir / "manifest.json", *sorted(p for p in policy_dir.iterdir() if p.suffix in (".pdf", ".html"))]:
+        stat = path.stat()
+        h.update(f"{path.name}:{stat.st_size}:{stat.st_mtime_ns}".encode())
+    for module in (Path(__file__), Path(__file__).with_name("extract.py")):
+        h.update(module.read_bytes())
+    return h.hexdigest()[:16]
+
+
+def load_policy_chunks(policy_dir: Path = DEFAULT_POLICY_DIR, cache_dir: Path | None = DEFAULT_CACHE_DIR) -> list[PolicyChunk]:
+    """Extract and chunk every document listed in the manifest, using a JSON cache when valid."""
+    cache_file = cache_dir / f"chunks_{_cache_key(policy_dir)}.json" if cache_dir else None
+    if cache_file and cache_file.exists():
+        try:
+            chunks = [PolicyChunk.model_validate(c) for c in json.loads(cache_file.read_text(encoding="utf-8"))]
+            logger.info("Loaded %d policy chunks from cache %s", len(chunks), cache_file.name)
+            return chunks
+        except (OSError, ValueError) as exc:
+            logger.warning("Ignoring unreadable chunk cache %s: %s", cache_file, exc)
+
     chunks: list[PolicyChunk] = []
     for doc in load_manifest(policy_dir):
         chunks.extend(chunk_document(doc, extract_pages(doc, policy_dir)))
+
+    if cache_file:
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        for stale in cache_dir.glob("chunks_*.json"):
+            stale.unlink(missing_ok=True)
+        cache_file.write_text(json.dumps([c.model_dump(mode="json") for c in chunks]), encoding="utf-8")
     return chunks

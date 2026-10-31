@@ -33,6 +33,7 @@ class SensitiveCategory(str, Enum):
     STREET_ADDRESS = "STREET_ADDRESS"
     DATE_OF_BIRTH = "DATE_OF_BIRTH"
     DRIVERS_LICENSE_NUMBER = "DRIVERS_LICENSE_NUMBER"
+    SOCIAL_SECURITY_NUMBER = "SOCIAL_SECURITY_NUMBER"
     EMAIL_ADDRESS = "EMAIL_ADDRESS"
     OTHER_ID_NUMBER = "OTHER_ID_NUMBER"
 
@@ -69,12 +70,12 @@ class PublicRecord(StrictModel):
 
 
 class SensitiveDataFinding(StrictModel):
-    """A span of record text that may need redaction."""
+    """A span of record text that may need redaction. ``record_id`` is None for ad-hoc text."""
 
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=False)
 
     finding_id: str = Field(min_length=1)
-    record_id: str = Field(pattern=RECORD_ID_PATTERN)
+    record_id: str | None = Field(default=None, pattern=RECORD_ID_PATTERN)
     category: SensitiveCategory
     text: str = Field(min_length=1)
     start: int = Field(ge=0)
@@ -112,6 +113,8 @@ class RedactionRecommendation(StrictModel):
     action: RedactionAction
     rationale: str = Field(min_length=1)
     policy_references: list[PolicyReference] = Field(default_factory=list)
+    detection_confidence: float | None = Field(default=None, ge=0.0, le=1.0)
+    open_questions: list[str] = Field(default_factory=list)
     requires_human_approval: Literal[True] = True
 
     @model_validator(mode="after")
@@ -241,3 +244,24 @@ class PolicyRetrievalResult(StrictModel):
         if (self.status is EvidenceStatus.SUFFICIENT) != bool(self.passages):
             raise ValueError("status must be SUFFICIENT exactly when passages are returned")
         return self
+
+
+# --- Tool outputs -------------------------------------------------------------
+
+
+class PiiDetectionResult(StrictModel):
+    """Candidate sensitive spans from the PII detector. Candidates, not decisions."""
+
+    record_id: str | None = Field(default=None, pattern=RECORD_ID_PATTERN)
+    detector: str = Field(min_length=1)
+    score_threshold: float = Field(ge=0.0, le=1.0)
+    findings: list[SensitiveDataFinding] = Field(default_factory=list)
+
+
+class RedactionProposal(StrictModel):
+    """Recommendations for one record. Every item still needs human approval."""
+
+    record_id: str = Field(pattern=RECORD_ID_PATTERN)
+    recommendations: list[RedactionRecommendation] = Field(default_factory=list)
+    needs_human_review: list[str] = Field(default_factory=list)  # finding ids
+    requires_human_approval: Literal[True] = True

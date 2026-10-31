@@ -15,14 +15,13 @@ import logging
 import sys
 import textwrap
 
+from app.console import for_console, prepare_stdout
 from app.policies.extract import PolicyLoadError
 from app.policies.retriever import MAX_K, PolicyRetriever
 from app.policies.semantic import SemanticUnavailableError
 from app.schemas import PolicyRetrievalResult, RetrievalMethod
 
 logger = logging.getLogger("app")
-
-DISPLAY_FOLD = str.maketrans({"‘": "'", "’": "'", "“": '"', "”": '"', "–": "-", "—": "-", "…": "...", "▪": "*", "•": "*", "§": "Sec."})
 
 DEMO_QUERIES = [
     "Is a person's telephone number or driver license number confidential?",
@@ -75,10 +74,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if not args.query and not args.demo:
         parser.error("provide a query or --demo")
-    utf8_console = (getattr(sys.stdout, "encoding", "") or "").lower().replace("-", "") == "utf8"
-    if hasattr(sys.stdout, "reconfigure"):
-        # Windows consoles often use a legacy code page that cannot print some PDF glyphs.
-        sys.stdout.reconfigure(errors="replace")
+    utf8_console = prepare_stdout()
 
     logging.basicConfig(
         level=logging.DEBUG if args.verbose else logging.WARNING,
@@ -95,9 +91,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.json:
         print(json.dumps([r.model_dump(mode="json") for r in results], indent=2, ensure_ascii=not utf8_console))
     else:
-        text = f"\n{'=' * 78}\n".join(format_result(r) for r in results)
-        # Display only: typographic characters are folded to ASCII on non-UTF-8 consoles.
-        print(text if utf8_console else text.translate(DISPLAY_FOLD))
+        print(for_console(f"\n{'=' * 78}\n".join(format_result(r) for r in results), utf8_console))
         print("\nRetrieved passages are evidence only. They are not legal advice or a disclosure decision.")
     return 0
 

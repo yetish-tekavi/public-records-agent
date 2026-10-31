@@ -1,4 +1,9 @@
 pydantic==2.14.1
 pytest==9.1.1
+python-dotenv==1.2.4
 pypdf==6.21.1
 chromadb==1.5.9
+presidio-analyzer==2.2.364
+en_core_web_md @ https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.8.0/en_core_web_md-3.8.0-py3-none-any.whl
+mcp==2.3.0
+anthropic==1.15.0
