@@ -19,30 +19,34 @@ from app.schemas import EvidenceStatus, PolicyChunk, RetrievedPassage, Sensitive
 from app.tools.redaction import CATEGORY_POLICY_PATTERNS, _general_match
 from app.tools.service import ToolError
 
-# Two phrasings per category: the second is used only if the first finds no usable evidence.
+# First query: one natural-language question per category (suited to semantic retrieval).
+# Second query: a keyword reformulation, used only if the first finds no passage naming the category.
+# Phrased with "a person's" rather than "someone's": "someone" never occurs in the corpus, so the
+# keyword retriever's unknown-term rule would veto every keyword match for the question.
+POLICY_QUESTION = "What New Jersey law applies when a public record contains a person's {}?"
 POLICY_QUERIES: dict[SensitiveCategory, list[str]] = {
     SensitiveCategory.PHONE_NUMBER: [
-        "Is a person's telephone number exempt from public access under OPRA?",
+        POLICY_QUESTION.format("personal telephone number"),
         "telephone number of any person personal information",
     ],
     SensitiveCategory.DRIVERS_LICENSE_NUMBER: [
-        "Is a driver license number exempt from public access under OPRA?",
+        POLICY_QUESTION.format("driver license number"),
         "driver license number personal information exemption",
     ],
     SensitiveCategory.SOCIAL_SECURITY_NUMBER: [
-        "Is a social security number exempt from public access under OPRA?",
+        POLICY_QUESTION.format("social security number"),
         "social security number redaction",
     ],
     SensitiveCategory.DATE_OF_BIRTH: [
-        "Is a person's date of birth exempt from public access under OPRA?",
+        POLICY_QUESTION.format("date of birth"),
         "month and day of birth personal information",
     ],
     SensitiveCategory.EMAIL_ADDRESS: [
-        "Is a personal email address exempt from public access under OPRA?",
+        POLICY_QUESTION.format("personal email address"),
         "personal email address government application",
     ],
     SensitiveCategory.STREET_ADDRESS: [
-        "Is a person's home address exempt from public access under OPRA?",
+        POLICY_QUESTION.format("home address"),
         "home address personal information privacy",
     ],
     SensitiveCategory.PERSON_NAME: [
@@ -53,6 +57,7 @@ POLICY_QUERIES: dict[SensitiveCategory, list[str]] = {
         "personal identifying information identification number OPRA",
     ],
 }
+SEARCH_K = 4
 
 
 def evidence_names_category(result: dict[str, Any], category: SensitiveCategory) -> bool:
@@ -109,7 +114,7 @@ class RuleBasedPlanner:
                 if attempts == 0
                 else f"Previous search did not name {category.value}; trying a reformulated query."
             )
-            return ToolCallRequest(tool="search_policy", arguments={"query": queries[attempts], "k": 3}, decision_summary=reason)
+            return ToolCallRequest(tool="search_policy", arguments={"query": queries[attempts], "k": SEARCH_K}, decision_summary=reason)
         self._searching = None
 
         if state.findings and state.proposal is None:
@@ -317,7 +322,7 @@ class ClaudePlanner:
                 self._queue.append(FinishRequest(decision_summary=summary, escalations=args.get("escalations", []), call_id=block.id))
             else:
                 if block.name == "search_policy":
-                    args.setdefault("k", 3)
+                    args.setdefault("k", SEARCH_K)
                 self._queue.append(ToolCallRequest(tool=block.name, arguments=args, decision_summary=summary, call_id=block.id))
 
         if not self._queue:

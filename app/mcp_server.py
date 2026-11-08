@@ -4,7 +4,9 @@ Run directly (an MCP client normally starts it for you):
     python -m app.mcp_server
 
 Environment:
-    PRA_SEMANTIC=0   use keyword-only policy retrieval (no embedding model)
+    PRA_SEMANTIC=0                 use keyword-only policy retrieval (no embedding model)
+    PRA_DATA_DIR=path              synthetic dataset directory (default: data/)
+    PRA_POLICY_DOC_IDS=a,b         restrict the policy corpus to these manifest doc_ids
 
 Logging goes to stderr; stdout carries the MCP protocol and must stay clean.
 """
@@ -15,6 +17,7 @@ import json
 import logging
 import os
 import sys
+from pathlib import Path
 from typing import Annotated, Any
 
 from mcp.server.mcpserver import MCPServer
@@ -22,13 +25,18 @@ from mcp.server.mcpserver.exceptions import ToolError as McpToolError
 from mcp.types import ToolAnnotations
 from pydantic import Field
 
+from app.data_loader import DEFAULT_DATA_DIR
 from app.tools.service import ToolError, ToolService
 
 logger = logging.getLogger("app.mcp_server")
 
 READ_ONLY = ToolAnnotations(read_only_hint=True, destructive_hint=False, idempotent_hint=True, open_world_hint=False)
 
-service = ToolService(enable_semantic=os.environ.get("PRA_SEMANTIC", "1") != "0")
+service = ToolService(
+    data_dir=Path(os.environ.get("PRA_DATA_DIR", str(DEFAULT_DATA_DIR))),
+    enable_semantic=os.environ.get("PRA_SEMANTIC", "1") != "0",
+    policy_doc_ids=[d for d in os.environ.get("PRA_POLICY_DOC_IDS", "").split(",") if d] or None,
+)
 LOG_LEVEL = os.environ.get("PRA_LOG_LEVEL", "WARNING").upper()
 
 mcp = MCPServer(

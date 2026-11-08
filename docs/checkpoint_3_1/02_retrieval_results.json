@@ -1,0 +1,91 @@
+{
+  "query": "What New Jersey law applies when a public record contains someone's personal telephone number?",
+  "embedding_model": "chroma-default-all-MiniLM-L6-v2",
+  "vector_store": "ChromaDB (persistent, cosine)",
+  "corpus_chunks": 496,
+  "semantic_evidence_threshold": 0.55,
+  "semantic_top4": [
+    {
+      "rank": 1,
+      "chunk_id": "opra_statute:0053",
+      "title": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)",
+      "section": "N.J.S.A. 47:1A-5(a) Times during which records may be inspected, examined",
+      "pages": [
+        15,
+        16
+      ],
+      "source_url": "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+      "effective_date": "as of September 3, 2024 (P.L. 2024, c.16)",
+      "cosine_similarity": 0.6833,
+      "cosine_distance": 0.3167,
+      "meets_evidence_threshold": true,
+      "passage": "defined in section 1 of P.L.2021, c.371 (C.47:1B-1), any immediate family\nmember thereof; except for:\n▪ use by any government agency, including any court or law\nenforcement agency, in carrying out its functions, or any private\nperson or entity acting on behalf thereof,\n▪ any private person or entity seeking to enforce payment of court -\nordered child support;\n▪ with respect to the disclosure of driver information by the New Jersey\nMotor Vehicle Commission as permitted by section 2 of P.L. 1997, c.\n188 (C. 39:2-3.4);\n▪ that a social security number contained in a record required by law to\nbe made, maintained or kept on file by a public agency shall be\ndisclosed when access to the document or disclosure of that\ninformation is not otherwise prohibited by State or federal law,\nregulation or order or by State statute, resolution of either or both"
+    },
+    {
+      "rank": 2,
+      "chunk_id": "opra_statute:0052",
+      "title": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)",
+      "section": "N.J.S.A. 47:1A-5(a) Times during which records may be inspected, examined",
+      "pages": [
+        15,
+        15
+      ],
+      "source_url": "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+      "effective_date": "as of September 3, 2024 (P.L. 2024, c.16)",
+      "cosine_similarity": 0.6537,
+      "cosine_distance": 0.3463,
+      "meets_evidence_threshold": true,
+      "passage": "Legislature; regulation promulgated under the authority of any statute or\nExecutive Order of the Governor; Executive Order of the Governor; Rules\nof Court; any federal law; federal regulation; or federal order.\nPersonal\ninformation to be\nredacted\nPrior to allowing access to any government record, the custodian thereof\nshall redact from that record any information which discloses the social\nsecurity number, credit card number, personal telephone number, or driver\nlicense number of any person, or, in accordance with section 2 of\nP.L.2021, c.371 (C.47:1B -2), the home address, whether a primary or\nsecondary residence, of any active, formerly active, or retired judicial\nofficer, prosecutor, law enforcement officer, or child protective\ninvestigator in the Division of Child Protection and Permanency, or, as\ndefined in section 1 of P.L.2021, c.371 (C.47:1B-1), any immediate family"
+    },
+    {
+      "rank": 3,
+      "chunk_id": "grc_exemptions:0026",
+      "title": "OPRA Exemptions (GRC list)",
+      "section": "N.J.S.A. 47:1A-1.1, exemption 20: Personal identifying information. Specifically",
+      "pages": [
+        4,
+        5
+      ],
+      "source_url": "https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+      "effective_date": "updated September 3, 2024",
+      "cosine_similarity": 0.6457,
+      "cosine_distance": 0.3543,
+      "meets_evidence_threshold": true,
+      "passage": "active, or retired judicial officer, law enforcement officer , child protective\ninvestigator in the Division of Child Protection and Permanency, or\nprosecutor, or, as defined in section 1 of N.J.S.A. 47:1B-1, any immediate\nfamily member thereof.\nc. Credit card numbers.\nd. Debit card numbers.\ne. Bank account information.\nf. Month and day of birth.\ng. Personal e -mail address required by a public agency for government\napplications, services, or programs.\nh. Telephone numbers.\ni. Drivers’ license numbers.\nExcept for:\n• use by any government agency, including any court or law enforcement\nagency, in carrying out its functions, or any private person or entity acting\non behalf thereof,\n• any private person or entity seeking to enforce payment of court -ordered\nchild support;\n• with respect to the disclosure of driver information by the New Jersey"
+    },
+    {
+      "rank": 4,
+      "chunk_id": "grc_exemptions:0027",
+      "title": "OPRA Exemptions (GRC list)",
+      "section": "N.J.S.A. 47:1A-1.1, exemption 20: Personal identifying information. Specifically",
+      "pages": [
+        5,
+        5
+      ],
+      "source_url": "https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+      "effective_date": "updated September 3, 2024",
+      "cosine_similarity": 0.637,
+      "cosine_distance": 0.363,
+      "meets_evidence_threshold": true,
+      "passage": "• with respect to the disclosure of driver information by the New Jersey\nMotor Vehicle Commission as permitted by section 2 of P.L. 1997, c. 188\n(C. 39:2-3.4);\n• with respect to the disclosure of information included in records and\ndocuments maintained by the Department of the Treasury in connection\nwith the State’s business registry programs;"
+    }
+  ],
+  "comparison": {
+    "keyword_only": {
+      "status": "INSUFFICIENT",
+      "chunk_ids": [],
+      "unknown_query_terms": [
+        "someone"
+      ]
+    },
+    "hybrid": {
+      "status": "SUFFICIENT",
+      "chunk_ids": [
+        "grc_exemptions:0026",
+        "grc_handbook:0031",
+        "opra_statute:0052",
+        "opra_statute:0020"
+      ]
+    }
+  }
+}

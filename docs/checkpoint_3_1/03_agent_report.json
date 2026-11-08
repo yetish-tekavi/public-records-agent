@@ -1,0 +1,139 @@
+{
+  "request_id": "OPRA-TEST-101",
+  "record_id": "TEST-101",
+  "planner": "rule-based",
+  "transport": "mcp-stdio",
+  "status": "COMPLETED",
+  "steps": [
+    {
+      "step": 1,
+      "kind": "tool_call",
+      "tool": "detect_pii",
+      "arguments": {
+        "record_id": "TEST-101"
+      },
+      "status": "ok",
+      "observation": "1 candidate(s): PHONE_NUMBER (0.75)",
+      "decision_summary": "Request OPRA-TEST-101 asks for record TEST-101; scanning it for candidate sensitive information first."
+    },
+    {
+      "step": 2,
+      "kind": "tool_call",
+      "tool": "search_policy",
+      "arguments": {
+        "query": "What New Jersey law applies when a public record contains a person's personal telephone number?",
+        "k": 4
+      },
+      "status": "ok",
+      "observation": "SUFFICIENT: grc_exemptions:0026 [N.J.S.A. 47:1A-1.1, exemption 20: Personal identifying information. Specifically]; opra_statute:0053 [N.J.S.A. 47:1A-5(a) Times during which records may be inspected, examined]; opra_statute:0052 [N.J.S.A. 47:1A-5(a) Times during which records may be inspected, examined]; grc_handbook:0031 [SECTION 1 – OPRA DEFINED: What is a “government record” under OPRA?]",
+      "decision_summary": "Found PHONE_NUMBER; looking for policy that addresses it."
+    },
+    {
+      "step": 3,
+      "kind": "tool_call",
+      "tool": "propose_redactions",
+      "arguments": {
+        "record_id": "TEST-101",
+        "policy_chunk_ids": [
+          "grc_exemptions:0026",
+          "opra_statute:0053",
+          "opra_statute:0052",
+          "grc_handbook:0031"
+        ],
+        "finding_ids": [
+          "TEST-101-P01"
+        ]
+      },
+      "status": "ok",
+      "observation": "1 REDACT",
+      "decision_summary": "Evidence gathering complete; proposing recommendations for 1 finding(s)."
+    },
+    {
+      "step": 4,
+      "kind": "finish",
+      "tool": null,
+      "arguments": {},
+      "status": "ok",
+      "observation": "Agent finished.",
+      "decision_summary": "Proposed recommendations for 1 finding(s); 0 need human review."
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "TEST-101-P01",
+      "record_id": "TEST-101",
+      "category": "PHONE_NUMBER",
+      "text": "609-555-0142",
+      "start": 73,
+      "end": 85,
+      "detector": "presidio:PHONE_NUMBER",
+      "confidence": 0.75
+    }
+  ],
+  "policy_chunk_ids": [
+    "grc_exemptions:0026",
+    "opra_statute:0053",
+    "opra_statute:0052",
+    "grc_handbook:0031"
+  ],
+  "recommendations": [
+    {
+      "recommendation_id": "TEST-101-R01",
+      "finding_id": "TEST-101-P01",
+      "action": "REDACT",
+      "rationale": "Retrieved policy names this category: '...mation which discloses the social security number, credit card number, personal telephone number, or driver license number of any person, or, in accordance with section 2 of P....'.",
+      "policy_references": [
+        {
+          "source_document": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)",
+          "citation": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version), N.J.S.A. 47:1A-5(a) Times during which records may be inspected, examined",
+          "page": 15,
+          "excerpt": "Legislature; regulation promulgated under the authority of any statute or\nExecutive Order of the Governor; Executive Order of the Governor; Rules\nof Court; any federal law; federal regulation; or federal order.\nPersonal\ninformation to be\nredacted\nPrior to allowing access to any government record, the custodian thereof\nshall redact from that record any information which discloses the social\nsecurity number, credit card number, personal telephone number, or driver\nlicense number of any person, or, in accordance with section 2 of\nP.L.2021, c.371 (C.47:1B -2), the home address, whether a primary or\nsecondary residence, of any active, formerly active, or retired judicial\nofficer, prosecutor, law enforcement officer, or child protective\ninvestigator in the Division of Child Protection and Permanency, or, as\ndefined in section 1 of P.L.2021, c.371 (C.47:1B-1), any immediate family",
+          "source_url": "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+          "chunk_id": "opra_statute:0052"
+        },
+        {
+          "source_document": "OPRA Exemptions (GRC list)",
+          "citation": "OPRA Exemptions (GRC list), N.J.S.A. 47:1A-1.1, exemption 20: Personal identifying information. Specifically",
+          "page": 4,
+          "excerpt": "active, or retired judicial officer, law enforcement officer , child protective\ninvestigator in the Division of Child Protection and Permanency, or\nprosecutor, or, as defined in section 1 of N.J.S.A. 47:1B-1, any immediate\nfamily member thereof.\nc. Credit card numbers.\nd. Debit card numbers.\ne. Bank account information.\nf. Month and day of birth.\ng. Personal e -mail address required by a public agency for government\napplications, services, or programs.\nh. Telephone numbers.\ni. Drivers’ license numbers.\nExcept for:\n• use by any government agency, including any court or law enforcement\nagency, in carrying out its functions, or any private person or entity acting\non behalf thereof,\n• any private person or entity seeking to enforce payment of court -ordered\nchild support;\n• with respect to the disclosure of driver information by the New Jersey",
+          "source_url": "https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+          "chunk_id": "grc_exemptions:0026"
+        },
+        {
+          "source_document": "The Open Public Records Act: Handbook for Records Custodians, Eighth Edition",
+          "citation": "The Open Public Records Act: Handbook for Records Custodians, Eighth Edition, SECTION 1 – OPRA DEFINED: What is a “government record” under OPRA?",
+          "page": 10,
+          "excerpt": "applications, services, or programs.\nh. Telephone numbers.\ni. Drivers’ license numbers.\nExcept for:\n• use by any government agency, including any court or law enforcement\nagency, in carrying out its functions, or any private person or entity acting\non behalf thereof;\n• any private person or entity seeking to enforce payment of court -ordered\nchild support;\n• with respect to the disclosure of driver information by the New Jersey Motor\nVehicle Commission as permitted by section 2 of P.L. 1997, c. 188 (C. 39:2-\n3.4);\n• with respect to the disclosure of information included in records and\ndocuments maintained by the Department of the Treasury in connection\nwith the State’s business registry programs.\n21) That portion of any document that discloses the personal identifying information of any\nperson provided to a public agency for the sole purpose of receiving official\nnotifications.",
+          "source_url": "https://nj.gov/grc/custodians/handbook/Custodians%20Handbook%20(Eighth%20Edition%20-%20Jan%202025)(Final).pdf",
+          "chunk_id": "grc_handbook:0031"
+        },
+        {
+          "source_document": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)",
+          "citation": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version), N.J.S.A. 47:1A-5(a) Times during which records may be inspected, examined",
+          "page": 15,
+          "excerpt": "defined in section 1 of P.L.2021, c.371 (C.47:1B-1), any immediate family\nmember thereof; except for:\n▪ use by any government agency, including any court or law\nenforcement agency, in carrying out its functions, or any private\nperson or entity acting on behalf thereof,\n▪ any private person or entity seeking to enforce payment of court -\nordered child support;\n▪ with respect to the disclosure of driver information by the New Jersey\nMotor Vehicle Commission as permitted by section 2 of P.L. 1997, c.\n188 (C. 39:2-3.4);\n▪ that a social security number contained in a record required by law to\nbe made, maintained or kept on file by a public agency shall be\ndisclosed when access to the document or disclosure of that\ninformation is not otherwise prohibited by State or federal law,\nregulation or order or by State statute, resolution of either or both",
+          "source_url": "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+          "chunk_id": "opra_statute:0053"
+        },
+        {
+          "source_document": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)",
+          "citation": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version), N.J.S.A. 47:1A-5(a) Times during which records may be inspected, examined",
+          "page": 16,
+          "excerpt": "regulation or order or by State statute, resolution of either or both\nhouses of the Legislature, Executive Order of the Governor, rule of\ncourt or regulation promulgated under the authority of any statute or\nexecutive order of the Governor;\nExcept where an agency can demonstrate an emergent need, a\nregulation that limits access to government records shall not be\nretroactive in effect or applied to deny a request for access to a\ngovernment record that is pending before the agency, the council or a\ncourt at the time of the adoption of the regulation.",
+          "source_url": "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+          "chunk_id": "opra_statute:0054"
+        }
+      ],
+      "detection_confidence": 0.75,
+      "open_questions": [
+        "Exception language in N.J.S.A. 47:1A-5(a) Times during which records may be inspected, examined [opra_statute:0053]: \"...21, c.371 (C.47:1B-1), any immediate family member thereof; except for: ▪ use by any government agency, including any court or law enforcement agency, in carrying out its functions, or any private person or ent...\" Confirm whether any listed exception applies.",
+        "Exception language in N.J.S.A. 47:1A-5(a) Times during which records may be inspected, examined [opra_statute:0054]: \"...uthority of any statute or executive order of the Governor; Except where an agency can demonstrate an emergent need, a regulation that limits access to government records shall not be retroactive in effect...\" Confirm whether any listed exception applies.",
+        "Is this a personal number of a private individual, not an agency or business line?"
+      ],
+      "requires_human_approval": true
+    }
+  ],
+  "escalations": [],
+  "final_summary": "Proposed recommendations for 1 finding(s); 0 need human review.",
+  "requires_human_approval": true
+}

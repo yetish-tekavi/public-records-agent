@@ -1,0 +1,92 @@
+QUERY: What New Jersey law applies when a public record contains someone's personal telephone number?
+Embedding model: chroma-default-all-MiniLM-L6-v2; vector store: ChromaDB (persistent, cosine); 496 chunks; evidence threshold 0.55
+
+[1] Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)
+    Section:  N.J.S.A. 47:1A-5(a) Times during which records may be inspected, examined
+    Pages:    [15, 16]
+    Source:   https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf
+    Score:    cosine similarity 0.6833 (distance 0.3167); meets threshold: True
+    Chunk:    opra_statute:0053
+    Passage:
+      | defined in section 1 of P.L.2021, c.371 (C.47:1B-1), any immediate family
+      | member thereof; except for:
+      | ▪ use by any government agency, including any court or law
+      | enforcement agency, in carrying out its functions, or any private
+      | person or entity acting on behalf thereof,
+      | ▪ any private person or entity seeking to enforce payment of court -
+      | ordered child support;
+      | ▪ with respect to the disclosure of driver information by the New Jersey
+      | Motor Vehicle Commission as permitted by section 2 of P.L. 1997, c.
+      | 188 (C. 39:2-3.4);
+      | ▪ that a social security number contained in a record required by law to
+      | be made, maintained or kept on file by a public agency shall be
+      | disclosed when access to the document or disclosure of that
+      | information is not otherwise prohibited by State or federal law,
+      | regulation or order or by State statute, resolution of either or both
+
+[2] Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)
+    Section:  N.J.S.A. 47:1A-5(a) Times during which records may be inspected, examined
+    Pages:    [15, 15]
+    Source:   https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf
+    Score:    cosine similarity 0.6537 (distance 0.3463); meets threshold: True
+    Chunk:    opra_statute:0052
+    Passage:
+      | Legislature; regulation promulgated under the authority of any statute or
+      | Executive Order of the Governor; Executive Order of the Governor; Rules
+      | of Court; any federal law; federal regulation; or federal order.
+      | Personal
+      | information to be
+      | redacted
+      | Prior to allowing access to any government record, the custodian thereof
+      | shall redact from that record any information which discloses the social
+      | security number, credit card number, personal telephone number, or driver
+      | license number of any person, or, in accordance with section 2 of
+      | P.L.2021, c.371 (C.47:1B -2), the home address, whether a primary or
+      | secondary residence, of any active, formerly active, or retired judicial
+      | officer, prosecutor, law enforcement officer, or child protective
+      | investigator in the Division of Child Protection and Permanency, or, as
+      | defined in section 1 of P.L.2021, c.371 (C.47:1B-1), any immediate family
+
+[3] OPRA Exemptions (GRC list)
+    Section:  N.J.S.A. 47:1A-1.1, exemption 20: Personal identifying information. Specifically
+    Pages:    [4, 5]
+    Source:   https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf
+    Score:    cosine similarity 0.6457 (distance 0.3543); meets threshold: True
+    Chunk:    grc_exemptions:0026
+    Passage:
+      | active, or retired judicial officer, law enforcement officer , child protective
+      | investigator in the Division of Child Protection and Permanency, or
+      | prosecutor, or, as defined in section 1 of N.J.S.A. 47:1B-1, any immediate
+      | family member thereof.
+      | c. Credit card numbers.
+      | d. Debit card numbers.
+      | e. Bank account information.
+      | f. Month and day of birth.
+      | g. Personal e -mail address required by a public agency for government
+      | applications, services, or programs.
+      | h. Telephone numbers.
+      | i. Drivers’ license numbers.
+      | Except for:
+      | • use by any government agency, including any court or law enforcement
+      | agency, in carrying out its functions, or any private person or entity acting
+      | on behalf thereof,
+      | • any private person or entity seeking to enforce payment of court -ordered
+      | child support;
+      | • with respect to the disclosure of driver information by the New Jersey
+
+[4] OPRA Exemptions (GRC list)
+    Section:  N.J.S.A. 47:1A-1.1, exemption 20: Personal identifying information. Specifically
+    Pages:    [5, 5]
+    Source:   https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf
+    Score:    cosine similarity 0.637 (distance 0.363); meets threshold: True
+    Chunk:    grc_exemptions:0027
+    Passage:
+      | • with respect to the disclosure of driver information by the New Jersey
+      | Motor Vehicle Commission as permitted by section 2 of P.L. 1997, c. 188
+      | (C. 39:2-3.4);
+      | • with respect to the disclosure of information included in records and
+      | documents maintained by the Department of the Treasury in connection
+      | with the State’s business registry programs;
+
+Keyword-only retrieval for the same query: INSUFFICIENT [] (unknown query terms: ['someone'])
+Hybrid retrieval for the same query: SUFFICIENT ['grc_exemptions:0026', 'grc_handbook:0031', 'opra_statute:0052', 'opra_statute:0020']

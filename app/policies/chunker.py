@@ -39,13 +39,32 @@ def _shorten(title: str, limit: int = 70) -> str:
 
 
 class StatuteDetector:
-    """OPRA readable version: section headings look like ``C.47:1A-1.1 Definitions.``"""
+    """OPRA readable version: section headings look like ``C.47:1A-1.1 Definitions.``
+
+    Lettered subsections (``a. The custodian ...``) become ``N.J.S.A. 47:1A-5(a)``. A subsection
+    may follow a short margin note on the same line (``Fees for copies b. (1) A copy ...``).
+    A letter is accepted only if it is the next one in sequence, so lettered lists inside a
+    subsection (which restart at "a.") are not mistaken for subsections.
+    """
 
     pattern = re.compile(r"(?<![(\w.])C\.(47:1A-\d+(?:\.\d+)?)\s+(\S.*)$")
+    subsection = re.compile(r"^(?:[A-Z][A-Za-z ,'’-]{0,40}? )?([a-z])\.\s+[A-Z(]")
+
+    def __init__(self) -> None:
+        self.section: str | None = None
+        self.title = ""
+        self.next_letter = "a"
 
     def __call__(self, line: str, next_line: str) -> str | None:
         m = self.pattern.search(line)
-        return f"N.J.S.A. {m.group(1)} {_shorten(m.group(2).rstrip('.'))}" if m else None
+        if m:
+            self.section, self.title, self.next_letter = m.group(1), _shorten(m.group(2).rstrip(".")), "a"
+            return f"N.J.S.A. {self.section} {self.title}"
+        s = self.subsection.match(line)
+        if s and self.section and s.group(1) == self.next_letter:
+            self.next_letter = chr(ord(self.next_letter) + 1)
+            return f"N.J.S.A. {self.section}({s.group(1)}) {self.title}"
+        return None
 
 
 class ExemptionsDetector:

@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from app.policies.chunker import load_policy_chunks
-from app.policies.extract import DEFAULT_POLICY_DIR
+from app.policies.extract import DEFAULT_POLICY_DIR, PolicyLoadError
 from app.policies.keyword import KeywordHit, KeywordIndex, tokenize
 from app.policies.semantic import (
     DEFAULT_INDEX_DIR,
@@ -95,8 +95,15 @@ class PolicyRetriever:
         embedder: Embedder | None = None,
         index_dir: Path | None = DEFAULT_INDEX_DIR,
         thresholds: EvidenceThresholds | None = None,
+        doc_ids: list[str] | None = None,
     ) -> PolicyRetriever:
+        """``doc_ids`` restricts the corpus to some documents; such an index is kept in memory only."""
         chunks = load_policy_chunks(policy_dir)
+        if doc_ids:
+            chunks = [c for c in chunks if c.doc_id in set(doc_ids)]
+            if not chunks:
+                raise PolicyLoadError(f"no policy chunks for documents {doc_ids}")
+            index_dir = None
         semantic = None
         if enable_semantic:
             try:

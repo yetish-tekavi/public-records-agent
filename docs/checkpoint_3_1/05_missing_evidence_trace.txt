@@ -1,0 +1,32 @@
+REQUEST OPRA-TEST-101 -> record TEST-101
+planner=rule-based  transport=mcp-stdio
+
+TOOL-CALL TRACE
+  1. detect_pii(record_id="TEST-101")  [ok]
+       Decision: Request OPRA-TEST-101 asks for record TEST-101; scanning it for candidate sensitive information first.
+       Result:   1 candidate(s): PHONE_NUMBER (0.75)
+  2. search_policy(query="What New Jersey law applies when a public record contains a person's personal telephone number?", k=4)  [ok]
+       Decision: Found PHONE_NUMBER; looking for policy that addresses it.
+       Result:   INSUFFICIENT: Insufficient policy evidence: no passage met the retrieval thresholds. Human review required.
+  3. search_policy(query="telephone number of any person personal information", k=4)  [ok]
+       Decision: Previous search did not name PHONE_NUMBER; trying a reformulated query.
+       Result:   INSUFFICIENT: Insufficient policy evidence: no passage met the retrieval thresholds. Human review required.
+  4. propose_redactions(record_id="TEST-101", policy_chunk_ids=[], finding_ids=["TEST-101-P01"])  [ok]
+       Decision: Evidence gathering complete; proposing recommendations for 1 finding(s). No policy basis found for: PHONE_NUMBER.
+       Result:   1 HUMAN_REVIEW_REQUIRED
+  5. FINISH  [ok]
+       Decision: Proposed recommendations for 1 finding(s); 1 need human review.
+       Result:   Agent finished.
+
+RECOMMENDATIONS (every item requires human approval)
+  TEST-101-P01  PHONE_NUMBER "609-555-0142"  ->  HUMAN_REVIEW_REQUIRED  (detector confidence 0.75)
+       Rationale: No retrieved policy passage names PHONE_NUMBER; no policy basis established.
+       Open question: Which provision, if any, applies to this information?
+       Open question: Is this a personal number of a private individual, not an agency or business line?
+
+ESCALATIONS
+  - No policy passage naming PHONE_NUMBER was found.
+  - TEST-101-P01: no policy basis found; human review required.
+
+STATUS: ESCALATED
+SUMMARY: Proposed recommendations for 1 finding(s); 1 need human review.

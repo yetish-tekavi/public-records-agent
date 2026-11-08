@@ -1,0 +1,98 @@
+[
+  {
+    "tool": "detect_pii",
+    "arguments": {
+      "record_id": "TEST-101"
+    },
+    "at": "2026-11-01T16:58:34+00:00",
+    "result": {
+      "record_id": "TEST-101",
+      "detector": "presidio-analyzer/en_core_web_md",
+      "score_threshold": 0.4,
+      "findings": [
+        {
+          "finding_id": "TEST-101-P01",
+          "record_id": "TEST-101",
+          "category": "PHONE_NUMBER",
+          "text": "609-555-0142",
+          "start": 73,
+          "end": 85,
+          "detector": "presidio:PHONE_NUMBER",
+          "confidence": 0.75
+        }
+      ]
+    }
+  },
+  {
+    "tool": "search_policy",
+    "arguments": {
+      "query": "What New Jersey law applies when a public record contains a person's personal telephone number?",
+      "k": 4
+    },
+    "at": "2026-11-01T16:58:37+00:00",
+    "result": {
+      "query": "What New Jersey law applies when a public record contains a person's personal telephone number?",
+      "method": "hybrid",
+      "status": "INSUFFICIENT",
+      "passages": [],
+      "message": "Insufficient policy evidence: no passage met the retrieval thresholds. Human review required."
+    }
+  },
+  {
+    "tool": "search_policy",
+    "arguments": {
+      "query": "telephone number of any person personal information",
+      "k": 4
+    },
+    "at": "2026-11-01T16:58:46+00:00",
+    "result": {
+      "query": "telephone number of any person personal information",
+      "method": "hybrid",
+      "status": "INSUFFICIENT",
+      "passages": [],
+      "message": "Insufficient policy evidence: no passage met the retrieval thresholds. Human review required."
+    }
+  },
+  {
+    "tool": "propose_redactions",
+    "arguments": {
+      "record_id": "TEST-101",
+      "policy_chunk_ids": [],
+      "findings": [
+        {
+          "finding_id": "TEST-101-P01",
+          "record_id": "TEST-101",
+          "category": "PHONE_NUMBER",
+          "text": "609-555-0142",
+          "start": 73,
+          "end": 85,
+          "detector": "presidio:PHONE_NUMBER",
+          "confidence": 0.75
+        }
+      ]
+    },
+    "at": "2026-11-01T16:58:46+00:00",
+    "result": {
+      "record_id": "TEST-101",
+      "recommendations": [
+        {
+          "recommendation_id": "TEST-101-R01",
+          "finding_id": "TEST-101-P01",
+          "action": "HUMAN_REVIEW_REQUIRED",
+          "rationale": "No retrieved policy passage names PHONE_NUMBER; no policy basis established.",
+          "policy_references": [],
+          "detection_confidence": 0.75,
+          "open_questions": [
+            "Which provision, if any, applies to this information?",
+            "Is this a personal number of a private individual, not an agency or business line?"
+          ],
+          "requires_human_approval": true
+        }
+      ],
+      "needs_human_review": [
+        "TEST-101-P01"
+      ],
+      "requires_human_approval": true
+    }
+  }
+]

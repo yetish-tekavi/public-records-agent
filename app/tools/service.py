@@ -92,10 +92,12 @@ class ToolService:
         retriever: PolicyRetriever | None = None,
         detector: Any | None = None,
         enable_semantic: bool = True,
+        policy_doc_ids: list[str] | None = None,
     ) -> None:
         self.data_dir = data_dir
         self.policy_dir = policy_dir
         self.enable_semantic = enable_semantic
+        self.policy_doc_ids = policy_doc_ids
         if retriever is not None:
             self.__dict__["retriever"] = retriever
         if detector is not None:
@@ -104,8 +106,10 @@ class ToolService:
     # Heavy resources load on first use so the MCP server starts quickly.
     @cached_property
     def retriever(self) -> PolicyRetriever:
-        logger.info("Loading policy retriever (semantic=%s)", self.enable_semantic)
-        return PolicyRetriever.from_directory(self.policy_dir, enable_semantic=self.enable_semantic)
+        logger.info("Loading policy retriever (semantic=%s, documents=%s)", self.enable_semantic, self.policy_doc_ids or "all")
+        return PolicyRetriever.from_directory(
+            self.policy_dir, enable_semantic=self.enable_semantic, doc_ids=self.policy_doc_ids
+        )
 
     @cached_property
     def detector(self):
@@ -155,18 +159,30 @@ class ToolService:
     def propose_redactions(self, **arguments: Any) -> RedactionProposal:
         args = _validate(ProposeRedactionsInput, arguments)
         record = self.get_record(args.record_id)
-        by_id = {c.chunk_id: c for c in self.retriever.chunks}
-        unknown = [cid for cid in args.policy_chunk_ids if cid not in by_id]
+        chunks = self.retriever.chunks
+        position = {c.chunk_id: i for i, c in enumerate(chunks)}
+        unknown = [cid for cid in args.policy_chunk_ids if cid not in position]
         if unknown:
             raise ToolError("NOT_FOUND", f"unknown policy chunk id(s): {unknown}; cite only retrieved passages")
-        evidence = [
-            RetrievedPassage(chunk=by_id[cid], rank=i)
-            for i, cid in enumerate(dict.fromkeys(args.policy_chunk_ids), start=1)
-        ]
+        cited_ids = list(dict.fromkeys(args.policy_chunk_ids))
+        evidence = [RetrievedPassage(chunk=chunks[position[cid]], rank=i) for i, cid in enumerate(cited_ids, start=1)]
         try:
-            return propose_redactions(record, args.findings, evidence)
+            return propose_redactions(record, args.findings, evidence, self._section_context(cited_ids))
         except ValueError as exc:
             raise ToolError("INVALID_INPUT", str(exc)) from exc
+
+    def _section_context(self, chunk_ids: list[str], reach: int = 2) -> list[RetrievedPassage]:
+        """The chunks that follow each cited chunk within the same section (e.g. its exception list)."""
+        chunks = self.retriever.chunks
+        position = {c.chunk_id: i for i, c in enumerate(chunks)}
+        context: dict[str, RetrievedPassage] = {}
+        for cid in chunk_ids:
+            i, base = position[cid], chunks[position[cid]]
+            for j in range(i + 1, min(len(chunks), i + reach + 1)):
+                c = chunks[j]
+                if c.doc_id == base.doc_id and c.section == base.section and c.chunk_id not in chunk_ids:
+                    context.setdefault(c.chunk_id, RetrievedPassage(chunk=c, rank=len(context) + 1))
+        return list(context.values())
 
     def call(self, name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         """Dispatch by tool name and return a JSON-serialisable result."""

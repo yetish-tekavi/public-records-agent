@@ -1,0 +1,64 @@
+# Source ingestion log (Checkpoint 3.1)
+
+2026-11-01T16:58:16+00:00 Document: Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)
+2026-11-01T16:58:16+00:00 Official source URL: https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf
+2026-11-01T16:58:17+00:00 Fetched landing page https://www.nj.gov/grc/laws/act/: 3 PDF link(s); manifest source listed: True
+2026-11-01T16:58:17+00:00   landing page PDF: https://www.nj.gov/grc/laws/act/Readable Version of OPRA (Sept 2024)(P.L. 2024, c.16).pdf
+2026-11-01T16:58:17+00:00   landing page PDF: https://www.nj.gov/grc/laws/act/Readable Version of OPRA (Aug 2024)(P.L. 2023, c.113).pdf
+2026-11-01T16:58:17+00:00   landing page PDF: https://www.nj.gov/grc/laws/act/Readable Version of OPRA (Nov 2022).pdf
+2026-11-01T16:58:17+00:00 Downloaded 473,189 bytes to outputs\ingest\nj_opra_statute_2024.pdf
+2026-11-01T16:58:17+00:00 Compared with local copy data\policy_documents\nj_opra_statute_2024.pdf: identical
+2026-11-01T16:58:20+00:00 SHA-256 530a33458255b741962983e498ac7fb3a0d74923054d01751a9f7089fadeabd6; 37 pages; source version: September 3, 2024
+2026-11-01T16:58:20+00:00 Extracted N.J.S.A. 47:1A-5(a) passage (1904 chars, page(s) [15, 16]) from the downloaded file
+2026-11-01T16:58:20+00:00 Wrote ingestion record data\policy_documents\ingestion\opra_statute_47_1A-5_a.json
+
+## Ingestion record
+doc_id: opra_statute
+title: Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)
+source_url: https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf
+landing_url: https://www.nj.gov/grc/laws/act/
+section: N.J.S.A. 47:1A-5(a)
+source_version: as of September 3, 2024
+retrieved_at: 2026-11-01T16:58:20+00:00
+mode: network
+local_file: data/policy_documents/nj_opra_statute_2024.pdf
+sha256: 530a33458255b741962983e498ac7fb3a0d74923054d01751a9f7089fadeabd6
+size_bytes: 473189
+pages: 37
+identical_to_local_copy: True
+landing_page_lists_source: True
+passage_pages: [15, 16]
+
+## Original retrieved passage (N.J.S.A. 47:1A-5(a), page(s) [15, 16])
+
+Prior to allowing access to any government record, the custodian thereof
+shall redact from that record any information which discloses the social
+security number, credit card number, personal telephone number, or driver
+license number of any person, or, in accordance with section 2 of
+P.L.2021, c.371 (C.47:1B -2), the home address, whether a primary or
+secondary residence, of any active, formerly active, or retired judicial
+officer, prosecutor, law enforcement officer, or child protective
+investigator in the Division of Child Protection and Permanency, or, as
+defined in section 1 of P.L.2021, c.371 (C.47:1B-1), any immediate family
+member thereof; except for:
+▪ use by any government agency, including any court or law
+enforcement agency, in carrying out its functions, or any private
+person or entity acting on behalf thereof,
+▪ any private person or entity seeking to enforce payment of court -
+ordered child support;
+▪ with respect to the disclosure of driver information by the New Jersey
+Motor Vehicle Commission as permitted by section 2 of P.L. 1997, c.
+188 (C. 39:2-3.4);
+▪ that a social security number contained in a record required by law to
+be made, maintained or kept on file by a public agency shall be
+disclosed when access to the document or disclosure of that
+information is not otherwise prohibited by State or federal law,
+regulation or order or by State statute, resolution of either or both
+houses of the Legislature, Executive Order of the Governor, rule of
+court or regulation promulgated under the authority of any statute or
+executive order of the Governor;
+Except where an agency can demonstrate an emergent need, a
+regulation that limits access to government records shall not be
+retroactive in effect or applied to deny a request for access to a
+government record that is pending before the agency, the council or a
+court at the time of the adoption of the regulation.

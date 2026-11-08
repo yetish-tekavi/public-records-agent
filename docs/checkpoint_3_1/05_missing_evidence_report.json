@@ -1,0 +1,102 @@
+{
+  "request_id": "OPRA-TEST-101",
+  "record_id": "TEST-101",
+  "planner": "rule-based",
+  "transport": "mcp-stdio",
+  "status": "ESCALATED",
+  "steps": [
+    {
+      "step": 1,
+      "kind": "tool_call",
+      "tool": "detect_pii",
+      "arguments": {
+        "record_id": "TEST-101"
+      },
+      "status": "ok",
+      "observation": "1 candidate(s): PHONE_NUMBER (0.75)",
+      "decision_summary": "Request OPRA-TEST-101 asks for record TEST-101; scanning it for candidate sensitive information first."
+    },
+    {
+      "step": 2,
+      "kind": "tool_call",
+      "tool": "search_policy",
+      "arguments": {
+        "query": "What New Jersey law applies when a public record contains a person's personal telephone number?",
+        "k": 4
+      },
+      "status": "ok",
+      "observation": "INSUFFICIENT: Insufficient policy evidence: no passage met the retrieval thresholds. Human review required.",
+      "decision_summary": "Found PHONE_NUMBER; looking for policy that addresses it."
+    },
+    {
+      "step": 3,
+      "kind": "tool_call",
+      "tool": "search_policy",
+      "arguments": {
+        "query": "telephone number of any person personal information",
+        "k": 4
+      },
+      "status": "ok",
+      "observation": "INSUFFICIENT: Insufficient policy evidence: no passage met the retrieval thresholds. Human review required.",
+      "decision_summary": "Previous search did not name PHONE_NUMBER; trying a reformulated query."
+    },
+    {
+      "step": 4,
+      "kind": "tool_call",
+      "tool": "propose_redactions",
+      "arguments": {
+        "record_id": "TEST-101",
+        "policy_chunk_ids": [],
+        "finding_ids": [
+          "TEST-101-P01"
+        ]
+      },
+      "status": "ok",
+      "observation": "1 HUMAN_REVIEW_REQUIRED",
+      "decision_summary": "Evidence gathering complete; proposing recommendations for 1 finding(s). No policy basis found for: PHONE_NUMBER."
+    },
+    {
+      "step": 5,
+      "kind": "finish",
+      "tool": null,
+      "arguments": {},
+      "status": "ok",
+      "observation": "Agent finished.",
+      "decision_summary": "Proposed recommendations for 1 finding(s); 1 need human review."
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "TEST-101-P01",
+      "record_id": "TEST-101",
+      "category": "PHONE_NUMBER",
+      "text": "609-555-0142",
+      "start": 73,
+      "end": 85,
+      "detector": "presidio:PHONE_NUMBER",
+      "confidence": 0.75
+    }
+  ],
+  "policy_chunk_ids": [],
+  "recommendations": [
+    {
+      "recommendation_id": "TEST-101-R01",
+      "finding_id": "TEST-101-P01",
+      "action": "HUMAN_REVIEW_REQUIRED",
+      "rationale": "No retrieved policy passage names PHONE_NUMBER; no policy basis established.",
+      "policy_references": [],
+      "detection_confidence": 0.75,
+      "open_questions": [
+        "Which provision, if any, applies to this information?",
+        "Is this a personal number of a private individual, not an agency or business line?"
+      ],
+      "requires_human_approval": true
+    }
+  ],
+  "escalations": [
+    "No policy passage naming PHONE_NUMBER was found.",
+    "TEST-101-P01: no policy basis found; human review required."
+  ],
+  "final_summary": "Proposed recommendations for 1 finding(s); 1 need human review.",
+  "requires_human_approval": true
+}

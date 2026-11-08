@@ -1,0 +1,18 @@
+{
+  "request_id": "OPRA-TEST-101",
+  "record_id": "TEST-101",
+  "requires_redaction": true,
+  "findings": [
+    {
+      "finding_id": "TEST-101-F01",
+      "record_id": "TEST-101",
+      "category": "PHONE_NUMBER",
+      "text": "609-555-0142",
+      "start": 73,
+      "end": 85,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    }
+  ],
+  "notes": "Checkpoint 3.1 record (text supplied by the TA). The number uses the fictional 555-01XX range."
+}

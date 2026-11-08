@@ -81,6 +81,16 @@ effective date, source URL, scores, and the verbatim excerpt. If no passage meet
 thresholds, the status is `INSUFFICIENT` with the message *"Human review required."* See
 [docs/policy_retrieval.md](docs/policy_retrieval.md) for the design, the thresholds, and the limitations.
 
+### Checkpoint 3.1: real-source retrieval demonstration
+
+```bash
+python -m app.checkpoint_3_1             # ingest OPRA from nj.gov, semantic search, agent over MCP, missing-evidence run, tests
+python -m app.checkpoint_3_1 --offline   # same, using the genuine local copy if nj.gov is unreachable
+python -m app.policies.ingest            # ingestion only: provenance record for N.J.S.A. 47:1A-5(a)
+```
+
+All outputs, including the generated report, go to [docs/checkpoint_3_1/](docs/checkpoint_3_1/checkpoint_3_1_demo.md).
+
 ### MCP server and agent
 
 ```bash

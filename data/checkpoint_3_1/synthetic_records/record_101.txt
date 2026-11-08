@@ -1,0 +1,7 @@
+Record ID: TEST-101
+Record Type: interaction_transcript
+Title: Synthetic Resident Interaction (Checkpoint 3.1)
+Record Date: 2026-10-30
+Synthetic: yes
+
+During the interaction, the resident stated: My personal phone number is 609-555-0142.

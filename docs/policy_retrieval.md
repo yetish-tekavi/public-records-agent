@@ -32,7 +32,8 @@ manifest.json ──► extract.py ──► chunker.py ──► keyword.py  (B
 2. **Chunk.** Lines are grouped into chunks of at most 900 characters. A chunk never crosses a
    section boundary, and consecutive chunks within a section overlap by one line. Each document
    style has its own heading detector:
-   - statute: `C.47:1A-1.1 Definitions.`
+   - statute: `C.47:1A-1.1 Definitions.`, plus lettered subsections such as `N.J.S.A. 47:1A-5(a)`. A subsection
+     may follow a margin note on the same line, and a letter is accepted only if it is next in sequence.
    - exemptions list: `N.J.S.A. 47:1A-1.1` group, then numbered items such as `5) Criminal investigatory records`
    - handbook: `SECTION 2 – ...` plus question headings
    - directive: `11 Public Disclosure of BWC Recordings`

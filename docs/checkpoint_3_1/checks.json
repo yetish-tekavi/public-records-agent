@@ -1,0 +1,122 @@
+[
+  {
+    "area": "ingestion",
+    "check": "official landing page lists the source PDF",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "area": "ingestion",
+    "check": "downloaded file matches the indexed local copy",
+    "result": "PASS",
+    "detail": "sha256 530a33458255b741…"
+  },
+  {
+    "area": "ingestion",
+    "check": "N.J.S.A. 47:1A-5(a) passage extracted from the document",
+    "result": "PASS",
+    "detail": "1904 chars, pages [15, 16]"
+  },
+  {
+    "area": "ingestion",
+    "check": "source version read from the document",
+    "result": "PASS",
+    "detail": "as of September 3, 2024"
+  },
+  {
+    "area": "retrieval",
+    "check": "semantic search executed against the ChromaDB index",
+    "result": "PASS",
+    "detail": "4 results"
+  },
+  {
+    "area": "retrieval",
+    "check": "N.J.S.A. 47:1A-5(a) telephone provision in the semantic top 4",
+    "result": "PASS",
+    "detail": "rank 2, similarity 0.6537"
+  },
+  {
+    "area": "retrieval",
+    "check": "retrieved passage is verbatim text of the ingested official passage",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "area": "agent",
+    "check": "identified the personal phone number",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "area": "agent",
+    "check": "called search_policy through MCP",
+    "result": "PASS",
+    "detail": "1 call(s), transport mcp-stdio"
+  },
+  {
+    "area": "agent",
+    "check": "received the actual N.J.S.A. 47:1A-5(a) passage from the tool",
+    "result": "PASS",
+    "detail": "opra_statute:0052"
+  },
+  {
+    "area": "agent",
+    "check": "evidence supports a proposed redaction",
+    "result": "PASS",
+    "detail": "REDACT"
+  },
+  {
+    "area": "agent",
+    "check": "recommendation cites N.J.S.A. 47:1A-5(a) and the official source URL",
+    "result": "PASS",
+    "detail": "opra_statute:0052, p. 15"
+  },
+  {
+    "area": "agent",
+    "check": "exceptions / uncertainty listed for review",
+    "result": "PASS",
+    "detail": "3 open question(s)"
+  },
+  {
+    "area": "agent",
+    "check": "human authorization required before release",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "area": "missing evidence",
+    "check": "every policy search returned INSUFFICIENT with no passages",
+    "result": "PASS",
+    "detail": "2 search(es)"
+  },
+  {
+    "area": "missing evidence",
+    "check": "recommendation is HUMAN_REVIEW_REQUIRED with no citations",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "area": "missing evidence",
+    "check": "insufficient policy evidence reported",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "area": "missing evidence",
+    "check": "no statute, section, or legal explanation invented",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "area": "tests",
+    "check": "checkpoint tests pass",
+    "result": "PASS",
+    "detail": "9 passed in 17.26s"
+  },
+  {
+    "area": "tests",
+    "check": "full suite passes",
+    "result": "PASS",
+    "detail": "199 passed in 49.13s"
+  }
+]

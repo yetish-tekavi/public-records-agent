@@ -1,0 +1,26 @@
+$ python -m pytest -v tests/test_checkpoint_3_1.py
+============================= test session starts =============================
+platform win32 -- Python 3.14.7, pytest-9.1.1, pluggy-1.7.0 -- C:\Projects\cmu\capstone\public-records-agent\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Projects\cmu\capstone\public-records-agent
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collecting ... collected 9 items
+
+tests/test_checkpoint_3_1.py::test_statute_subsections_follow_letter_sequence_and_allow_margin_notes PASSED [ 11%]
+tests/test_checkpoint_3_1.py::test_local_copy_is_the_documented_official_file PASSED [ 22%]
+tests/test_checkpoint_3_1.py::test_ingestion_extracts_47_1a_5a_verbatim_with_version PASSED [ 33%]
+tests/test_checkpoint_3_1.py::test_47_1a_5a_chunk_is_labelled_and_located PASSED [ 44%]
+tests/test_checkpoint_3_1.py::test_exceptions_in_the_following_subsection_chunk_are_surfaced PASSED [ 55%]
+tests/test_checkpoint_3_1.py::test_semantic_top4_contains_47_1a_5a PASSED [ 66%]
+tests/test_checkpoint_3_1.py::test_rule_planner_asks_a_natural_language_question PASSED [ 77%]
+tests/test_checkpoint_3_1.py::test_agent_grounds_redaction_in_47_1a_5a PASSED [ 88%]
+tests/test_checkpoint_3_1.py::test_agent_without_relevant_policy_does_not_invent_one PASSED [100%]
+
+============================= 9 passed in 17.26s ==============================
+
+$ python -m pytest -q
+........................................................................ [ 36%]
+........................................................................ [ 72%]
+.......................................................                  [100%]
+199 passed in 49.13s

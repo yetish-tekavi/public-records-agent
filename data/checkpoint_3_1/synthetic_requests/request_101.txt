@@ -1,0 +1,7 @@
+Request ID: OPRA-TEST-101
+Record ID: TEST-101
+Date Received: 2026-10-31
+Requester: Checkpoint Requester
+Synthetic: yes
+
+I request a copy of the record of the resident interaction identified as TEST-101.

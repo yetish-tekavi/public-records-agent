@@ -61,6 +61,13 @@ A finding is `REDACT` only when all three conditions hold:
    background checks or convicts' access to victim information do not count.
 3. Detector confidence is at least 0.6.
 
+Supporting passages are listed primary source first: the statute, then the GRC exemption list,
+handbook and guidance pages. **Exception language** ("except for", "unless", "shall not apply",
+"provided, however") is quoted verbatim as an open question when it appears after the category
+mention, either in the supporting passage or in the following chunks of the same subsection.
+ToolService supplies those chunks as section context. For example, 47:1A-5(a)'s "except for:" list
+sits in the chunk after the telephone clause.
+
 Every other finding is `HUMAN_REVIEW_REQUIRED`, with any relevant evidence attached and open
 questions listed. This covers names (privacy-interest balancing), home addresses (Daniel's Law
 covers specific people only), personal email (conditional), low-confidence detections, and
