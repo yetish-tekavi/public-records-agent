@@ -35,6 +35,7 @@ CATEGORY_POLICY_PATTERNS: dict[SensitiveCategory, re.Pattern[str]] = {
     SensitiveCategory.EMAIL_ADDRESS: re.compile(r"e\s?-?\s?mail address"),
     SensitiveCategory.STREET_ADDRESS: re.compile(r"home address"),
     SensitiveCategory.PERSON_NAME: re.compile(r"reasonable expectation of privacy"),
+    SensitiveCategory.IP_ADDRESS: re.compile(r"\bip address|internet protocol"),
 }
 
 # Categories the retrieved OPRA text lists without qualification. The others are
@@ -57,6 +58,7 @@ CONTEXT_QUESTIONS: dict[SensitiveCategory, str] = {
     ),
     SensitiveCategory.EMAIL_ADDRESS: "Is this a personal email address required for a government application?",
     SensitiveCategory.OTHER_ID_NUMBER: "Does this identifier relate to a person, and what law protects it?",
+    SensitiveCategory.IP_ADDRESS: "Does this IP address identify a person, and what law, if any, protects it?",
 }
 
 

@@ -1,0 +1,18 @@
+{
+  "request_id": "OPRA-TEST-201",
+  "record_id": "TEST-201",
+  "requires_redaction": true,
+  "findings": [
+    {
+      "finding_id": "TEST-201-F01",
+      "record_id": "TEST-201",
+      "category": "PHONE_NUMBER",
+      "text": "609-555-0142",
+      "start": 73,
+      "end": 85,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    }
+  ],
+  "notes": "Straightforward: OPRA names personal telephone numbers directly."
+}

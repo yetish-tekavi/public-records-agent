@@ -76,6 +76,28 @@ class ProposeRedactionsInput(_Input):
     policy_chunk_ids: list[str] = Field(default_factory=list, max_length=20)
 
 
+class CitationToCheck(_Input):
+    chunk_id: str = Field(min_length=1, max_length=100)
+    excerpt: str | None = Field(default=None, max_length=20_000)
+
+
+class ValidateCitationsInput(_Input):
+    citations: list[CitationToCheck] = Field(min_length=1, max_length=50)
+
+
+class CitationCheckResult(BaseModel):
+    chunk_id: str
+    exists: bool
+    excerpt_matches: bool | None
+    section: str | None
+    source_url: str | None
+
+
+class CitationValidationResult(BaseModel):
+    checks: list[CitationCheckResult]
+    all_valid: bool
+
+
 def _validate(model: type[_Input], arguments: dict[str, Any]) -> Any:
     try:
         return model.model_validate(arguments)
@@ -184,12 +206,32 @@ class ToolService:
                     context.setdefault(c.chunk_id, RetrievedPassage(chunk=c, rank=len(context) + 1))
         return list(context.values())
 
+    def validate_citations(self, **arguments: Any) -> CitationValidationResult:
+        """Check that each cited chunk exists in the indexed corpus and, if given, that the excerpt is verbatim."""
+        args = _validate(ValidateCitationsInput, arguments)
+        by_id = {c.chunk_id: c for c in self.retriever.chunks}
+        checks = []
+        for citation in args.citations:
+            chunk = by_id.get(citation.chunk_id)
+            matches = None
+            if chunk is not None and citation.excerpt is not None:
+                matches = " ".join(citation.excerpt.split()) in " ".join(chunk.text.split())
+            checks.append(CitationCheckResult(
+                chunk_id=citation.chunk_id,
+                exists=chunk is not None,
+                excerpt_matches=matches,
+                section=chunk.section if chunk else None,
+                source_url=chunk.source_url if chunk else None,
+            ))
+        return CitationValidationResult(checks=checks, all_valid=all(c.exists and c.excerpt_matches is not False for c in checks))
+
     def call(self, name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         """Dispatch by tool name and return a JSON-serialisable result."""
         tools = {
             "search_policy": self.search_policy,
             "detect_pii": self.detect_pii,
             "propose_redactions": self.propose_redactions,
+            "validate_citations": self.validate_citations,
         }
         if name not in tools:
             raise ToolError("UNKNOWN_TOOL", f"no tool named {name!r}")

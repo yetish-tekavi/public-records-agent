@@ -30,6 +30,7 @@ ENTITY_TO_CATEGORY: dict[str, SensitiveCategory] = {
     "NJ_DRIVER_LICENSE": SensitiveCategory.DRIVERS_LICENSE_NUMBER,
     "US_SSN": SensitiveCategory.SOCIAL_SECURITY_NUMBER,
     "EMAIL_ADDRESS": SensitiveCategory.EMAIL_ADDRESS,
+    "IP_ADDRESS": SensitiveCategory.IP_ADDRESS,
     "STREET_ADDRESS": SensitiveCategory.STREET_ADDRESS,
     "DATE_OF_BIRTH": SensitiveCategory.DATE_OF_BIRTH,
 }

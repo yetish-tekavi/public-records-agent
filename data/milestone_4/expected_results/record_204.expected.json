@@ -1,0 +1,18 @@
+{
+  "request_id": "OPRA-TEST-204",
+  "record_id": "TEST-204",
+  "requires_redaction": true,
+  "findings": [
+    {
+      "finding_id": "TEST-204-F01",
+      "record_id": "TEST-204",
+      "category": "STREET_ADDRESS",
+      "text": "31 Larchmont Terrace",
+      "start": 26,
+      "end": 46,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    }
+  ],
+  "notes": "ToT failure protection: no record fact supports the covered-person condition."
+}

@@ -1,0 +1,7 @@
+Record ID: TEST-203
+Record Type: incident_report
+Title: Scenario C - Online Complaint IP Address
+Record Date: 2026-11-04
+Synthetic: yes
+
+The complaint was submitted through the online portal from IP address 203.0.113.45 at 9:14 p.m. It concerned a broken streetlight near the community garden.

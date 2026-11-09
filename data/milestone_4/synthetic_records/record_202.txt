@@ -1,0 +1,7 @@
+Record ID: TEST-202
+Record Type: call_transcript
+Title: Scenario B - Retired Judge Home Address
+Record Date: 2026-11-03
+Synthetic: yes
+
+A caller who identified himself as a retired Superior Court judge reported a fallen tree limb outside his home at 9 Juniper Court. He asked the crew not to block the driveway.

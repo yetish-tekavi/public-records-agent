@@ -27,7 +27,7 @@ def test_client_discovers_and_calls_tools():
     async def scenario():
         async with McpToolExecutor(env=KEYWORD_ONLY) as mcp:
             tools = {t.name: t for t in await mcp.list_tools()}
-            assert set(tools) == {"search_policy", "detect_pii", "propose_redactions"}
+            assert set(tools) == {"search_policy", "detect_pii", "propose_redactions", "validate_citations"}
             assert {"record_id", "findings", "policy_chunk_ids"} <= set(tools["propose_redactions"].input_schema["properties"])
 
             policy = await mcp.call("search_policy", {"query": "telephone number driver license number of any person", "k": 3})
@@ -42,6 +42,11 @@ def test_client_discovers_and_calls_tools():
                 "policy_chunk_ids": [p["chunk"]["chunk_id"] for p in policy["passages"]],
             })
             assert len(proposal["recommendations"]) == 2
+
+            first = policy["passages"][0]["chunk"]
+            checks = await mcp.call("validate_citations", {"citations": [
+                {"chunk_id": first["chunk_id"], "excerpt": first["text"]}, {"chunk_id": "invented:0001"}]})
+            assert [c["exists"] for c in checks["checks"]] == [True, False] and checks["all_valid"] is False
 
             missing = await mcp.call("search_policy", {"query": "recipe for chocolate chip cookies"})
             assert missing["status"] == "INSUFFICIENT" and missing["passages"] == []

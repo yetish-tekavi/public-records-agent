@@ -101,6 +101,17 @@ def propose_redactions(
     return _call("propose_redactions", {"record_id": record_id, "findings": findings, "policy_chunk_ids": policy_chunk_ids})
 
 
+@mcp.tool(annotations=READ_ONLY)
+def validate_citations(
+    citations: Annotated[list[dict[str, Any]], Field(description="Objects with chunk_id and optional excerpt to verify verbatim")],
+) -> dict[str, Any]:
+    """Verify that cited policy chunks exist in the indexed official corpus and that excerpts are verbatim.
+
+    Used by the Compliance & QA Agent to reject fabricated or altered citations.
+    """
+    return _call("validate_citations", {"citations": citations})
+
+
 def main() -> None:
     logging.basicConfig(level=LOG_LEVEL, stream=sys.stderr, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
     logging.getLogger("presidio-analyzer").setLevel(logging.ERROR)  # very chatty at INFO

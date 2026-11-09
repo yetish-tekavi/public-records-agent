@@ -1,0 +1,18 @@
+{
+  "request_id": "OPRA-TEST-203",
+  "record_id": "TEST-203",
+  "requires_redaction": true,
+  "findings": [
+    {
+      "finding_id": "TEST-203-F01",
+      "record_id": "TEST-203",
+      "category": "IP_ADDRESS",
+      "text": "203.0.113.45",
+      "start": 70,
+      "end": 82,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    }
+  ],
+  "notes": "Missing evidence: the policy corpus does not address IP addresses. 203.0.113.0/24 is reserved for documentation (RFC 5737)."
+}

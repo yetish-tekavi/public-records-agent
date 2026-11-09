@@ -1,5 +1,8 @@
 # Tools, MCP, and the Single ReAct Agent (Milestone 3)
 
+> Milestone 4 builds a four-agent LangGraph workflow on the same tools; see
+> [milestone_4/architecture.md](milestone_4/architecture.md). The single agent below is unchanged.
+
 ## Overview
 
 ```

@@ -70,10 +70,10 @@ class GroundTruthDetector:
 
     name = "ground-truth-stub"
 
-    def __init__(self, fail_times: int = 0) -> None:
-        from app.data_loader import load_review_cases
+    def __init__(self, fail_times: int = 0, data_dir=None) -> None:
+        from app.data_loader import DEFAULT_DATA_DIR, load_review_cases
 
-        self.expected = {c.record.record_id: c.expected for c in load_review_cases()}
+        self.expected = {c.record.record_id: c.expected for c in load_review_cases(data_dir or DEFAULT_DATA_DIR)}
         self.fail_times = fail_times
         self.calls = 0
 

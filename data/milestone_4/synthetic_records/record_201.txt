@@ -1,0 +1,7 @@
+Record ID: TEST-201
+Record Type: interaction_transcript
+Title: Scenario A - Resident Phone Number
+Record Date: 2026-11-02
+Synthetic: yes
+
+During the interaction, the resident stated: My personal phone number is 609-555-0142.

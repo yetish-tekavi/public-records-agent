@@ -6,21 +6,21 @@ CMU capstone project - agentic AI assistant that examines a synthetic public-rec
 
 ## Status
 
-**Milestone 3: tool calling, MCP server, and a single ReAct agent** (complete)
+**Milestone 4: multi-agent LangGraph orchestration with selective Tree of Thought** (complete)
 
 | Stage | Description | Status |
 |---|---|---|
 | 1 | Python project, schemas, synthetic records | Done |
 | 2 | Deterministic policy retrieval and PII detection tools | Done |
 | 3 | Single ReAct agent | Done (rule-based planner verified; Claude planner tested with a fake client only) |
-| 4 | MCP tool server | Done (local stdio server and client demo) |
-| 5 | Orchestrator with policy, record-analysis, and QA workers | Not started |
-| 6 | Human feedback and redaction workflow | Not started |
+| 4 | MCP tool server | Done (local stdio server, 4 tools) |
+| 5 | Orchestrator with policy, record-analysis, and QA workers | Done: LangGraph, 4 agents, bounded ToT ([docs/milestone_4](docs/milestone_4/milestone_summary.md)) |
+| 6 | Human feedback and redaction workflow | Partial: approval gate (LangGraph interrupt) done; revision loop not started |
 | 7 | Safety, evaluation, observability, final demo | Not started |
 | 8 | Optional synthetic video | Not started |
 
-The default agent demo uses a deterministic planner and needs no API key. The Claude planner
-needs Anthropic credentials (see `.env.example`).
+All agents are **deterministic** (rule-based tool use); no LLM is required. The single-agent
+Claude planner exists but has not been run against the live API (no credentials).
 
 ## Data safety
 
@@ -81,6 +81,18 @@ effective date, source URL, scores, and the verbatim excerpt. If no passage meet
 thresholds, the status is `INSUFFICIENT` with the message *"Human review required."* See
 [docs/policy_retrieval.md](docs/policy_retrieval.md) for the design, the thresholds, and the limitations.
 
+### Milestone 4: multi-agent workflow
+
+```bash
+python -m app.m4_demo                     # 4 scenarios through the LangGraph workflow, tools over MCP, then tests
+python -m app.m4_demo --transport local   # same, tools in-process
+python -m app.m4_demo --skip-tests
+```
+
+Each run writes traces (state transitions, tool calls, ToT branch scores, pruning, recommendations,
+audit log) to [docs/milestone_4/execution_traces/](docs/milestone_4/execution_traces/README.md).
+Design: [architecture](docs/milestone_4/architecture.md) · [Tree of Thought](docs/milestone_4/tot_design.md).
+
 ### Checkpoint 3.1: real-source retrieval demonstration
 
 ```bash
@@ -124,6 +136,7 @@ The command exits with code `1` and logs the offending file if any data file is 
 python -m pytest                          # everything
 python -m pytest -m "not semantic_model"  # skip tests that need the embedding model
 python -m pytest -m "not integration"     # skip tests that start the MCP server subprocess
+python -m pytest tests/test_m4_tot.py tests/test_m4_workflow.py tests/test_m4_scenarios.py -v   # Milestone 4 only
 ```
 
 The `semantic_model` tests are skipped automatically until the model has been downloaded once.
@@ -152,11 +165,18 @@ app/
     pii.py            Presidio detector configuration
     redaction.py      Conservative redaction-recommendation rules
   agents/
-    react_agent.py    Bounded ReAct loop and guardrails
+    react_agent.py    Bounded ReAct loop and guardrails (Milestone 3 single agent)
     planners.py       Rule-based and Claude planners
     executors.py      In-process and MCP tool executors
     models.py         Actions, trace, and report models
-  workflows/          (reserved for later stages)
+  workflows/          Milestone 4 multi-agent workflow
+    state.py          Typed LangGraph state and schemas
+    agents.py         Record Analysis, Policy Research, Compliance & QA agents
+    evidence.py       Evidence classification (CLEAR / AMBIGUOUS / CONFLICTING / MISSING)
+    tot.py            Bounded Tree of Thought subgraph (beam search)
+    graph.py          Orchestrator and the LangGraph workflow
+    runner.py         Start a case, pause at human review, resume with a decision
+  m4_demo.py          Milestone 4 scenarios and trace capture
 data/
   synthetic_requests/ request_NNN.txt          OPRA-style requests
   synthetic_records/  record_NNN.txt           Matching synthetic records

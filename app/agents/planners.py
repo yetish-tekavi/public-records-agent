@@ -53,6 +53,10 @@ POLICY_QUERIES: dict[SensitiveCategory, list[str]] = {
         "Does OPRA protect the privacy of a private citizen's name in a government record?",
         "citizen's reasonable expectation of privacy personal information",
     ],
+    SensitiveCategory.IP_ADDRESS: [
+        POLICY_QUESTION.format("IP address"),
+        "internet protocol address personal information",
+    ],
     SensitiveCategory.OTHER_ID_NUMBER: [
         "personal identifying information identification number OPRA",
     ],
