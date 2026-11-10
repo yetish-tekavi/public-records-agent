@@ -28,6 +28,10 @@ flowchart TD
     ER -- exhausted --> FR
     TOT --> FR
     FR --> HR[/human_review<br/>LangGraph interrupt: waits for a person/]
+    HR -. "Milestone 5: review session<br/>(Streamlit UI, per-finding decisions,<br/>re-evaluation, finalization)" .-> RS[(ReviewSession<br/>append-only events)]
+    RS -. "re-evaluation request<br/>(≤ 2 per finding)" .-> RE[reevaluate:<br/>Policy Research + QA + ToT]
+    RE -.-> RS
+    RS -. "finalize → resume(approve)" .-> HR
     HR --> C[complete] --> E([END])
 
     subgraph MCP [MCP tool layer — app/mcp_server.py]

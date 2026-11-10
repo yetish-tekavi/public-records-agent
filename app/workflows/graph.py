@@ -193,17 +193,9 @@ class Orchestrator:
             rid = f"{f.record_id}-R{i:02d}"
             if f.finding_id in tot_by_finding:
                 t = tot_by_finding[f.finding_id]
-                node = next((n for n in t.nodes if n.node_id == t.selected_node_id), None)
-                refs = [RetrievedPassage(chunk=c, rank=j).to_policy_reference() for j, c in enumerate(node.evidence, 1)] if node else []
-                questions = sorted({q for q in (node.unresolved_questions if node else t.unresolved)} |
-                                   {f"Confirm the condition '{asm.text}' (basis: {asm.evidence})."
-                                    for asm in (node.assumptions if node else []) if asm.evidence})
-                action = RedactionAction.REDACT if (t.outcome == "SUPPORTED_RECOMMENDATION" and refs) else RedactionAction.HUMAN_REVIEW_REQUIRED
-                recs.append(RedactionRecommendation(
-                    recommendation_id=rid, finding_id=f.finding_id, action=action,
-                    rationale=f"Tree of Thought ({a.decision.value if a else 'n/a'} evidence): {t.reason} {node.interpretation if node else ''}".strip(),
-                    policy_references=refs, detection_confidence=f.confidence, open_questions=questions))
-                if action is RedactionAction.HUMAN_REVIEW_REQUIRED:
+                rec = recommendation_from_tot(f, a.decision.value if a else "n/a", t, rid)
+                recs.append(rec)
+                if rec.action is RedactionAction.HUMAN_REVIEW_REQUIRED:
                     escalations.append(f"{f.finding_id}: {t.reason}")
             elif a is not None and a.decision is EvidenceDecision.MISSING:
                 recs.append(RedactionRecommendation(
@@ -271,6 +263,20 @@ class Orchestrator:
         g.add_edge("human_review", "complete")
         g.add_edge("complete", END)
         return g.compile(checkpointer=checkpointer or InMemorySaver(serde=_serde()))
+
+
+def recommendation_from_tot(finding, evidence_decision: str, t, recommendation_id: str) -> RedactionRecommendation:
+    """Map a ToT result to a recommendation. REDACT only for a supported branch with cited evidence."""
+    node = next((n for n in t.nodes if n.node_id == t.selected_node_id), None)
+    refs = [RetrievedPassage(chunk=c, rank=j).to_policy_reference() for j, c in enumerate(node.evidence, 1)] if node else []
+    questions = sorted({q for q in (node.unresolved_questions if node else t.unresolved)} |
+                       {f"Confirm the condition '{asm.text}' (basis: {asm.evidence})."
+                        for asm in (node.assumptions if node else []) if asm.evidence})
+    action = RedactionAction.REDACT if (t.outcome == "SUPPORTED_RECOMMENDATION" and refs) else RedactionAction.HUMAN_REVIEW_REQUIRED
+    return RedactionRecommendation(
+        recommendation_id=recommendation_id, finding_id=finding.finding_id, action=action,
+        rationale=f"Tree of Thought ({evidence_decision} evidence): {t.reason} {node.interpretation if node else ''}".strip(),
+        policy_references=refs, detection_confidence=finding.confidence, open_questions=questions)
 
 
 def initial_state(request: PublicRecordRequest, record: PublicRecord, config: WorkflowConfig) -> WorkflowState:

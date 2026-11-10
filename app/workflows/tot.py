@@ -77,7 +77,8 @@ def generate_interpretations(finding: SensitiveDataFinding, evidence: list[Polic
             node_id="", parent_id=None, depth=1, stage="INTERPRETATION", action="REDACT", provision_type="RESTRICTED_CLASS",
             interpretation=f"Redact: {a.chunk.section} protects this {_phrase(finding.category)} if the person belongs to a covered class.",
             cited_chunk_ids=[a.chunk.chunk_id], evidence=[a.chunk.model_copy()],
-            assumptions=[Assumption(text="The person is a covered person (judicial officer, prosecutor, law enforcement officer, "
+            assumptions=[Assumption(key="covered_person",
+                                    text="The person is a covered person (judicial officer, prosecutor, law enforcement officer, "
                                          "child protective investigator, or immediate family member).",
                                     kind="FACTUAL", check_terms=ev.COVERED_PERSON_TERMS)],
         ))
@@ -94,7 +95,8 @@ def generate_interpretations(finding: SensitiveDataFinding, evidence: list[Polic
             node_id="", parent_id=None, depth=1, stage="INTERPRETATION", action="REDACT", provision_type="DEFINITION_OR_BALANCING",
             interpretation=f"Redact: {a.chunk.section} defines or weighs this information; redaction would follow only if an operative rule applies.",
             cited_chunk_ids=[a.chunk.chunk_id], evidence=[a.chunk.model_copy()],
-            assumptions=[Assumption(text=f"An operative provision requires redacting this {_phrase(finding.category)}.", kind="LEGAL")],
+            assumptions=[Assumption(key="operative_rule", text=f"An operative provision requires redacting this {_phrase(finding.category)}.",
+                                    kind="LEGAL")],
         ))
     review_sources = support[:2]
     candidates.append(ThoughtNode(
@@ -107,7 +109,7 @@ def generate_interpretations(finding: SensitiveDataFinding, evidence: list[Polic
         excl_chunk = next(c for c in evidence if c.chunk_id == exclusion)
         for c in candidates:
             if c.action == "REDACT":
-                c.assumptions.append(Assumption(text=ev.EXCLUSION_ASSUMPTION[finding.category], kind="FACTUAL",
+                c.assumptions.append(Assumption(key="not_agency_number", text=ev.EXCLUSION_ASSUMPTION[finding.category], kind="FACTUAL",
                                                 check_terms=ev.AGENCY_CONTEXT_TERMS, supported_when_found=False))
             if exclusion not in c.cited_chunk_ids:
                 c.cited_chunk_ids.append(exclusion)
@@ -121,8 +123,23 @@ def generate_interpretations(finding: SensitiveDataFinding, evidence: list[Polic
     return candidates
 
 
-def check_fact(assumption: Assumption, record_text: str, finding: SensitiveDataFinding) -> None:
-    """Resolve a FACTUAL assumption against the record text near the finding (in place, on a branch copy)."""
+def check_fact(assumption: Assumption, record_text: str, finding: SensitiveDataFinding,
+               reviewer_facts: dict[str, str] | None = None) -> None:
+    """Resolve a FACTUAL assumption (in place, on a branch copy).
+
+    A reviewer's structured answer takes precedence over the record-text heuristic, but only for
+    FACTUAL conditions: reviewer input is a fact about the record, never legal authority.
+    """
+    answer = (reviewer_facts or {}).get(assumption.key or "")
+    if answer == "confirmed":
+        assumption.status, assumption.evidence = "SUPPORTED", "confirmed by the human reviewer (factual input, not legal authority)"
+        return
+    if answer == "denied":
+        assumption.status, assumption.evidence = "UNSUPPORTED", "denied by the human reviewer"
+        return
+    if answer == "unconfirmed":
+        assumption.status, assumption.evidence = "UNVERIFIED", "the human reviewer could not confirm this from the record"
+        return
     quote = ev.find_terms(record_text, finding, assumption.check_terms)
     if assumption.supported_when_found:
         assumption.status = "SUPPORTED" if quote else "UNSUPPORTED"
@@ -244,7 +261,7 @@ def build_tot_graph(policy: PolicyResearchAgent, qa: ComplianceQAAgent, tool_tim
                 if stage == "VERIFICATION":
                     for a in child.assumptions:
                         if a.kind == "FACTUAL" and a.status == "UNVERIFIED":
-                            check_fact(a, state["record_text"], finding)
+                            check_fact(a, state["record_text"], finding, state.get("reviewer_facts"))
                     factual_failed = any(a.kind == "FACTUAL" and a.status == "UNSUPPORTED" for a in child.assumptions)
                     wants_retrieval = not factual_failed and (
                         needs_operative_support(child, finding) or any(a.kind == "LEGAL" and a.status == "UNVERIFIED" for a in child.assumptions))
@@ -396,11 +413,12 @@ def build_tot_graph(policy: PolicyResearchAgent, qa: ComplianceQAAgent, tool_tim
     graph.add_edge("select", END)
     compiled = graph.compile()
 
-    async def run(finding: SensitiveDataFinding, record_text: str, evidence: list[PolicyChunk], config: ToTConfig) -> tuple[ToTResult, list]:
+    async def run(finding: SensitiveDataFinding, record_text: str, evidence: list[PolicyChunk], config: ToTConfig,
+                  reviewer_facts: dict[str, str] | None = None) -> tuple[ToTResult, list]:
         state = await compiled.ainvoke(
             {"finding": finding, "record_text": record_text, "evidence": [c.model_copy() for c in evidence], "config": config,
              "depth": 0, "frontier": [], "nodes": {}, "pruned": [], "tool_calls_used": 0, "targeted_retrieval_used": False,
-             "started_at": time.monotonic(), "budget_events": []},
+             "started_at": time.monotonic(), "budget_events": [], "reviewer_facts": dict(reviewer_facts or {})},
             config={"recursion_limit": 4 * config.max_depth + 6},
         )
         return state["result"], tools.take() + policy.tools.take()

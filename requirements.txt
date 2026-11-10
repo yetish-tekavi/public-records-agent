@@ -8,3 +8,4 @@ en_core_web_md @ https://github.com/explosion/spacy-models/releases/download/en_
 mcp==2.3.0
 anthropic==1.15.0
 langgraph==1.2.20
+streamlit==1.66.0

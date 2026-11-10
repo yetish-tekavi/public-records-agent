@@ -131,6 +131,7 @@ class Assumption(_Model):
     """A condition a branch depends on. FACTUAL ones are checked against the record text:
     supported when a check term is found (or, with ``supported_when_found=False``, when none is)."""
 
+    key: str | None = None  # stable id so a reviewer can confirm or deny this condition
     text: str
     kind: Literal["FACTUAL", "LEGAL"]
     status: Literal["UNVERIFIED", "SUPPORTED", "UNSUPPORTED"] = "UNVERIFIED"
@@ -267,4 +268,5 @@ class ToTState(TypedDict, total=False):
     started_at: float
     budget_events: list[str]
     citation_cache: dict[str, bool]
+    reviewer_facts: dict[str, str]  # assumption key -> "confirmed" | "denied" | "unconfirmed"
     result: ToTResult

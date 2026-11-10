@@ -1,0 +1,707 @@
+{
+  "session_id": "OPRA-TEST-203-23d4078c",
+  "created_at": "2026-11-09T13:25:58+00:00",
+  "request": {
+    "request_id": "OPRA-TEST-203",
+    "record_id": "TEST-203",
+    "received_date": "2026-11-06",
+    "description": "I request a copy of record TEST-203.",
+    "record_title": "Scenario C - Online Complaint IP Address",
+    "record_type": "incident_report"
+  },
+  "record_id": "TEST-203",
+  "record_path": "C:\\Projects\\cmu\\capstone\\public-records-agent\\data\\milestone_4\\synthetic_records\\record_203.txt",
+  "record_text": "The complaint was submitted through the online portal from IP address 203.0.113.45 at 9:14 p.m. It concerned a broken streetlight near the community garden.",
+  "source_text_sha256": "03e8dacbb02129373fb2d44a531b934d76239765c62729dc83f06ea88fa4ad84",
+  "source_file_sha256": "122e2ec4b2ca61d05ba1f3d5bf5036df3d53e05f4fdc6f8c50f55e0a67805cf6",
+  "items": [
+    {
+      "finding": {
+        "finding_id": "TEST-203-P01",
+        "record_id": "TEST-203",
+        "category": "IP_ADDRESS",
+        "text": "203.0.113.45",
+        "start": 70,
+        "end": 82,
+        "detector": "presidio:IP_ADDRESS",
+        "confidence": 0.95
+      },
+      "recommendation": {
+        "recommendation_id": "TEST-203-R01",
+        "finding_id": "TEST-203-P01",
+        "action": "HUMAN_REVIEW_REQUIRED",
+        "rationale": "Insufficient policy evidence: no retrieved passage names IP_ADDRESS after a targeted retry. Human review required.",
+        "policy_references": [],
+        "detection_confidence": 0.95,
+        "open_questions": [
+          "Which provision, if any, applies to this information?"
+        ],
+        "requires_human_approval": true
+      },
+      "reasoning_method": "STANDARD",
+      "evidence_status": "MISSING",
+      "assessment_reasons": [
+        "No retrieved passage names IP_ADDRESS."
+      ],
+      "evidence": [
+        {
+          "chunk_id": "opra_statute:0053",
+          "doc_id": "opra_statute",
+          "title": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)",
+          "source_url": "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+          "effective_date": "as of September 3, 2024 (P.L. 2024, c.16)",
+          "section": "N.J.S.A. 47:1A-5(a) Times during which records may be inspected, examined",
+          "page_start": 15,
+          "page_end": 16,
+          "text": "defined in section 1 of P.L.2021, c.371 (C.47:1B-1), any immediate family\nmember thereof; except for:\n▪ use by any government agency, including any court or law\nenforcement agency, in carrying out its functions, or any private\nperson or entity acting on behalf thereof,\n▪ any private person or entity seeking to enforce payment of court -\nordered child support;\n▪ with respect to the disclosure of driver information by the New Jersey\nMotor Vehicle Commission as permitted by section 2 of P.L. 1997, c.\n188 (C. 39:2-3.4);\n▪ that a social security number contained in a record required by law to\nbe made, maintained or kept on file by a public agency shall be\ndisclosed when access to the document or disclosure of that\ninformation is not otherwise prohibited by State or federal law,\nregulation or order or by State statute, resolution of either or both"
+        },
+        {
+          "chunk_id": "grc_exemptions:0026",
+          "doc_id": "grc_exemptions",
+          "title": "OPRA Exemptions (GRC list)",
+          "source_url": "https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+          "effective_date": "updated September 3, 2024",
+          "section": "N.J.S.A. 47:1A-1.1, exemption 20: Personal identifying information. Specifically",
+          "page_start": 4,
+          "page_end": 5,
+          "text": "active, or retired judicial officer, law enforcement officer , child protective\ninvestigator in the Division of Child Protection and Permanency, or\nprosecutor, or, as defined in section 1 of N.J.S.A. 47:1B-1, any immediate\nfamily member thereof.\nc. Credit card numbers.\nd. Debit card numbers.\ne. Bank account information.\nf. Month and day of birth.\ng. Personal e -mail address required by a public agency for government\napplications, services, or programs.\nh. Telephone numbers.\ni. Drivers’ license numbers.\nExcept for:\n• use by any government agency, including any court or law enforcement\nagency, in carrying out its functions, or any private person or entity acting\non behalf thereof,\n• any private person or entity seeking to enforce payment of court -ordered\nchild support;\n• with respect to the disclosure of driver information by the New Jersey"
+        },
+        {
+          "chunk_id": "opra_statute:0023",
+          "doc_id": "opra_statute",
+          "title": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)",
+          "source_url": "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+          "effective_date": "as of September 3, 2024 (P.L. 2024, c.16)",
+          "section": "N.J.S.A. 47:1A-1.1 Definitions",
+          "page_start": 8,
+          "page_end": 9,
+          "text": "▪ a list of persons identifying themselves as being in need of special\nassistance in the event of an emergency maintained by a municipality\nfor public safety purposes pursuant to section 1 of P.L.2017, c.266\n(C.40:48-2.67) and their personal identifying information; and\n▪ a list of persons identifying themselves as being in need of special\nassistance in the event of an emergency maintained by a county for\npublic safety purposes pursuant to section 6 of P.L.2011, c.178\n(C.App.A:9-43.13) and their personal identifying information;\nJuvenile\ninformation\n▪ that portion of any document that requires and would disclose\npersonal identifying information of persons under the age of 18 years,\nexcept:\n• with respect to the disclosure of driver information by the\nNew Jersey Motor Vehicle Commission as permitted by\nsection 2 of P.L.1997, c.188 (C.39:2-3.4) or the disclosure of"
+        },
+        {
+          "chunk_id": "opra_statute:0021",
+          "doc_id": "opra_statute",
+          "title": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)",
+          "source_url": "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+          "effective_date": "as of September 3, 2024 (P.L. 2024, c.16)",
+          "section": "N.J.S.A. 47:1A-1.1 Definitions",
+          "page_start": 8,
+          "page_end": 8,
+          "text": "active, or retired judicial officer, law enforcement officer, child\nprotective investigator in the Division of Child Protection and\nPermanency, or prosecutor, or, as defined in section 1 of P.L.2021,\nc.371 (C.47:1B-1), any immediate family member thereof; except for:\n• use by any government agency, including any court or law\nenforcement agency, in carrying out its functions, or any\nprivate person or entity acting on behalf thereof,\n• or any private person or entity seeking to enforce payment of\ncourt-ordered child support;\n• with respect to the disclosure of driver information by the\nNew Jersey Motor Vehicle Commission as permitted by\nsection 2 of P.L. 1997, c. 188 (C. 39:2-3.4);\n• with respect to the disclosure of information included in\nrecords and documents maintained by the Department of the\nTreasury in connection with the State’s business registry\nprograms;"
+        },
+        {
+          "chunk_id": "opra_statute:0034",
+          "doc_id": "opra_statute",
+          "title": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)",
+          "source_url": "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+          "effective_date": "as of September 3, 2024 (P.L. 2024, c.16)",
+          "section": "N.J.S.A. 47:1A-1.1 Definitions",
+          "page_start": 12,
+          "page_end": 12,
+          "text": "elements: name, social security number, credit card number, debit card\nnumber, bank account information, month and day of birth, any personal\nemail address required by a public agency for government applications,\nservices, or programs, personal telephone number, the street address portion\nof any person’s primary or secondary home address, or driver license number\nof any person. “Personal identifying information” shall not include any street\naddress, mailing address, email address, or telephone number of a public\nagency. “Personal identifying information” shall not include the email\naddress of a governmental affairs agent.\nBiotechnology\nexemption"
+        },
+        {
+          "chunk_id": "grc_exemptions:0025",
+          "doc_id": "grc_exemptions",
+          "title": "OPRA Exemptions (GRC list)",
+          "source_url": "https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+          "effective_date": "updated September 3, 2024",
+          "section": "N.J.S.A. 47:1A-1.1, exemption 20: Personal identifying information. Specifically",
+          "page_start": 4,
+          "page_end": 4,
+          "text": "20) Personal identifying information. Specifically:\na. Social security numbers, except that a social security number contained in a\nrecord required by law to be made, maintained or kept on file by a public\nagency shall be disclosed when access to the document or disclosure of that\ninformation is not otherwise prohibited by State or federal law, regulation or\norder or by State statute, resolution of either or both houses of the\nLegislature, Executive Order of the Governor, rule of court or regulation\npromulgated under the authority of any statute or executive order of the\nGovernor.\nb. In accordance with section 2 of N.J.S.A. 47:1B-2, commonly known as\n“Daniel’s Law” , that portion of any document which discloses the home\naddress, whether a primary or secondary residence, of any active, formerly\nactive, or retired judicial officer, law enforcement officer , child protective"
+        },
+        {
+          "chunk_id": "opra_statute:0020",
+          "doc_id": "opra_statute",
+          "title": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)",
+          "source_url": "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+          "effective_date": "as of September 3, 2024 (P.L. 2024, c.16)",
+          "section": "N.J.S.A. 47:1A-1.1 Definitions",
+          "page_start": 7,
+          "page_end": 8,
+          "text": "of this State, including members of the Legislative Branch, Executive\nBranch, Judicial Branch, and all law enforcement entities, except that\nthe full name, title, and oath date of that person contained therein\nshall not be deemed confidential; and\nPersonal\ninformation\n(including Daniel’s\nLaw information)\n▪ that portion of any document which discloses the social security\nnumber, credit card number, debit card number, bank account\ninformation, month and day of birth, any personal email address\nrequired by a public agency for government applications, services, or\nprograms, any telephone number or driver license number of any\nperson, or, in accordance with section 2 of P.L.2021, c.371 (C.47:1B-\n2), that portion of any document which discloses the home address,\nwhether a primary or secondary residence, of any active, formerly\nactive, or retired judicial officer, law enforcement officer, child"
+        },
+        {
+          "chunk_id": "grc_exemptions:0042",
+          "doc_id": "grc_exemptions",
+          "title": "OPRA Exemptions (GRC list)",
+          "source_url": "https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+          "effective_date": "updated September 3, 2024",
+          "section": "N.J.S.A. 47:1A-2.2, exemption 32: Limitations to convicts",
+          "page_start": 6,
+          "page_end": 6,
+          "text": "32) Limitations to convicts - personal information pertaining to the person’s victim or the\nvictim’s family, including but not limited to a victim's home address, home telephone\nnumber, work or school address, work telephone number, social security account\nnumber, medical history or any other identifying information . Information may be\nreleased only if the information is necessary to assist in the defense of the requestor.\nA determination that the information is necessary to assist in the requestor's defense\nshall be made by the court upon motion by the requestor or his representative."
+        },
+        {
+          "chunk_id": "grc_exemptions:0062",
+          "doc_id": "grc_exemptions",
+          "title": "OPRA Exemptions (GRC list)",
+          "source_url": "https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+          "effective_date": "updated September 3, 2024",
+          "section": "Executive Order No. 26 (McGreevey 2002), exemption 1: Certain records maintained by the Office of the Governor",
+          "page_start": 9,
+          "page_end": 9,
+          "text": "clearly unwarranted invasion of personal privacy if disclosed.\nd. If any of the foregoing records shall contain information not exempted by the\nprovision of the Open Public Records Act or the preceding subparagraphs (a),\n(b) or (c) hereof then, in such event, that portion of the record so exempt shall be\ndeleted or excised and access to the remainder of the record shall be promptly\npermitted."
+        },
+        {
+          "chunk_id": "grc_exemptions:0002",
+          "doc_id": "grc_exemptions",
+          "title": "OPRA Exemptions (GRC list)",
+          "source_url": "https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+          "effective_date": "updated September 3, 2024",
+          "section": "N.J.S.A. 47:1A-1 (Legislative Findings), exemption 1: Privacy Interest",
+          "page_start": 1,
+          "page_end": 1,
+          "text": "1) Privacy Interest - “a public agency has a responsibility and an obligation to safeguard\nfrom public access a citizen's personal information with which it has been entrusted\nwhen disclosure thereof would violate the citizen's reasonable expectation of\nprivacy.” See Burnett v. Cnty. of Bergen, 198 N.J. 408 (2009)."
+        }
+      ],
+      "tot_result": null
+    }
+  ],
+  "session_escalations": [],
+  "workflow": {
+    "route": "standard",
+    "transitions": [
+      "orchestrator_start",
+      "record_analysis",
+      "policy_research",
+      "evidence_merge",
+      "compliance_qa",
+      "evidence_decision",
+      "targeted_retrieval",
+      "evidence_merge",
+      "compliance_qa",
+      "evidence_decision",
+      "finalize_recommendations"
+    ],
+    "tool_calls": [
+      {
+        "agent": "record_analysis",
+        "tool": "detect_pii",
+        "arguments": {
+          "record_id": "TEST-203"
+        },
+        "status": "ok",
+        "summary": "1 finding(s): IP_ADDRESS (0.95)",
+        "duration_ms": 47
+      },
+      {
+        "agent": "policy_research",
+        "tool": "search_policy",
+        "arguments": {
+          "query": "What New Jersey law applies when a public record contains a person's IP address?",
+          "k": 4
+        },
+        "status": "ok",
+        "summary": "SUFFICIENT: opra_statute:0053, grc_exemptions:0026, opra_statute:0023, opra_statute:0021",
+        "duration_ms": 334
+      },
+      {
+        "agent": "policy_research",
+        "tool": "search_policy",
+        "arguments": {
+          "query": "internet protocol address personal information",
+          "k": 4
+        },
+        "status": "ok",
+        "summary": "SUFFICIENT: opra_statute:0034, grc_exemptions:0025, opra_statute:0020, grc_exemptions:0042",
+        "duration_ms": 341
+      },
+      {
+        "agent": "compliance_qa",
+        "tool": "propose_redactions",
+        "arguments": {
+          "record_id": "TEST-203",
+          "finding_ids": [
+            "TEST-203-P01"
+          ],
+          "policy_chunk_ids": [
+            "opra_statute:0053",
+            "grc_exemptions:0026",
+            "opra_statute:0023",
+            "opra_statute:0021",
+            "opra_statute:0034",
+            "grc_exemptions:0025",
+            "opra_statute:0020",
+            "grc_exemptions:0042"
+          ]
+        },
+        "status": "ok",
+        "summary": "TEST-203-P01=HUMAN_REVIEW_REQUIRED",
+        "duration_ms": 3
+      },
+      {
+        "agent": "policy_research",
+        "tool": "search_policy",
+        "arguments": {
+          "query": "ip address personal information exempt from public access redaction",
+          "k": 4
+        },
+        "status": "ok",
+        "summary": "SUFFICIENT: grc_exemptions:0062, grc_exemptions:0002",
+        "duration_ms": 313
+      },
+      {
+        "agent": "compliance_qa",
+        "tool": "propose_redactions",
+        "arguments": {
+          "record_id": "TEST-203",
+          "finding_ids": [
+            "TEST-203-P01"
+          ],
+          "policy_chunk_ids": [
+            "opra_statute:0053",
+            "grc_exemptions:0026",
+            "opra_statute:0023",
+            "opra_statute:0021",
+            "opra_statute:0034",
+            "grc_exemptions:0025",
+            "opra_statute:0020",
+            "grc_exemptions:0042",
+            "grc_exemptions:0062",
+            "grc_exemptions:0002"
+          ]
+        },
+        "status": "ok",
+        "summary": "TEST-203-P01=HUMAN_REVIEW_REQUIRED",
+        "duration_ms": 5
+      }
+    ],
+    "audit": [
+      {
+        "step": 1,
+        "node": "orchestrator_start",
+        "agent": "orchestrator",
+        "event": "plan",
+        "detail": {
+          "goal": "Review TEST-203 for request OPRA-TEST-203",
+          "tasks": [
+            "record_analysis",
+            "policy_research (per finding category)",
+            "compliance_qa",
+            "evidence_decision"
+          ]
+        }
+      },
+      {
+        "step": 2,
+        "node": "record_analysis",
+        "agent": "record_analysis",
+        "event": "detect_pii OK",
+        "detail": {
+          "findings": [
+            "TEST-203-P01 IP_ADDRESS (0.95)"
+          ],
+          "errors": []
+        }
+      },
+      {
+        "step": 3,
+        "node": "policy_research",
+        "agent": "policy_research",
+        "event": "retrieved policy evidence",
+        "detail": {
+          "per_category": {
+            "IP_ADDRESS": {
+              "status": "MISSING",
+              "chunks": [
+                "opra_statute:0053",
+                "grc_exemptions:0026",
+                "opra_statute:0023",
+                "opra_statute:0021",
+                "opra_statute:0034",
+                "grc_exemptions:0025",
+                "opra_statute:0020",
+                "grc_exemptions:0042"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "step": 4,
+        "node": "evidence_merge",
+        "agent": "orchestrator",
+        "event": "merged findings with policy evidence",
+        "detail": {
+          "findings": {
+            "TEST-203-P01": {
+              "category": "IP_ADDRESS",
+              "evidence_status": "MISSING",
+              "chunks": [
+                "opra_statute:0053",
+                "grc_exemptions:0026",
+                "opra_statute:0023",
+                "opra_statute:0021",
+                "opra_statute:0034",
+                "grc_exemptions:0025",
+                "opra_statute:0020",
+                "grc_exemptions:0042"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "step": 5,
+        "node": "compliance_qa",
+        "agent": "compliance_qa",
+        "event": "validated proposal and assessed evidence",
+        "detail": {
+          "assessments": {
+            "TEST-203-P01": "MISSING"
+          },
+          "invalid_citations": [],
+          "possible_missed": [],
+          "errors": []
+        }
+      },
+      {
+        "step": 6,
+        "node": "evidence_decision",
+        "agent": "orchestrator",
+        "event": "route=targeted_retrieval",
+        "detail": {
+          "reason": "missing policy evidence; one targeted retry allowed",
+          "decisions": [
+            "MISSING"
+          ]
+        }
+      },
+      {
+        "step": 7,
+        "node": "targeted_retrieval",
+        "agent": "policy_research",
+        "event": "targeted retry for missing evidence",
+        "detail": {
+          "categories": [
+            "IP_ADDRESS"
+          ],
+          "result": {
+            "IP_ADDRESS": "MISSING"
+          }
+        }
+      },
+      {
+        "step": 8,
+        "node": "evidence_merge",
+        "agent": "orchestrator",
+        "event": "merged findings with policy evidence",
+        "detail": {
+          "findings": {
+            "TEST-203-P01": {
+              "category": "IP_ADDRESS",
+              "evidence_status": "MISSING",
+              "chunks": [
+                "opra_statute:0053",
+                "grc_exemptions:0026",
+                "opra_statute:0023",
+                "opra_statute:0021",
+                "opra_statute:0034",
+                "grc_exemptions:0025",
+                "opra_statute:0020",
+                "grc_exemptions:0042",
+                "grc_exemptions:0062",
+                "grc_exemptions:0002"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "step": 9,
+        "node": "compliance_qa",
+        "agent": "compliance_qa",
+        "event": "validated proposal and assessed evidence",
+        "detail": {
+          "assessments": {
+            "TEST-203-P01": "MISSING"
+          },
+          "invalid_citations": [],
+          "possible_missed": [],
+          "errors": []
+        }
+      },
+      {
+        "step": 10,
+        "node": "evidence_decision",
+        "agent": "orchestrator",
+        "event": "route=standard",
+        "detail": {
+          "reason": "evidence clear (or missing after retry, or no findings)",
+          "decisions": [
+            "MISSING"
+          ]
+        }
+      },
+      {
+        "step": 11,
+        "node": "finalize_recommendations",
+        "agent": "orchestrator",
+        "event": "assembled recommendations",
+        "detail": {
+          "recommendations": {
+            "TEST-203-P01": "HUMAN_REVIEW_REQUIRED"
+          }
+        }
+      }
+    ],
+    "escalations": [
+      "TEST-203-P01: insufficient policy evidence; human review required."
+    ],
+    "record_analysis_status": "OK",
+    "completion_at_handoff": "AWAITING_HUMAN_REVIEW"
+  },
+  "events": [
+    {
+      "seq": 1,
+      "event_id": "f9cde5e7b31f41c98606fe57a5a89849",
+      "timestamp": "2026-11-09T13:25:58+00:00",
+      "actor": "orchestrator",
+      "action": "SESSION_CREATED",
+      "finding_id": null,
+      "payload": {
+        "findings": [
+          "TEST-203-P01"
+        ],
+        "source_text_sha256": "03e8dacbb02129373fb2d44a531b934d76239765c62729dc83f06ea88fa4ad84"
+      },
+      "prev_hash": "GENESIS",
+      "hash": "aa2cbf31edbe87b417814ebabf1ab1dcad1f49009c2400e9e5ce42d0397fc2e9"
+    },
+    {
+      "seq": 2,
+      "event_id": "a63481f0cdea42c29ad831987e44b397",
+      "timestamp": "2026-11-09T13:25:58+00:00",
+      "actor": "Demo Reviewer (scripted input)",
+      "action": "REEVALUATION_REQUESTED",
+      "finding_id": "TEST-203-P01",
+      "payload": {
+        "attempt": 1,
+        "request": {
+          "finding_id": "TEST-203-P01",
+          "reviewer": "Demo Reviewer (scripted input)",
+          "reason": "Check whether any provision covers IP addresses in complaint logs.",
+          "factual_confirmations": {},
+          "additional_query": "IP address personal information complaint portal"
+        },
+        "previous_recommendation": {
+          "recommendation_id": "TEST-203-R01",
+          "finding_id": "TEST-203-P01",
+          "action": "HUMAN_REVIEW_REQUIRED",
+          "rationale": "Insufficient policy evidence: no retrieved passage names IP_ADDRESS after a targeted retry. Human review required.",
+          "policy_references": [],
+          "detection_confidence": 0.95,
+          "open_questions": [
+            "Which provision, if any, applies to this information?"
+          ],
+          "requires_human_approval": true
+        }
+      },
+      "prev_hash": "aa2cbf31edbe87b417814ebabf1ab1dcad1f49009c2400e9e5ce42d0397fc2e9",
+      "hash": "5800841e23687339ae9660522f5455b3d7b37bde1de0088b92c870e6b21bb938"
+    },
+    {
+      "seq": 3,
+      "event_id": "08fbf5fd62dd48dbab94efac690cd7ff",
+      "timestamp": "2026-11-09T13:25:58+00:00",
+      "actor": "orchestrator",
+      "action": "REEVALUATION_COMPLETED",
+      "finding_id": "TEST-203-P01",
+      "payload": {
+        "attempt": 1,
+        "reviewer_feedback": {
+          "finding_id": "TEST-203-P01",
+          "reviewer": "Demo Reviewer (scripted input)",
+          "reason": "Check whether any provision covers IP addresses in complaint logs.",
+          "factual_confirmations": {},
+          "additional_query": "IP address personal information complaint portal"
+        },
+        "factual_confirmations_applied": {},
+        "previous_recommendation": {
+          "recommendation_id": "TEST-203-R01",
+          "finding_id": "TEST-203-P01",
+          "action": "HUMAN_REVIEW_REQUIRED",
+          "rationale": "Insufficient policy evidence: no retrieved passage names IP_ADDRESS after a targeted retry. Human review required.",
+          "policy_references": [],
+          "detection_confidence": 0.95,
+          "open_questions": [
+            "Which provision, if any, applies to this information?"
+          ],
+          "requires_human_approval": true
+        },
+        "recommendation": {
+          "recommendation_id": "TEST-203-R01.re1",
+          "finding_id": "TEST-203-P01",
+          "action": "HUMAN_REVIEW_REQUIRED",
+          "rationale": "Re-evaluation 1 (requested by Demo Reviewer (scripted input): Check whether any provision covers IP addresses in complaint logs.). Insufficient policy evidence after re-evaluation: no retrieved passage names IP_ADDRESS. Human review required.",
+          "policy_references": [],
+          "detection_confidence": 0.95,
+          "open_questions": [
+            "Which provision, if any, applies to this information?"
+          ],
+          "requires_human_approval": true
+        },
+        "reasoning_method": "STANDARD",
+        "evidence_status": "MISSING",
+        "assessment_reasons": [
+          "No retrieved passage names IP_ADDRESS."
+        ],
+        "evidence": [
+          {
+            "chunk_id": "opra_statute:0053",
+            "doc_id": "opra_statute",
+            "title": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)",
+            "source_url": "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+            "effective_date": "as of September 3, 2024 (P.L. 2024, c.16)",
+            "section": "N.J.S.A. 47:1A-5(a) Times during which records may be inspected, examined",
+            "page_start": 15,
+            "page_end": 16,
+            "text": "defined in section 1 of P.L.2021, c.371 (C.47:1B-1), any immediate family\nmember thereof; except for:\n▪ use by any government agency, including any court or law\nenforcement agency, in carrying out its functions, or any private\nperson or entity acting on behalf thereof,\n▪ any private person or entity seeking to enforce payment of court -\nordered child support;\n▪ with respect to the disclosure of driver information by the New Jersey\nMotor Vehicle Commission as permitted by section 2 of P.L. 1997, c.\n188 (C. 39:2-3.4);\n▪ that a social security number contained in a record required by law to\nbe made, maintained or kept on file by a public agency shall be\ndisclosed when access to the document or disclosure of that\ninformation is not otherwise prohibited by State or federal law,\nregulation or order or by State statute, resolution of either or both"
+          },
+          {
+            "chunk_id": "grc_exemptions:0026",
+            "doc_id": "grc_exemptions",
+            "title": "OPRA Exemptions (GRC list)",
+            "source_url": "https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+            "effective_date": "updated September 3, 2024",
+            "section": "N.J.S.A. 47:1A-1.1, exemption 20: Personal identifying information. Specifically",
+            "page_start": 4,
+            "page_end": 5,
+            "text": "active, or retired judicial officer, law enforcement officer , child protective\ninvestigator in the Division of Child Protection and Permanency, or\nprosecutor, or, as defined in section 1 of N.J.S.A. 47:1B-1, any immediate\nfamily member thereof.\nc. Credit card numbers.\nd. Debit card numbers.\ne. Bank account information.\nf. Month and day of birth.\ng. Personal e -mail address required by a public agency for government\napplications, services, or programs.\nh. Telephone numbers.\ni. Drivers’ license numbers.\nExcept for:\n• use by any government agency, including any court or law enforcement\nagency, in carrying out its functions, or any private person or entity acting\non behalf thereof,\n• any private person or entity seeking to enforce payment of court -ordered\nchild support;\n• with respect to the disclosure of driver information by the New Jersey"
+          },
+          {
+            "chunk_id": "opra_statute:0023",
+            "doc_id": "opra_statute",
+            "title": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)",
+            "source_url": "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+            "effective_date": "as of September 3, 2024 (P.L. 2024, c.16)",
+            "section": "N.J.S.A. 47:1A-1.1 Definitions",
+            "page_start": 8,
+            "page_end": 9,
+            "text": "▪ a list of persons identifying themselves as being in need of special\nassistance in the event of an emergency maintained by a municipality\nfor public safety purposes pursuant to section 1 of P.L.2017, c.266\n(C.40:48-2.67) and their personal identifying information; and\n▪ a list of persons identifying themselves as being in need of special\nassistance in the event of an emergency maintained by a county for\npublic safety purposes pursuant to section 6 of P.L.2011, c.178\n(C.App.A:9-43.13) and their personal identifying information;\nJuvenile\ninformation\n▪ that portion of any document that requires and would disclose\npersonal identifying information of persons under the age of 18 years,\nexcept:\n• with respect to the disclosure of driver information by the\nNew Jersey Motor Vehicle Commission as permitted by\nsection 2 of P.L.1997, c.188 (C.39:2-3.4) or the disclosure of"
+          },
+          {
+            "chunk_id": "opra_statute:0021",
+            "doc_id": "opra_statute",
+            "title": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)",
+            "source_url": "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+            "effective_date": "as of September 3, 2024 (P.L. 2024, c.16)",
+            "section": "N.J.S.A. 47:1A-1.1 Definitions",
+            "page_start": 8,
+            "page_end": 8,
+            "text": "active, or retired judicial officer, law enforcement officer, child\nprotective investigator in the Division of Child Protection and\nPermanency, or prosecutor, or, as defined in section 1 of P.L.2021,\nc.371 (C.47:1B-1), any immediate family member thereof; except for:\n• use by any government agency, including any court or law\nenforcement agency, in carrying out its functions, or any\nprivate person or entity acting on behalf thereof,\n• or any private person or entity seeking to enforce payment of\ncourt-ordered child support;\n• with respect to the disclosure of driver information by the\nNew Jersey Motor Vehicle Commission as permitted by\nsection 2 of P.L. 1997, c. 188 (C. 39:2-3.4);\n• with respect to the disclosure of information included in\nrecords and documents maintained by the Department of the\nTreasury in connection with the State’s business registry\nprograms;"
+          },
+          {
+            "chunk_id": "opra_statute:0034",
+            "doc_id": "opra_statute",
+            "title": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)",
+            "source_url": "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+            "effective_date": "as of September 3, 2024 (P.L. 2024, c.16)",
+            "section": "N.J.S.A. 47:1A-1.1 Definitions",
+            "page_start": 12,
+            "page_end": 12,
+            "text": "elements: name, social security number, credit card number, debit card\nnumber, bank account information, month and day of birth, any personal\nemail address required by a public agency for government applications,\nservices, or programs, personal telephone number, the street address portion\nof any person’s primary or secondary home address, or driver license number\nof any person. “Personal identifying information” shall not include any street\naddress, mailing address, email address, or telephone number of a public\nagency. “Personal identifying information” shall not include the email\naddress of a governmental affairs agent.\nBiotechnology\nexemption"
+          },
+          {
+            "chunk_id": "grc_exemptions:0025",
+            "doc_id": "grc_exemptions",
+            "title": "OPRA Exemptions (GRC list)",
+            "source_url": "https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+            "effective_date": "updated September 3, 2024",
+            "section": "N.J.S.A. 47:1A-1.1, exemption 20: Personal identifying information. Specifically",
+            "page_start": 4,
+            "page_end": 4,
+            "text": "20) Personal identifying information. Specifically:\na. Social security numbers, except that a social security number contained in a\nrecord required by law to be made, maintained or kept on file by a public\nagency shall be disclosed when access to the document or disclosure of that\ninformation is not otherwise prohibited by State or federal law, regulation or\norder or by State statute, resolution of either or both houses of the\nLegislature, Executive Order of the Governor, rule of court or regulation\npromulgated under the authority of any statute or executive order of the\nGovernor.\nb. In accordance with section 2 of N.J.S.A. 47:1B-2, commonly known as\n“Daniel’s Law” , that portion of any document which discloses the home\naddress, whether a primary or secondary residence, of any active, formerly\nactive, or retired judicial officer, law enforcement officer , child protective"
+          },
+          {
+            "chunk_id": "opra_statute:0020",
+            "doc_id": "opra_statute",
+            "title": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)",
+            "source_url": "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+            "effective_date": "as of September 3, 2024 (P.L. 2024, c.16)",
+            "section": "N.J.S.A. 47:1A-1.1 Definitions",
+            "page_start": 7,
+            "page_end": 8,
+            "text": "of this State, including members of the Legislative Branch, Executive\nBranch, Judicial Branch, and all law enforcement entities, except that\nthe full name, title, and oath date of that person contained therein\nshall not be deemed confidential; and\nPersonal\ninformation\n(including Daniel’s\nLaw information)\n▪ that portion of any document which discloses the social security\nnumber, credit card number, debit card number, bank account\ninformation, month and day of birth, any personal email address\nrequired by a public agency for government applications, services, or\nprograms, any telephone number or driver license number of any\nperson, or, in accordance with section 2 of P.L.2021, c.371 (C.47:1B-\n2), that portion of any document which discloses the home address,\nwhether a primary or secondary residence, of any active, formerly\nactive, or retired judicial officer, law enforcement officer, child"
+          },
+          {
+            "chunk_id": "grc_exemptions:0042",
+            "doc_id": "grc_exemptions",
+            "title": "OPRA Exemptions (GRC list)",
+            "source_url": "https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+            "effective_date": "updated September 3, 2024",
+            "section": "N.J.S.A. 47:1A-2.2, exemption 32: Limitations to convicts",
+            "page_start": 6,
+            "page_end": 6,
+            "text": "32) Limitations to convicts - personal information pertaining to the person’s victim or the\nvictim’s family, including but not limited to a victim's home address, home telephone\nnumber, work or school address, work telephone number, social security account\nnumber, medical history or any other identifying information . Information may be\nreleased only if the information is necessary to assist in the defense of the requestor.\nA determination that the information is necessary to assist in the requestor's defense\nshall be made by the court upon motion by the requestor or his representative."
+          },
+          {
+            "chunk_id": "grc_exemptions:0062",
+            "doc_id": "grc_exemptions",
+            "title": "OPRA Exemptions (GRC list)",
+            "source_url": "https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+            "effective_date": "updated September 3, 2024",
+            "section": "Executive Order No. 26 (McGreevey 2002), exemption 1: Certain records maintained by the Office of the Governor",
+            "page_start": 9,
+            "page_end": 9,
+            "text": "clearly unwarranted invasion of personal privacy if disclosed.\nd. If any of the foregoing records shall contain information not exempted by the\nprovision of the Open Public Records Act or the preceding subparagraphs (a),\n(b) or (c) hereof then, in such event, that portion of the record so exempt shall be\ndeleted or excised and access to the remainder of the record shall be promptly\npermitted."
+          },
+          {
+            "chunk_id": "grc_exemptions:0002",
+            "doc_id": "grc_exemptions",
+            "title": "OPRA Exemptions (GRC list)",
+            "source_url": "https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+            "effective_date": "updated September 3, 2024",
+            "section": "N.J.S.A. 47:1A-1 (Legislative Findings), exemption 1: Privacy Interest",
+            "page_start": 1,
+            "page_end": 1,
+            "text": "1) Privacy Interest - “a public agency has a responsibility and an obligation to safeguard\nfrom public access a citizen's personal information with which it has been entrusted\nwhen disclosure thereof would violate the citizen's reasonable expectation of\nprivacy.” See Burnett v. Cnty. of Bergen, 198 N.J. 408 (2009)."
+          }
+        ],
+        "retrieval_performed": true,
+        "retrieval_query": "IP address personal information complaint portal",
+        "tot_result": null,
+        "comparison": {
+          "action_before": "HUMAN_REVIEW_REQUIRED",
+          "action_after": "HUMAN_REVIEW_REQUIRED",
+          "action_changed": false,
+          "citations_added": [],
+          "citations_removed": [],
+          "tot_score_before": null,
+          "tot_score_after": null
+        },
+        "tool_calls": [
+          {
+            "agent": "policy_research",
+            "tool": "search_policy",
+            "arguments": {
+              "query": "IP address personal information complaint portal",
+              "k": 4
+            },
+            "status": "ok",
+            "summary": "INSUFFICIENT: Insufficient policy evidence: no passage met the retrieval thresholds. Human review required.",
+            "duration_ms": 331
+          }
+        ]
+      },
+      "prev_hash": "5800841e23687339ae9660522f5455b3d7b37bde1de0088b92c870e6b21bb938",
+      "hash": "dc45672748d90cced794ac38988c51058490cb45cedf926d48d7a505fec2e548"
+    },
+    {
+      "seq": 4,
+      "event_id": "b338de7e7e7949f7b2ca396da3e279e8",
+      "timestamp": "2026-11-09T13:25:58+00:00",
+      "actor": "Demo Reviewer (scripted input)",
+      "action": "FINALIZATION_BLOCKED",
+      "finding_id": null,
+      "payload": {
+        "reasons": [
+          "TEST-203-P01 is not resolved (status ESCALATED)"
+        ]
+      },
+      "prev_hash": "dc45672748d90cced794ac38988c51058490cb45cedf926d48d7a505fec2e548",
+      "hash": "d06f2dbf3a1baca6aedb7db2d00cc297550c09853261e14dca03dcc477d796f3"
+    }
+  ]
+}

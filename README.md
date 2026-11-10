@@ -6,7 +6,7 @@ CMU capstone project - agentic AI assistant that examines a synthetic public-rec
 
 ## Status
 
-**Milestone 4: multi-agent LangGraph orchestration with selective Tree of Thought** (complete)
+**Milestone 5: human review, reviewer-requested re-evaluation, and deterministic redaction** (complete)
 
 | Stage | Description | Status |
 |---|---|---|
@@ -15,7 +15,7 @@ CMU capstone project - agentic AI assistant that examines a synthetic public-rec
 | 3 | Single ReAct agent | Done (rule-based planner verified; Claude planner tested with a fake client only) |
 | 4 | MCP tool server | Done (local stdio server, 4 tools) |
 | 5 | Orchestrator with policy, record-analysis, and QA workers | Done: LangGraph, 4 agents, bounded ToT ([docs/milestone_4](docs/milestone_4/milestone_summary.md)) |
-| 6 | Human feedback and redaction workflow | Partial: approval gate (LangGraph interrupt) done; revision loop not started |
+| 6 | Human feedback and redaction workflow | Done: Streamlit reviewer UI, per-finding decisions, bounded re-evaluation, deterministic redaction, final authorization ([docs/milestone_5](docs/milestone_5/milestone_summary.md)) |
 | 7 | Safety, evaluation, observability, final demo | Not started |
 | 8 | Optional synthetic video | Not started |
 
@@ -81,6 +81,20 @@ effective date, source URL, scores, and the verbatim excerpt. If no passage meet
 thresholds, the status is `INSUFFICIENT` with the message *"Human review required."* See
 [docs/policy_retrieval.md](docs/policy_retrieval.md) for the design, the thresholds, and the limitations.
 
+### Milestone 5: reviewer interface
+
+```bash
+streamlit run app/review_app.py           # run the agents on a synthetic request, review each finding, finalize
+python -m app.m5_demo                     # three scripted review scenarios over MCP, audit reports, tests
+```
+
+In the app, enter your name, pick a synthetic request, and run the analysis. For each finding you can
+approve, reject (with an optional reason), modify the exact spans (with a reason; spans must be
+confirmed), or request policy re-evaluation (at most 2 times). Finalization is a separate step
+that requires every finding to be resolved, every escalation acknowledged, and explicit authorization.
+The derivative is written to `outputs/derivatives/`; the original record is never modified, and
+nothing is published. See [docs/milestone_5/review_workflow.md](docs/milestone_5/review_workflow.md).
+
 ### Milestone 4: multi-agent workflow
 
 ```bash
@@ -137,6 +151,7 @@ python -m pytest                          # everything
 python -m pytest -m "not semantic_model"  # skip tests that need the embedding model
 python -m pytest -m "not integration"     # skip tests that start the MCP server subprocess
 python -m pytest tests/test_m4_tot.py tests/test_m4_workflow.py tests/test_m4_scenarios.py -v   # Milestone 4 only
+python -m pytest tests/test_m5_redact.py tests/test_m5_review.py tests/test_m5_app.py -v          # Milestone 5 only
 ```
 
 The `semantic_model` tests are skipped automatically until the model has been downloaded once.
@@ -177,6 +192,13 @@ app/
     graph.py          Orchestrator and the LangGraph workflow
     runner.py         Start a case, pause at human review, resume with a decision
   m4_demo.py          Milestone 4 scenarios and trace capture
+  review/             Milestone 5 human review
+    session.py        Review session, append-only hash-chained events, decisions, finalization checks
+    reevaluation.py   Reviewer-requested bounded re-evaluation through the Orchestrator's agents
+    redact.py         Deterministic span redaction and validation
+    report.py         Structured audit report
+  review_app.py       Streamlit reviewer interface
+  m5_demo.py          Milestone 5 review scenarios and evidence capture
 data/
   synthetic_requests/ request_NNN.txt          OPRA-style requests
   synthetic_records/  record_NNN.txt           Matching synthetic records
