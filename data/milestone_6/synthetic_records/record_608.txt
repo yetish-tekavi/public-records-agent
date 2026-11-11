@@ -1,0 +1,7 @@
+Record ID: TEST-608
+Record Type: call_transcript
+Title: S08 - Council budget note
+Record Date: 2026-11-10
+Synthetic: yes
+
+Council members reviewed the snow removal budget and approved the plan by a vote of five to two.

@@ -1,0 +1,7 @@
+Record ID: TEST-610
+Record Type: call_transcript
+Title: S10 - IP address in complaint portal
+Record Date: 2026-11-10
+Synthetic: yes
+
+The complaint was submitted through the online portal from IP address 203.0.113.45 at 9:14 p.m.

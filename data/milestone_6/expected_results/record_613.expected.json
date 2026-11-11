@@ -1,0 +1,18 @@
+{
+  "request_id": "OPRA-TEST-613",
+  "record_id": "TEST-613",
+  "requires_redaction": true,
+  "findings": [
+    {
+      "finding_id": "TEST-613-F01",
+      "record_id": "TEST-613",
+      "category": "STREET_ADDRESS",
+      "text": "31 Larchmont Terrace",
+      "start": 26,
+      "end": 46,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    }
+  ],
+  "notes": "S13: Private resident's home address"
+}

@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import logging
 import os
+import re
 
 from app.schemas import PiiDetectionResult, SensitiveCategory, SensitiveDataFinding
 
@@ -57,6 +58,9 @@ class PiiDetector:
                 supported_entity="STREET_ADDRESS",
                 patterns=[Pattern("us_street_address", rf"\b\d{{1,5}}(?: [A-Z][a-z]+){{1,3}} (?:{STREET_SUFFIXES})\b", 0.6)],
                 context=["address", "live", "reside", "calling from"],
+                # Case-sensitive: Presidio's default flags include IGNORECASE, which made lowercase text such as
+                # "0123 covers road" match (false positives found by the Milestone 6 evaluation).
+                global_regex_flags=re.MULTILINE | re.DOTALL,
             )
         )
         self.analyzer.registry.add_recognizer(

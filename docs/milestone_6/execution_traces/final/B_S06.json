@@ -1,0 +1,71 @@
+{
+  "completion": "AWAITING_HUMAN_REVIEW",
+  "route": "standard",
+  "transitions": [
+    "orchestrator_start",
+    "record_analysis",
+    "policy_research",
+    "evidence_merge",
+    "compliance_qa",
+    "evidence_decision",
+    "finalize_recommendations"
+  ],
+  "step_count": 7,
+  "max_steps": 30,
+  "record_analysis_status": "OK",
+  "findings": [],
+  "escalations": [],
+  "qa_invalid_citations": [],
+  "qa_possible_missed": [],
+  "tool_calls": {
+    "total": 1,
+    "by_tool": {
+      "detect_pii": 1
+    },
+    "by_status": {
+      "ok": 1
+    },
+    "by_agent": {
+      "record_analysis": 1
+    }
+  },
+  "tool_call_log": [
+    {
+      "agent": "record_analysis",
+      "tool": "detect_pii",
+      "arguments": {
+        "record_id": "TEST-606"
+      },
+      "status": "ok",
+      "summary": "0 finding(s): ",
+      "duration_ms": 7
+    }
+  ],
+  "injected_faults": [],
+  "llm_calls": 0,
+  "review": {
+    "actions": [],
+    "statuses": {},
+    "finalized": true,
+    "blocked_reasons": [],
+    "events": [
+      "SESSION_CREATED",
+      "FINALIZED"
+    ],
+    "event_log_integrity": true
+  },
+  "derivative_text": "Purchase order PO-2026-555-0123 covers road salt deliveries for the winter season.",
+  "elapsed_s": 0.038,
+  "state_checks": {
+    "step_count_matches_transitions": true,
+    "within_step_limit": true,
+    "tool_agents_known": true,
+    "paused_for_human": true,
+    "evidence_metadata_complete": true
+  },
+  "scenario": "S06",
+  "config": "B",
+  "error": null,
+  "record_unchanged": true,
+  "tool_calls_during_review": 0
+}

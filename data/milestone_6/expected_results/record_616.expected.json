@@ -1,0 +1,18 @@
+{
+  "request_id": "OPRA-TEST-616",
+  "record_id": "TEST-616",
+  "requires_redaction": true,
+  "findings": [
+    {
+      "finding_id": "TEST-616-F01",
+      "record_id": "TEST-616",
+      "category": "DATE_OF_BIRTH",
+      "text": "03/17/1988",
+      "start": 14,
+      "end": 24,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    }
+  ],
+  "notes": "S16: Date of birth (month and day only are listed)"
+}

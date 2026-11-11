@@ -1,0 +1,7 @@
+Record ID: TEST-616
+Record Type: call_transcript
+Title: S16 - Date of birth (month and day only are listed)
+Record Date: 2026-11-10
+Synthetic: yes
+
+Driver 2 (DOB 03/17/1988) declined to give a statement at the scene.

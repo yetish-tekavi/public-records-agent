@@ -49,8 +49,20 @@ RESOLVED = {ItemStatus.APPROVED, ItemStatus.MODIFIED, ItemStatus.REJECTED}
 EventAction = Literal[
     "SESSION_CREATED", "APPROVED", "REJECTED", "MODIFICATION_PROPOSED", "MODIFICATION_CONFIRMED",
     "REEVALUATION_REQUESTED", "REEVALUATION_COMPLETED", "REEVALUATION_FAILED", "MANUAL_RESOLUTION_REQUIRED",
-    "ESCALATION_ACKNOWLEDGED", "FINALIZATION_BLOCKED", "FINALIZED",
+    "ESCALATION_ACKNOWLEDGED", "MANUAL_REDACTION_PROPOSED", "MANUAL_REDACTION_CONFIRMED", "MANUAL_REDACTION_WITHDRAWN",
+    "FINALIZATION_BLOCKED", "FINALIZED",
 ]
+
+
+class ManualRedaction(BaseModel):
+    """A reviewer-added redaction for text the detector did not report. Human decision; no policy basis is claimed."""
+
+    manual_id: str
+    span: RedactionSpan
+    category: str
+    reason: str
+    proposed_by: str
+    status: Literal["PROPOSED", "CONFIRMED", "WITHDRAWN"]
 
 
 class ReviewError(ValueError):
@@ -311,6 +323,79 @@ class ReviewSession(BaseModel):
         action = "REEVALUATION_FAILED" if outcome.get("error") else "REEVALUATION_COMPLETED"
         return self._append(actor, action, finding_id, outcome)
 
+    # --- reviewer-added redactions (text the detector missed) ---------------------------
+
+    def find_occurrences(self, text: str) -> list[tuple[int, int]]:
+        """Every exact occurrence of ``text`` in the original record, as (start, end)."""
+        if not text:
+            return []
+        out, i = [], self.record_text.find(text)
+        while i >= 0:
+            out.append((i, i + len(text)))
+            i = self.record_text.find(text, i + 1)
+        return out
+
+    def manual_redactions(self) -> list[ManualRedaction]:
+        """Current reviewer-added redactions, derived by replaying events."""
+        current: dict[str, ManualRedaction] = {}
+        for e in self.events:
+            p = e.payload
+            if e.action == "MANUAL_REDACTION_PROPOSED":
+                current[p["manual_id"]] = ManualRedaction(manual_id=p["manual_id"], span=RedactionSpan.model_validate(p["span"]),
+                                                          category=p["category"], reason=p["reason"], proposed_by=e.actor, status="PROPOSED")
+            elif e.action == "MANUAL_REDACTION_CONFIRMED" and p["manual_id"] in current:
+                current[p["manual_id"]].status = "CONFIRMED"
+            elif e.action == "MANUAL_REDACTION_WITHDRAWN" and p["manual_id"] in current:
+                current[p["manual_id"]].status = "WITHDRAWN"
+        return list(current.values())
+
+    def add_manual_redaction(self, reviewer: str, start: int, end: int, category: str, reason: str,
+                             replacement: str | None = None) -> ReviewEvent:
+        if not reviewer or not reviewer.strip():
+            raise ReviewError("a reviewer name is required")
+        if self.finalized:
+            raise ReviewError("the session is finalized; no further changes are allowed")
+        if not reason or not reason.strip():
+            raise ReviewError("a reason is required to add a redaction")
+        if not category or not category.strip():
+            raise ReviewError("a category is required to add a redaction")
+        if not (0 <= start < end <= len(self.record_text)):
+            raise ReviewError(f"span [{start}:{end}] is outside the original text")
+        span = RedactionSpan(start=start, end=end, expected_text=self.record_text[start:end],
+                             replacement=replacement or f"[REDACTED: {category}]", source="reviewer_addition")
+        errors = validate_spans(self.record_text, [span])
+        if errors:
+            raise ReviewError("; ".join(errors))
+        manual_id = f"MANUAL-{len([e for e in self.events if e.action == 'MANUAL_REDACTION_PROPOSED']) + 1:02d}"
+        span = span.model_copy(update={"finding_ids": [manual_id]})
+        return self._append(reviewer, "MANUAL_REDACTION_PROPOSED", None,
+                            {"manual_id": manual_id, "span": span.model_dump(), "category": category, "reason": reason,
+                             "note": "Reviewer-added redaction for text the detector did not report; no policy basis is claimed by the system."})
+
+    def confirm_manual_redaction(self, manual_id: str, reviewer: str) -> ReviewEvent:
+        if not reviewer or not reviewer.strip():
+            raise ReviewError("a reviewer name is required")
+        if self.finalized:
+            raise ReviewError("the session is finalized; no further changes are allowed")
+        m = next((x for x in self.manual_redactions() if x.manual_id == manual_id), None)
+        if m is None or m.status != "PROPOSED":
+            raise ReviewError(f"{manual_id} is not a proposed reviewer redaction")
+        errors = validate_spans(self.record_text, [m.span])
+        if errors:
+            raise ReviewError("; ".join(errors))
+        return self._append(reviewer, "MANUAL_REDACTION_CONFIRMED", None,
+                            {"manual_id": manual_id, "start": m.span.start, "end": m.span.end, "expected_text": m.span.expected_text})
+
+    def withdraw_manual_redaction(self, manual_id: str, reviewer: str, reason: str | None = None) -> ReviewEvent:
+        if not reviewer or not reviewer.strip():
+            raise ReviewError("a reviewer name is required")
+        if self.finalized:
+            raise ReviewError("the session is finalized; no further changes are allowed")
+        m = next((x for x in self.manual_redactions() if x.manual_id == manual_id), None)
+        if m is None or m.status == "WITHDRAWN":
+            raise ReviewError(f"{manual_id} is not an active reviewer redaction")
+        return self._append(reviewer, "MANUAL_REDACTION_WITHDRAWN", None, {"manual_id": manual_id, "reason": reason})
+
     def acknowledge_escalation(self, escalation_id: str, reviewer: str, note: str) -> ReviewEvent:
         if not reviewer.strip() or not note.strip():
             raise ReviewError("reviewer and note are required to acknowledge an escalation")
@@ -329,6 +414,7 @@ class ReviewSession(BaseModel):
                                           finding_ids=[f.finding_id]))
             elif s.status is ItemStatus.MODIFIED and s.modification:
                 plan.extend(s.modification)
+        plan.extend(m.span for m in self.manual_redactions() if m.status == "CONFIRMED")
         return plan
 
     def finalization_blockers(self, reviewer: str, authorize: bool) -> list[str]:
@@ -340,6 +426,8 @@ class ReviewSession(BaseModel):
                 reasons.append(f"{s.finding_id} is not resolved (status {s.status.value})")
         open_escalations = [e for e in self.session_escalations if e.escalation_id not in self.acknowledged()]
         reasons += [f"escalation {e.escalation_id} is not acknowledged: {e.text}" for e in open_escalations]
+        reasons += [f"reviewer redaction {m.manual_id} [{m.span.start}:{m.span.end}] is not confirmed"
+                    for m in self.manual_redactions() if m.status == "PROPOSED"]
         if not reviewer or not reviewer.strip():
             reasons.append("a named reviewer must authorize finalization")
         if not authorize:

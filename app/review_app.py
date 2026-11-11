@@ -23,7 +23,7 @@ from app.data_loader import PROJECT_ROOT, load_review_cases  # noqa: E402
 from app.review.redact import RedactionSpan  # noqa: E402
 from app.review.report import build_audit_report  # noqa: E402
 from app.review.session import SESSION_DIR, ItemStatus, ReevaluationRequest, ReviewError, ReviewSession  # noqa: E402
-from app.schemas import RedactionAction  # noqa: E402
+from app.schemas import RedactionAction, SensitiveCategory  # noqa: E402
 
 DATASETS = {
     "Milestone 4 scenarios": PROJECT_ROOT / "data" / "milestone_4",
@@ -102,15 +102,56 @@ def sidebar() -> str:
 
 
 def highlighted_record(session: ReviewSession) -> str:
+    """Detected findings in yellow; reviewer-added redactions in blue. Overlapping marks are skipped."""
+    marks = [(it.finding.start, it.finding.end, it.finding.finding_id, it.finding.category.value, "") for it in session.items]
+    marks += [(m.span.start, m.span.end, m.manual_id, m.category, "background:#bfdbfe;")
+              for m in session.manual_redactions() if m.status != "WITHDRAWN"]
     text, out, cursor = session.record_text, [], 0
-    for it in sorted(session.items, key=lambda i: i.finding.start):
-        f = it.finding
-        out.append(html.escape(text[cursor:f.start]))
-        out.append(f'<mark title="{f.finding_id} {f.category.value}">{html.escape(text[f.start:f.end])}</mark>'
-                   f'<sup>{f.finding_id.rsplit("-", 1)[-1]}</sup>')
-        cursor = f.end
+    for start, end, label, category, style in sorted(marks):
+        if start < cursor:
+            continue
+        out.append(html.escape(text[cursor:start]))
+        out.append(f'<mark style="{style}" title="{label} {category}">{html.escape(text[start:end])}</mark>'
+                   f'<sup>{label.rsplit("-", 1)[-1]}</sup>')
+        cursor = end
     out.append(html.escape(text[cursor:]))
     return '<div style="white-space: pre-wrap; font-family: monospace;">' + "".join(out) + "</div>"
+
+
+def manual_redaction_panel(session: ReviewSession, reviewer: str) -> None:
+    st.header("Add a redaction for text the detector missed")
+    st.caption("Use this when you see sensitive text that was not detected (for example a number written in words). "
+               "This is your decision as reviewer: the system claims no policy basis for it. Spans must be confirmed before finalization.")
+    for m in session.manual_redactions():
+        if m.status == "WITHDRAWN":
+            continue
+        st.markdown(f"- `{m.manual_id}` [{m.span.start}:{m.span.end}] `{m.span.expected_text}` → `{m.span.replacement}` "
+                    f"({m.category}; {m.status.lower()}; by {m.proposed_by}) — {m.reason}")
+        if not session.finalized:
+            c1, c2 = st.columns(2)
+            if m.status == "PROPOSED" and c1.button(f"Confirm {m.manual_id}", key=f"manual-confirm-{m.manual_id}"):
+                run_action(session.confirm_manual_redaction, m.manual_id, reviewer)
+            if c2.button(f"Withdraw {m.manual_id}", key=f"manual-withdraw-{m.manual_id}"):
+                run_action(session.withdraw_manual_redaction, m.manual_id, reviewer)
+    if session.finalized:
+        return
+    target = st.text_input("Exact text to redact (as it appears in the original record)", key="manual-text")
+    occurrences = session.find_occurrences(target)
+    if target and not occurrences:
+        st.warning("That exact text does not appear in the original record.")
+    chosen = []
+    for i, (start, end) in enumerate(occurrences):
+        context = session.record_text[max(0, start - 25):end + 25].replace("\n", " ")
+        if st.checkbox(f"Occurrence {i + 1} at [{start}:{end}]: …{context}…", value=True, key=f"manual-occ-{i}"):
+            chosen.append((start, end))
+    categories = [c.value for c in SensitiveCategory] + ["OTHER"]
+    category = st.selectbox("Category", categories, key="manual-category")
+    reason = st.text_input("Reason (required)", key="manual-reason")
+    if st.button("Propose redaction", key="manual-add", disabled=not chosen):
+        def add_all():
+            for start, end in chosen:
+                session.add_manual_redaction(reviewer, start, end, category, reason)
+        run_action(add_all)
 
 
 def tot_panel(tot) -> None:
@@ -315,6 +356,7 @@ def main() -> None:
                 if st.button(f"Acknowledge {e.escalation_id}", key=f"ack-{e.escalation_id}"):
                     run_action(session.acknowledge_escalation, e.escalation_id, reviewer, note)
 
+    manual_redaction_panel(session, reviewer)
     finalization_panel(session, reviewer)
 
     st.header("Audit")

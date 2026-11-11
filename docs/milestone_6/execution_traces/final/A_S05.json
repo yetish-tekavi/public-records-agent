@@ -1,0 +1,97 @@
+{
+  "completion": "AWAITING_HUMAN_REVIEW",
+  "route": "standard",
+  "transitions": [
+    "orchestrator_start",
+    "record_analysis",
+    "policy_research",
+    "evidence_merge",
+    "compliance_qa",
+    "evidence_decision",
+    "finalize_recommendations"
+  ],
+  "step_count": 7,
+  "max_steps": 30,
+  "record_analysis_status": "OK",
+  "findings": [],
+  "escalations": [
+    "QA flag: Possible undetected 7-digit phone-like number at [20:27]: '5550142'"
+  ],
+  "qa_invalid_citations": [],
+  "qa_possible_missed": [
+    "Possible undetected 7-digit phone-like number at [20:27]: '5550142'"
+  ],
+  "tool_calls": {
+    "total": 1,
+    "by_tool": {
+      "detect_pii": 1
+    },
+    "by_status": {
+      "ok": 1
+    },
+    "by_agent": {
+      "record_analysis": 1
+    }
+  },
+  "tool_call_log": [
+    {
+      "agent": "record_analysis",
+      "tool": "detect_pii",
+      "arguments": {
+        "record_id": "TEST-605"
+      },
+      "status": "ok",
+      "summary": "0 finding(s): ",
+      "duration_ms": 37
+    }
+  ],
+  "injected_faults": [],
+  "llm_calls": 0,
+  "review": {
+    "actions": [
+      {
+        "action": "acknowledge_flags",
+        "acknowledged": [
+          "E1"
+        ],
+        "ok": true
+      },
+      {
+        "action": "add_redaction",
+        "text": "5550142",
+        "spans": [
+          [
+            20,
+            27
+          ]
+        ],
+        "ok": true
+      }
+    ],
+    "statuses": {},
+    "finalized": true,
+    "blocked_reasons": [],
+    "events": [
+      "SESSION_CREATED",
+      "ESCALATION_ACKNOWLEDGED",
+      "MANUAL_REDACTION_PROPOSED",
+      "MANUAL_REDACTION_CONFIRMED",
+      "FINALIZED"
+    ],
+    "event_log_integrity": true
+  },
+  "derivative_text": "You can reach me at [REDACTED: PHONE_NUMBER] after six.",
+  "elapsed_s": 0.069,
+  "state_checks": {
+    "step_count_matches_transitions": true,
+    "within_step_limit": true,
+    "tool_agents_known": true,
+    "paused_for_human": true,
+    "evidence_metadata_complete": true
+  },
+  "scenario": "S05",
+  "config": "A",
+  "error": null,
+  "record_unchanged": true,
+  "tool_calls_during_review": 0
+}

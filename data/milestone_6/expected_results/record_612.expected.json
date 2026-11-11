@@ -1,0 +1,18 @@
+{
+  "request_id": "OPRA-TEST-612",
+  "record_id": "TEST-612",
+  "requires_redaction": true,
+  "findings": [
+    {
+      "finding_id": "TEST-612-F01",
+      "record_id": "TEST-612",
+      "category": "STREET_ADDRESS",
+      "text": "9 Juniper Court",
+      "start": 114,
+      "end": 129,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    }
+  ],
+  "notes": "S12: Retired judge's home address"
+}

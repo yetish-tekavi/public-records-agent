@@ -1,0 +1,7 @@
+Record ID: TEST-619
+Record Type: call_transcript
+Title: S19 - Citation validation fails during ToT
+Record Date: 2026-11-10
+Synthetic: yes
+
+A retired Superior Court judge called about a downed wire near his home at 14 Alder Lane.

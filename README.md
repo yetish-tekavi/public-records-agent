@@ -6,7 +6,7 @@ CMU capstone project - agentic AI assistant that examines a synthetic public-rec
 
 ## Status
 
-**Milestone 5: human review, reviewer-requested re-evaluation, and deterministic redaction** (complete)
+**Milestone 6: evaluation, reliability, guardrails, and ToT validation** (complete; see [docs/milestone_6](docs/milestone_6/milestone_summary.md))
 
 | Stage | Description | Status |
 |---|---|---|
@@ -16,7 +16,7 @@ CMU capstone project - agentic AI assistant that examines a synthetic public-rec
 | 4 | MCP tool server | Done (local stdio server, 4 tools) |
 | 5 | Orchestrator with policy, record-analysis, and QA workers | Done: LangGraph, 4 agents, bounded ToT ([docs/milestone_4](docs/milestone_4/milestone_summary.md)) |
 | 6 | Human feedback and redaction workflow | Done: Streamlit reviewer UI, per-finding decisions, bounded re-evaluation, deterministic redaction, final authorization ([docs/milestone_5](docs/milestone_5/milestone_summary.md)) |
-| 7 | Safety, evaluation, observability, final demo | Not started |
+| 7 | Safety, evaluation, observability, final demo | Evaluation and safety done (22 scenarios, ReAct vs ToT, 4 defects fixed); final demo and report pending |
 | 8 | Optional synthetic video | Not started |
 
 All agents are **deterministic** (rule-based tool use); no LLM is required. The single-agent
@@ -81,6 +81,16 @@ effective date, source URL, scores, and the verbatim excerpt. If no passage meet
 thresholds, the status is `INSUFFICIENT` with the message *"Human review required."* See
 [docs/policy_retrieval.md](docs/policy_retrieval.md) for the design, the thresholds, and the limitations.
 
+### Milestone 6: evaluation
+
+```bash
+python -m app.evaluation.run              # 22 scenarios x {ToT off, ToT on}: metrics, traces, reports
+python -m app.evaluation.safety_report    # guardrail tests mapped to safety requirements
+```
+
+Results: [evaluation_results.md](docs/milestone_6/evaluation_results.md) ·
+[tot_comparison.md](docs/milestone_6/tot_comparison.md) · [safety_test_results.md](docs/milestone_6/safety_test_results.md).
+
 ### Milestone 5: reviewer interface
 
 ```bash
@@ -90,7 +100,8 @@ python -m app.m5_demo                     # three scripted review scenarios over
 
 In the app, enter your name, pick a synthetic request, and run the analysis. For each finding you can
 approve, reject (with an optional reason), modify the exact spans (with a reason; spans must be
-confirmed), or request policy re-evaluation (at most 2 times). Finalization is a separate step
+confirmed), or request policy re-evaluation (at most 2 times). For text the detector missed (QA flags
+possible misses), add a redaction for the exact text, which must then be confirmed. Finalization is a separate step
 that requires every finding to be resolved, every escalation acknowledged, and explicit authorization.
 The derivative is written to `outputs/derivatives/`; the original record is never modified, and
 nothing is published. See [docs/milestone_5/review_workflow.md](docs/milestone_5/review_workflow.md).
@@ -198,6 +209,7 @@ app/
     redact.py         Deterministic span redaction and validation
     report.py         Structured audit report
   review_app.py       Streamlit reviewer interface
+  evaluation/         Milestone 6 evaluation: scenarios, dataset builder, harness, metrics, reports
   m5_demo.py          Milestone 5 review scenarios and evidence capture
 data/
   synthetic_requests/ request_NNN.txt          OPRA-style requests

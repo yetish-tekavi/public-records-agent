@@ -25,17 +25,18 @@ from app.tools.service import ToolError
 # keyword retriever's unknown-term rule would veto every keyword match for the question.
 POLICY_QUESTION = "What New Jersey law applies when a public record contains a person's {}?"
 POLICY_QUERIES: dict[SensitiveCategory, list[str]] = {
+    # Categories OPRA lists outright: the reformulation targets the operative provision's own wording.
     SensitiveCategory.PHONE_NUMBER: [
         POLICY_QUESTION.format("personal telephone number"),
-        "telephone number of any person personal information",
+        "custodian shall redact personal telephone number of any person",
     ],
     SensitiveCategory.DRIVERS_LICENSE_NUMBER: [
         POLICY_QUESTION.format("driver license number"),
-        "driver license number personal information exemption",
+        "custodian shall redact driver license number of any person",
     ],
     SensitiveCategory.SOCIAL_SECURITY_NUMBER: [
         POLICY_QUESTION.format("social security number"),
-        "social security number redaction",
+        "custodian shall redact social security number of any person",
     ],
     SensitiveCategory.DATE_OF_BIRTH: [
         POLICY_QUESTION.format("date of birth"),

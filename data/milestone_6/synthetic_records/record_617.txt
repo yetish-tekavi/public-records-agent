@@ -1,0 +1,7 @@
+Record ID: TEST-617
+Record Type: call_transcript
+Title: S17 - Detector fails once, then recovers
+Record Date: 2026-11-10
+Synthetic: yes
+
+The caller said her personal cell is 609-555-0157.

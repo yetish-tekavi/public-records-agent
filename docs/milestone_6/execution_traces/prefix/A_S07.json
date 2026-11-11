@@ -1,0 +1,165 @@
+{
+  "completion": "AWAITING_HUMAN_REVIEW",
+  "route": "standard",
+  "transitions": [
+    "orchestrator_start",
+    "record_analysis",
+    "policy_research",
+    "evidence_merge",
+    "compliance_qa",
+    "evidence_decision",
+    "finalize_recommendations"
+  ],
+  "step_count": 7,
+  "max_steps": 30,
+  "record_analysis_status": "OK",
+  "findings": [
+    {
+      "finding_id": "TEST-607-P01",
+      "category": "STREET_ADDRESS",
+      "text": "3 main drive",
+      "start": 26,
+      "end": 38,
+      "confidence": 0.6,
+      "evidence_decision": "AMBIGUOUS",
+      "action": "HUMAN_REVIEW_REQUIRED",
+      "citations": [
+        {
+          "chunk_id": "opra_statute:0020",
+          "citation": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version), N.J.S.A. 47:1A-1.1 Definitions",
+          "source_url": "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf"
+        },
+        {
+          "chunk_id": "grc_exemptions:0025",
+          "citation": "OPRA Exemptions (GRC list), N.J.S.A. 47:1A-1.1, exemption 20: Personal identifying information. Specifically",
+          "source_url": "https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf"
+        },
+        {
+          "chunk_id": "opra_statute:0021",
+          "citation": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version), N.J.S.A. 47:1A-1.1 Definitions",
+          "source_url": "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf"
+        },
+        {
+          "chunk_id": "grc_exemptions:0026",
+          "citation": "OPRA Exemptions (GRC list), N.J.S.A. 47:1A-1.1, exemption 20: Personal identifying information. Specifically",
+          "source_url": "https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf"
+        }
+      ],
+      "rationale": "Retrieved policy mentions this kind of information ('...P.L.2021, c.371 (C.47:1B- 2), that portion of any document which discloses the home address, whether a primary or secondary residence, of any active, formerly active, or r...'), but applicability depends on context.",
+      "tot": null
+    }
+  ],
+  "escalations": [],
+  "qa_invalid_citations": [],
+  "qa_possible_missed": [],
+  "tool_calls": {
+    "total": 4,
+    "by_tool": {
+      "detect_pii": 1,
+      "search_policy": 1,
+      "propose_redactions": 1,
+      "validate_citations": 1
+    },
+    "by_status": {
+      "ok": 4
+    },
+    "by_agent": {
+      "record_analysis": 1,
+      "policy_research": 1,
+      "compliance_qa": 2
+    }
+  },
+  "tool_call_log": [
+    {
+      "agent": "record_analysis",
+      "tool": "detect_pii",
+      "arguments": {
+        "record_id": "TEST-607"
+      },
+      "status": "ok",
+      "summary": "1 finding(s): STREET_ADDRESS (0.6)",
+      "duration_ms": 8
+    },
+    {
+      "agent": "policy_research",
+      "tool": "search_policy",
+      "arguments": {
+        "query": "What New Jersey law applies when a public record contains a person's home address?",
+        "k": 4
+      },
+      "status": "ok",
+      "summary": "SUFFICIENT: opra_statute:0020, opra_statute:0053, opra_statute:0062, grc_exemptions:0025",
+      "duration_ms": 359
+    },
+    {
+      "agent": "compliance_qa",
+      "tool": "propose_redactions",
+      "arguments": {
+        "record_id": "TEST-607",
+        "finding_ids": [
+          "TEST-607-P01"
+        ],
+        "policy_chunk_ids": [
+          "opra_statute:0020",
+          "opra_statute:0053",
+          "opra_statute:0062",
+          "grc_exemptions:0025"
+        ]
+      },
+      "status": "ok",
+      "summary": "TEST-607-P01=HUMAN_REVIEW_REQUIRED",
+      "duration_ms": 2
+    },
+    {
+      "agent": "compliance_qa",
+      "tool": "validate_citations",
+      "arguments": {
+        "chunk_ids": [
+          "opra_statute:0020",
+          "grc_exemptions:0025",
+          "opra_statute:0021",
+          "grc_exemptions:0026"
+        ]
+      },
+      "status": "ok",
+      "summary": "4/4 valid",
+      "duration_ms": 0
+    }
+  ],
+  "injected_faults": [],
+  "llm_calls": 0,
+  "review": {
+    "actions": [
+      {
+        "action": "reject",
+        "finding_id": "TEST-607-P01",
+        "ok": true
+      }
+    ],
+    "statuses": {
+      "TEST-607-P01": "REJECTED"
+    },
+    "finalized": true,
+    "blocked_reasons": [],
+    "events": [
+      "SESSION_CREATED",
+      "REJECTED",
+      "FINALIZED"
+    ],
+    "event_log_integrity": true
+  },
+  "derivative_text": "Replaced the belt on pump 3 main drive during scheduled maintenance at the water plant.",
+  "elapsed_s": 0.413,
+  "state_checks": {
+    "step_count_matches_transitions": true,
+    "within_step_limit": true,
+    "tool_agents_known": true,
+    "paused_for_human": true,
+    "evidence_metadata_complete": true
+  },
+  "scenario": "S07",
+  "config": "A",
+  "error": null,
+  "record_unchanged": true,
+  "tool_calls_during_review": 0
+}

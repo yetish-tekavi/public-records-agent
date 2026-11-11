@@ -24,6 +24,7 @@ from typing import Any
 from langgraph.graph import END, START, StateGraph
 
 from app.schemas import PolicyChunk, SensitiveCategory, SensitiveDataFinding
+from app.tools.redaction import MIN_DETECTION_CONFIDENCE
 from app.tools.service import ToolError
 from app.workflows import evidence as ev
 from app.workflows.agents import ComplianceQAAgent, PolicyResearchAgent, ToolCaller
@@ -114,6 +115,15 @@ def generate_interpretations(finding: SensitiveDataFinding, evidence: list[Polic
             if exclusion not in c.cited_chunk_ids:
                 c.cited_chunk_ids.append(exclusion)
                 c.evidence.append(excl_chunk.model_copy())
+    # Low detection confidence is itself an unresolved fact: no redaction branch may be selected
+    # unless a reviewer confirms the span (found by the Milestone 6 evaluation, scenario S15).
+    if finding.confidence < MIN_DETECTION_CONFIDENCE:
+        for c in candidates:
+            if c.action == "REDACT":
+                c.assumptions.append(Assumption(
+                    key="detection_correct", kind="FACTUAL", check_terms=[],
+                    text=f"The detected span '{finding.text}' really is a {finding.category.value} "
+                         f"(detector confidence {finding.confidence:.2f} < {MIN_DETECTION_CONFIDENCE})."))
     # Keep the review candidate; trim the weakest interpretations beyond the branching limit.
     while len(candidates) > config.max_branching:
         candidates.pop(-2)
@@ -139,6 +149,9 @@ def check_fact(assumption: Assumption, record_text: str, finding: SensitiveDataF
         return
     if answer == "unconfirmed":
         assumption.status, assumption.evidence = "UNVERIFIED", "the human reviewer could not confirm this from the record"
+        return
+    if not assumption.check_terms:  # nothing in the record text can settle it; only a reviewer can
+        assumption.status, assumption.evidence = "UNVERIFIED", "cannot be verified from the record text; reviewer confirmation required"
         return
     quote = ev.find_terms(record_text, finding, assumption.check_terms)
     if assumption.supported_when_found:
@@ -216,7 +229,7 @@ def score_node(node: ThoughtNode, finding: SensitiveDataFinding, citations_valid
 
 def rejection_reason(node: ThoughtNode, invalid_ids: list[str]) -> str | None:
     if invalid_ids:
-        return f"fabricated or altered citation(s): {invalid_ids}"
+        return f"fabricated or altered citation(s), or non-official source: {invalid_ids}"
     if not node.cited_chunk_ids and node.action == "REDACT":
         return "redaction candidate cites no retrieved evidence"
     for a in node.assumptions:
@@ -316,7 +329,7 @@ def build_tot_graph(policy: PolicyResearchAgent, qa: ComplianceQAAgent, tool_tim
                 used += 1
                 try:
                     checks = await qa.validate([{"chunk_id": cid, "excerpt": text} for cid, text in unchecked.items()], tools)
-                    cache.update({c.chunk_id: c.exists and c.excerpt_matches is not False for c in checks})
+                    cache.update({c.chunk_id: c.valid for c in checks})
                 except ToolError as exc:
                     events.append(f"depth {state['depth']}: citation validation failed ({exc.code})")
         for node in pending:

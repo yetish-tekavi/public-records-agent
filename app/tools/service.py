@@ -35,6 +35,12 @@ from app.tools.redaction import propose_redactions
 logger = logging.getLogger(__name__)
 
 MAX_TEXT_CHARS = 20_000
+# Only these sources may serve as cited legal authority (provenance guard, Milestone 6).
+OFFICIAL_SOURCE_PREFIXES = ("https://www.nj.gov/", "https://nj.gov/")
+
+
+def is_official(source_url: str | None) -> bool:
+    return bool(source_url) and source_url.startswith(OFFICIAL_SOURCE_PREFIXES)
 
 
 class ToolError(Exception):
@@ -91,6 +97,7 @@ class CitationCheckResult(BaseModel):
     excerpt_matches: bool | None
     section: str | None
     source_url: str | None
+    official: bool = False
 
 
 class CitationValidationResult(BaseModel):
@@ -222,8 +229,9 @@ class ToolService:
                 excerpt_matches=matches,
                 section=chunk.section if chunk else None,
                 source_url=chunk.source_url if chunk else None,
+                official=chunk is not None and is_official(chunk.source_url),
             ))
-        return CitationValidationResult(checks=checks, all_valid=all(c.exists and c.excerpt_matches is not False for c in checks))
+        return CitationValidationResult(checks=checks, all_valid=all(c.exists and c.official and c.excerpt_matches is not False for c in checks))
 
     def call(self, name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         """Dispatch by tool name and return a JSON-serialisable result."""

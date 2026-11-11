@@ -67,7 +67,7 @@ async def reevaluate(orchestrator: Orchestrator, session: ReviewSession, request
             [recommendation] = RedactionProposal.model_validate(result).recommendations
             refs = {r.chunk_id: r.excerpt for r in recommendation.policy_references}
             checks = await orchestrator.qa_agent.validate([{"chunk_id": k, "excerpt": v} for k, v in refs.items()])
-            if any(not c.exists or c.excerpt_matches is False for c in checks):
+            if any(not c.valid for c in checks):
                 recommendation = recommendation.model_copy(update={"action": RedactionAction.HUMAN_REVIEW_REQUIRED,
                                                                    "rationale": "QA could not validate a citation. " + recommendation.rationale})
             recommendation = recommendation.model_copy(update={"recommendation_id": rid})

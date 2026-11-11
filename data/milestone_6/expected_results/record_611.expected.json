@@ -1,0 +1,18 @@
+{
+  "request_id": "OPRA-TEST-611",
+  "record_id": "TEST-611",
+  "requires_redaction": true,
+  "findings": [
+    {
+      "finding_id": "TEST-611-F01",
+      "record_id": "TEST-611",
+      "category": "IP_ADDRESS",
+      "text": "198.51.100.23",
+      "start": 43,
+      "end": 56,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    }
+  ],
+  "notes": "S11: IP address in access log"
+}

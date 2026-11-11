@@ -1,0 +1,7 @@
+{
+  "request_id": "OPRA-TEST-606",
+  "record_id": "TEST-606",
+  "requires_redaction": false,
+  "findings": [],
+  "notes": "S06: Purchase order number resembling an address"
+}

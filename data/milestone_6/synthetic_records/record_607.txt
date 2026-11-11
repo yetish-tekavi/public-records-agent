@@ -1,0 +1,7 @@
+Record ID: TEST-607
+Record Type: call_transcript
+Title: S07 - Equipment description
+Record Date: 2026-11-10
+Synthetic: yes
+
+Replaced the belt on pump 3 main drive during scheduled maintenance at the water plant.

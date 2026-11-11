@@ -1,0 +1,7 @@
+Record ID: TEST-611
+Record Type: call_transcript
+Title: S11 - IP address in access log
+Record Date: 2026-11-10
+Synthetic: yes
+
+The access log shows the request came from 198.51.100.23 shortly before midnight.

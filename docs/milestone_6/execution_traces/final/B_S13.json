@@ -1,0 +1,298 @@
+{
+  "completion": "AWAITING_HUMAN_REVIEW",
+  "route": "tot",
+  "transitions": [
+    "orchestrator_start",
+    "record_analysis",
+    "policy_research",
+    "evidence_merge",
+    "compliance_qa",
+    "evidence_decision",
+    "tot",
+    "finalize_recommendations"
+  ],
+  "step_count": 8,
+  "max_steps": 30,
+  "record_analysis_status": "OK",
+  "findings": [
+    {
+      "finding_id": "TEST-613-P01",
+      "category": "STREET_ADDRESS",
+      "text": "31 Larchmont Terrace",
+      "start": 26,
+      "end": 46,
+      "confidence": 0.95,
+      "evidence_decision": "AMBIGUOUS",
+      "action": "HUMAN_REVIEW_REQUIRED",
+      "citations": [
+        {
+          "chunk_id": "opra_statute:0020",
+          "citation": "Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version), N.J.S.A. 47:1A-1.1 Definitions",
+          "source_url": "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf"
+        },
+        {
+          "chunk_id": "grc_exemptions:0025",
+          "citation": "OPRA Exemptions (GRC list), N.J.S.A. 47:1A-1.1, exemption 20: Personal identifying information. Specifically",
+          "source_url": "https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf"
+        }
+      ],
+      "rationale": "Tree of Thought (AMBIGUOUS evidence): Escalated: no redaction branch was supported, so d1.2 (conditional review, 85/100) was selected. Rejected: d1.1>2 rejected: unsupported factual assumption: The person is a covered person (judicial officer, prosecutor, law enforcement officer, child protective investigator, or immediate family member).. Not selectable (unverified or below 70): ['d1.1']. Escalate: retrieved provisions apply only under conditions the record does not establish; a reviewer must decide.",
+      "tot": {
+        "outcome": "ESCALATED",
+        "action": "HUMAN_REVIEW_REQUIRED",
+        "selected": "d1.2",
+        "selected_score": 85,
+        "depth_reached": 2,
+        "tool_calls_used": 1,
+        "targeted_retrieval": false,
+        "budget_events": [],
+        "reason": "Escalated: no redaction branch was supported, so d1.2 (conditional review, 85/100) was selected. Rejected: d1.1>2 rejected: unsupported factual assumption: The person is a covered person (judicial officer, prosecutor, law enforcement officer, child protective investigator, or immediate family member).. Not selectable (unverified or below 70): ['d1.1'].",
+        "unresolved": [
+          "The person is a covered person (judicial officer, prosecutor, law enforcement officer, child protective investigator, or immediate family member)."
+        ],
+        "nodes": [
+          {
+            "node_id": "d1.1",
+            "parent_id": null,
+            "depth": 1,
+            "stage": "INTERPRETATION",
+            "action": "REDACT",
+            "provision_type": "RESTRICTED_CLASS",
+            "status": "EVALUATED",
+            "terminal": false,
+            "cited_chunk_ids": [
+              "opra_statute:0020"
+            ],
+            "evidence_ids": [
+              "opra_statute:0020"
+            ],
+            "evidence_sources": [
+              "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf"
+            ],
+            "assumptions": [
+              {
+                "key": "covered_person",
+                "kind": "FACTUAL",
+                "status": "UNVERIFIED"
+              }
+            ],
+            "score": {
+              "policy_relevance": 20,
+              "citation_validity": 15,
+              "consistency": 13,
+              "explanation": 15,
+              "total": 63,
+              "notes": [
+                "cited passages do not contain operative redaction language",
+                "1 assumption(s) unverified"
+              ]
+            }
+          },
+          {
+            "node_id": "d1.2",
+            "parent_id": null,
+            "depth": 1,
+            "stage": "INTERPRETATION",
+            "action": "HUMAN_REVIEW_REQUIRED",
+            "provision_type": "CONDITIONAL_REVIEW",
+            "status": "SELECTED",
+            "terminal": true,
+            "cited_chunk_ids": [
+              "opra_statute:0020",
+              "grc_exemptions:0025"
+            ],
+            "evidence_ids": [
+              "opra_statute:0020",
+              "grc_exemptions:0025"
+            ],
+            "evidence_sources": [
+              "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf",
+              "https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf"
+            ],
+            "assumptions": [],
+            "score": {
+              "policy_relevance": 15,
+              "citation_validity": 30,
+              "consistency": 25,
+              "explanation": 15,
+              "total": 85,
+              "notes": []
+            }
+          },
+          {
+            "node_id": "d1.1>2",
+            "parent_id": "d1.1",
+            "depth": 2,
+            "stage": "VERIFICATION",
+            "action": "REDACT",
+            "provision_type": "RESTRICTED_CLASS",
+            "status": "REJECTED",
+            "terminal": false,
+            "cited_chunk_ids": [
+              "opra_statute:0020"
+            ],
+            "evidence_ids": [
+              "opra_statute:0020"
+            ],
+            "evidence_sources": [
+              "https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf"
+            ],
+            "assumptions": [
+              {
+                "key": "covered_person",
+                "kind": "FACTUAL",
+                "status": "UNSUPPORTED"
+              }
+            ],
+            "score": {
+              "policy_relevance": 20,
+              "citation_validity": 15,
+              "consistency": 25,
+              "explanation": 15,
+              "total": 75,
+              "notes": [
+                "cited passages do not contain operative redaction language"
+              ]
+            }
+          }
+        ],
+        "pruned": [
+          {
+            "node_id": "d1.1>2",
+            "depth": 2,
+            "reason": "rejected: unsupported factual assumption: The person is a covered person (judicial officer, prosecutor, law enforcement officer, child protective investigator, or immediate family member)."
+          }
+        ]
+      }
+    }
+  ],
+  "escalations": [
+    "TEST-613-P01: Escalated: no redaction branch was supported, so d1.2 (conditional review, 85/100) was selected. Rejected: d1.1>2 rejected: unsupported factual assumption: The person is a covered person (judicial officer, prosecutor, law enforcement officer, child protective investigator, or immediate family member).. Not selectable (unverified or below 70): ['d1.1']."
+  ],
+  "qa_invalid_citations": [],
+  "qa_possible_missed": [],
+  "tool_calls": {
+    "total": 5,
+    "by_tool": {
+      "detect_pii": 1,
+      "search_policy": 1,
+      "propose_redactions": 1,
+      "validate_citations": 2
+    },
+    "by_status": {
+      "ok": 5
+    },
+    "by_agent": {
+      "record_analysis": 1,
+      "policy_research": 1,
+      "compliance_qa": 3
+    }
+  },
+  "tool_call_log": [
+    {
+      "agent": "record_analysis",
+      "tool": "detect_pii",
+      "arguments": {
+        "record_id": "TEST-613"
+      },
+      "status": "ok",
+      "summary": "1 finding(s): STREET_ADDRESS (0.95)",
+      "duration_ms": 8
+    },
+    {
+      "agent": "policy_research",
+      "tool": "search_policy",
+      "arguments": {
+        "query": "What New Jersey law applies when a public record contains a person's home address?",
+        "k": 4
+      },
+      "status": "ok",
+      "summary": "SUFFICIENT: opra_statute:0020, opra_statute:0053, opra_statute:0062, grc_exemptions:0025",
+      "duration_ms": 294
+    },
+    {
+      "agent": "compliance_qa",
+      "tool": "propose_redactions",
+      "arguments": {
+        "record_id": "TEST-613",
+        "finding_ids": [
+          "TEST-613-P01"
+        ],
+        "policy_chunk_ids": [
+          "opra_statute:0020",
+          "opra_statute:0053",
+          "opra_statute:0062",
+          "grc_exemptions:0025"
+        ]
+      },
+      "status": "ok",
+      "summary": "TEST-613-P01=HUMAN_REVIEW_REQUIRED",
+      "duration_ms": 1
+    },
+    {
+      "agent": "compliance_qa",
+      "tool": "validate_citations",
+      "arguments": {
+        "chunk_ids": [
+          "opra_statute:0020",
+          "grc_exemptions:0025",
+          "opra_statute:0021",
+          "grc_exemptions:0026"
+        ]
+      },
+      "status": "ok",
+      "summary": "4/4 valid",
+      "duration_ms": 0
+    },
+    {
+      "agent": "compliance_qa",
+      "tool": "validate_citations",
+      "arguments": {
+        "chunk_ids": [
+          "opra_statute:0020",
+          "grc_exemptions:0025"
+        ]
+      },
+      "status": "ok",
+      "summary": "2/2 valid",
+      "duration_ms": 0
+    }
+  ],
+  "injected_faults": [],
+  "llm_calls": 0,
+  "review": {
+    "actions": [
+      {
+        "action": "modify",
+        "finding_id": "TEST-613-P01",
+        "ok": true
+      }
+    ],
+    "statuses": {
+      "TEST-613-P01": "MODIFIED"
+    },
+    "finalized": true,
+    "blocked_reasons": [],
+    "events": [
+      "SESSION_CREATED",
+      "MODIFICATION_PROPOSED",
+      "MODIFICATION_CONFIRMED",
+      "FINALIZED"
+    ],
+    "event_log_integrity": true
+  },
+  "derivative_text": "The caller, a resident of [REDACTED: STREET_ADDRESS], asked that her noise complaint remain anonymous.",
+  "elapsed_s": 0.348,
+  "state_checks": {
+    "step_count_matches_transitions": true,
+    "within_step_limit": true,
+    "tool_agents_known": true,
+    "paused_for_human": true,
+    "evidence_metadata_complete": true
+  },
+  "scenario": "S13",
+  "config": "B",
+  "error": null,
+  "record_unchanged": true,
+  "tool_calls_during_review": 0
+}

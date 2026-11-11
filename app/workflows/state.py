@@ -49,6 +49,7 @@ class WorkflowConfig(_Model):
     missing_evidence_retries: int = Field(default=1, ge=0, le=1)
     max_error_recoveries: int = Field(default=1, ge=0)
     search_k: int = Field(default=4, ge=1, le=10)
+    enable_tot: bool = True  # False = Baseline A (ReAct-only): ambiguous cases take the standard path
     tot: ToTConfig = Field(default_factory=ToTConfig)
 
 
@@ -89,6 +90,7 @@ class CategoryEvidence(_Model):
     passages: list[PolicyChunk] = Field(default_factory=list)
     retrieval_status: list[EvidenceStatus] = Field(default_factory=list)
     errors: list[str] = Field(default_factory=list)
+    excluded_sources: list[str] = Field(default_factory=list)  # non-official passages dropped by the provenance guard
     targeted_retry: bool = False
 
 
@@ -113,6 +115,11 @@ class CitationCheck(_Model):
     excerpt_matches: bool | None = None
     section: str | None = None
     source_url: str | None = None
+    official: bool = False
+
+    @property
+    def valid(self) -> bool:
+        return self.exists and self.official and self.excerpt_matches is not False
 
 
 class QAReport(_Model):

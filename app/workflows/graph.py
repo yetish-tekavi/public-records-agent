@@ -133,10 +133,12 @@ class Orchestrator:
             route, why = "error_recovery", "record analysis failed"
         elif EvidenceDecision.MISSING in decisions and retries.missing_evidence < state["config"].missing_evidence_retries:
             route, why = "targeted_retrieval", "missing policy evidence; one targeted retry allowed"
-        elif decisions & {EvidenceDecision.AMBIGUOUS, EvidenceDecision.CONFLICTING}:
+        elif decisions & {EvidenceDecision.AMBIGUOUS, EvidenceDecision.CONFLICTING} and state["config"].enable_tot:
             route, why = "tot", "ambiguous or conflicting evidence"
         else:
-            route, why = "standard", "evidence clear (or missing after retry, or no findings)"
+            route, why = "standard", ("ToT disabled; ambiguous evidence handled by the standard rules"
+                                      if decisions & {EvidenceDecision.AMBIGUOUS, EvidenceDecision.CONFLICTING}
+                                      else "evidence clear (or missing after retry, or no findings)")
         update = self._step(state, "evidence_decision", self.name, f"route={route}", reason=why, decisions=sorted(d.value for d in decisions))
         extra = {"escalations": [f"Step limit {state['config'].max_steps} reached; escalated to human review."]} if route == "human_review" else {}
         return {**update, "route": route, **extra}

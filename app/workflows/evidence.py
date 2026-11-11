@@ -186,8 +186,12 @@ def assess_finding(finding: SensitiveDataFinding, passages: list[PolicyChunk], r
     )
 
 
+DIGIT_WORD = r"(?:zero|oh|one|two|three|four|five|six|seven|eight|nine)"
 MISSED_PATTERNS = {
     "phone-like number": re.compile(r"\(?\b\d{3}\)?[ .-]\d{3}-\d{4}\b"),
+    # 7-digit local number; not part of a longer hyphenated code such as PO-2026-555-0123.
+    "7-digit phone-like number": re.compile(r"(?<![\d-])\b\d{3}-?\d{4}\b(?![\d-])"),
+    "number spelled out in words": re.compile(rf"\b{DIGIT_WORD}(?:[\s,.-]+{DIGIT_WORD}){{6,}}\b", re.IGNORECASE),
     "SSN-like number": re.compile(r"\b\d{3}-\d{2}-\d{4}\b"),
     "email-like text": re.compile(r"\b[\w.+-]+@[\w-]+\.[\w.]+\b"),
     "IPv4-like address": re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b"),

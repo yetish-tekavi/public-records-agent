@@ -46,6 +46,7 @@ def build_audit_report(session: ReviewSession) -> dict[str, Any]:
         "source": {"record_path": session.record_path, "text_sha256": session.source_text_sha256, "file_sha256": session.source_file_sha256},
         "workflow": session.workflow,
         "findings": findings,
+        "reviewer_added_redactions": [m.model_dump() for m in session.manual_redactions()],
         "session_escalations": [e.model_dump() for e in session.session_escalations],
         "acknowledged_escalations": sorted(session.acknowledged()),
         "final_redaction_plan": finalized.payload["plan"] if finalized else [s.model_dump() for s in session.redaction_plan()],

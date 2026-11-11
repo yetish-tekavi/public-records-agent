@@ -1,0 +1,7 @@
+Record ID: TEST-621
+Record Type: call_transcript
+Title: S21 - Reviewer rejects a supported redaction
+Record Date: 2026-11-10
+Synthetic: yes
+
+The business card on file lists a cell number, 609-555-0173, for the contractor's office.

@@ -1,0 +1,7 @@
+Record ID: TEST-609
+Record Type: call_transcript
+Title: S09 - Asset and work-order identifiers
+Record Date: 2026-11-10
+Synthetic: yes
+
+Asset tag PW-ASSET-0457 was inspected on September 28. Work order WO-2026-0193 remains open for the loader bay door sensor.

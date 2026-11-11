@@ -1,0 +1,7 @@
+Record ID: TEST-604
+Record Type: call_transcript
+Title: S04 - Phone number spelled out in words
+Record Date: 2026-11-10
+Synthetic: yes
+
+When asked for a callback number, the caller said: six zero nine, five five five, zero one three one.

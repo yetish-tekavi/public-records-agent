@@ -1,0 +1,7 @@
+Record ID: TEST-606
+Record Type: call_transcript
+Title: S06 - Purchase order number resembling an address
+Record Date: 2026-11-10
+Synthetic: yes
+
+Purchase order PO-2026-555-0123 covers road salt deliveries for the winter season.

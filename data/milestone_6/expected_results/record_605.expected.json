@@ -1,0 +1,18 @@
+{
+  "request_id": "OPRA-TEST-605",
+  "record_id": "TEST-605",
+  "requires_redaction": true,
+  "findings": [
+    {
+      "finding_id": "TEST-605-F01",
+      "record_id": "TEST-605",
+      "category": "PHONE_NUMBER",
+      "text": "5550142",
+      "start": 20,
+      "end": 27,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    }
+  ],
+  "notes": "S05: Seven-digit phone number without area code"
+}

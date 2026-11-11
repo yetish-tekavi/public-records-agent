@@ -1,0 +1,18 @@
+{
+  "request_id": "OPRA-TEST-618",
+  "record_id": "TEST-618",
+  "requires_redaction": true,
+  "findings": [
+    {
+      "finding_id": "TEST-618-F01",
+      "record_id": "TEST-618",
+      "category": "PHONE_NUMBER",
+      "text": "609-555-0161",
+      "start": 40,
+      "end": 52,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    }
+  ],
+  "notes": "S18: Policy search fails on every call"
+}

@@ -1,0 +1,7 @@
+Record ID: TEST-605
+Record Type: call_transcript
+Title: S05 - Seven-digit phone number without area code
+Record Date: 2026-11-10
+Synthetic: yes
+
+You can reach me at 5550142 after six.

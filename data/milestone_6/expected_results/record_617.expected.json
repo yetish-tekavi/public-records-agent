@@ -1,0 +1,18 @@
+{
+  "request_id": "OPRA-TEST-617",
+  "record_id": "TEST-617",
+  "requires_redaction": true,
+  "findings": [
+    {
+      "finding_id": "TEST-617-F01",
+      "record_id": "TEST-617",
+      "category": "PHONE_NUMBER",
+      "text": "609-555-0157",
+      "start": 37,
+      "end": 49,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    }
+  ],
+  "notes": "S17: Detector fails once, then recovers"
+}

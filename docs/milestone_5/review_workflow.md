@@ -41,6 +41,21 @@ flowchart TD
 The UI shows these as pending, approved, modified, rejected and escalated, plus
 "manual resolution required".
 
+## Reviewer-added redactions (added in Milestone 6)
+
+For sensitive text the detector did not report, such as a phone number written in words:
+
+- **Prompting the reviewer.** The Compliance & QA Agent's sweep flags possibly missed values as
+  session escalations. Finalization is blocked until each one is acknowledged.
+- **The action.** The reviewer selects exact text in the original record (each occurrence is shown
+  with its offsets), then chooses a category and gives a reason. The event is
+  `MANUAL_REDACTION_PROPOSED`.
+- **Confirmation.** The span must be **confirmed** (`MANUAL_REDACTION_CONFIRMED`) before it can be
+  applied. An unconfirmed addition blocks finalization, and an addition can be withdrawn.
+- **Authority.** It's a human decision: the event records that no policy basis is claimed by the
+  system. Spans are validated against the original text, merged with overlapping spans, and checked
+  by the repeated-value guard.
+
 ## Review events (append-only)
 
 - **Every action is an appended event.** Each `ReviewEvent` records sequence, id, UTC timestamp,

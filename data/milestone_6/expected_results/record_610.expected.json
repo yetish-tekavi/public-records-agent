@@ -1,0 +1,18 @@
+{
+  "request_id": "OPRA-TEST-610",
+  "record_id": "TEST-610",
+  "requires_redaction": true,
+  "findings": [
+    {
+      "finding_id": "TEST-610-F01",
+      "record_id": "TEST-610",
+      "category": "IP_ADDRESS",
+      "text": "203.0.113.45",
+      "start": 70,
+      "end": 82,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    }
+  ],
+  "notes": "S10: IP address in complaint portal"
+}

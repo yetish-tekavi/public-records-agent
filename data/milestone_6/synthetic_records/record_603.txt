@@ -1,0 +1,7 @@
+Record ID: TEST-603
+Record Type: call_transcript
+Title: S03 - Name and phone in one record
+Record Date: 2026-11-10
+Synthetic: yes
+
+My name is Talia Brookfield and my number is (201) 555-0119. I am reporting a broken streetlight.

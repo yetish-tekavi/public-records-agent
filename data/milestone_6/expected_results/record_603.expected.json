@@ -1,0 +1,28 @@
+{
+  "request_id": "OPRA-TEST-603",
+  "record_id": "TEST-603",
+  "requires_redaction": true,
+  "findings": [
+    {
+      "finding_id": "TEST-603-F01",
+      "record_id": "TEST-603",
+      "category": "PHONE_NUMBER",
+      "text": "(201) 555-0119",
+      "start": 45,
+      "end": 59,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    },
+    {
+      "finding_id": "TEST-603-F02",
+      "record_id": "TEST-603",
+      "category": "PERSON_NAME",
+      "text": "Talia Brookfield",
+      "start": 11,
+      "end": 27,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    }
+  ],
+  "notes": "S03: Name and phone in one record"
+}

@@ -1,0 +1,7 @@
+Record ID: TEST-602
+Record Type: call_transcript
+Title: S02 - Driver license number
+Record Date: 2026-11-10
+Synthetic: yes
+
+Driver license number D12345678901234 was recorded at the scene of the minor collision.

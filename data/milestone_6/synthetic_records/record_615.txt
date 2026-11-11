@@ -1,0 +1,7 @@
+Record ID: TEST-615
+Record Type: call_transcript
+Title: S15 - Agency main line (not a personal number)
+Record Date: 2026-11-10
+Synthetic: yes
+
+For permits, call the Larkspur Township main line at (201) 555-0100 during business hours.

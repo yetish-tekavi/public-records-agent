@@ -1,0 +1,18 @@
+{
+  "request_id": "OPRA-TEST-619",
+  "record_id": "TEST-619",
+  "requires_redaction": true,
+  "findings": [
+    {
+      "finding_id": "TEST-619-F01",
+      "record_id": "TEST-619",
+      "category": "STREET_ADDRESS",
+      "text": "14 Alder Lane",
+      "start": 75,
+      "end": 88,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    }
+  ],
+  "notes": "S19: Citation validation fails during ToT"
+}

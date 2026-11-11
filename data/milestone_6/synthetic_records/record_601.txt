@@ -1,0 +1,7 @@
+Record ID: TEST-601
+Record Type: call_transcript
+Title: S01 - Personal phone number
+Record Date: 2026-11-10
+Synthetic: yes
+
+During the interaction, the resident stated: My personal phone number is 609-555-0142.

@@ -20,7 +20,8 @@ from app.schemas import (
     SensitiveCategory,
     SensitiveDataFinding,
 )
-from app.tools.service import ToolError
+from app.tools.redaction import CATEGORICAL
+from app.tools.service import ToolError, is_official
 from app.workflows import evidence as ev
 from app.workflows.state import (
     CategoryEvidence,
@@ -118,22 +119,39 @@ class PolicyResearchAgent:
         result = await self.tools.call("search_policy", {"query": query, "k": self.k}, _search_summary)
         return PolicyRetrievalResult.model_validate(result)
 
+    @staticmethod
+    def _accept(out: CategoryEvidence, result: PolicyRetrievalResult) -> PolicyRetrievalResult:
+        """Provenance guard: only official sources become evidence; others are recorded and dropped."""
+        kept = []
+        for p in result.passages:
+            if not is_official(p.chunk.source_url):
+                out.excluded_sources.append(f"{p.chunk.chunk_id} ({p.chunk.source_url})")
+            elif p.chunk.chunk_id not in {c.chunk_id for c in out.passages}:
+                out.passages.append(p.chunk)
+                kept.append(p)
+            else:
+                kept.append(p)
+        return result.model_copy(update={"passages": kept}) if kept else result.model_copy(
+            update={"passages": [], "status": EvidenceStatus.INSUFFICIENT})
+
     async def research_category(self, category: SensitiveCategory) -> CategoryEvidence:
         queries = POLICY_QUERIES.get(category, [f"What New Jersey law applies to {category.value.lower().replace('_', ' ')}?"])
         out = CategoryEvidence(category=category, status="MISSING")
         for query in queries[: self.max_queries]:
             out.queries.append(query)
             try:
-                result = await self._search(query)
+                result = self._accept(out, await self._search(query))
             except ToolError as exc:
                 out.errors.append(f"{exc.code}: {exc.message}")
                 continue
             out.retrieval_status.append(result.status)
-            for p in result.passages:
-                if p.chunk.chunk_id not in {c.chunk_id for c in out.passages}:
-                    out.passages.append(p.chunk)
             if evidence_names_category(result.model_dump(mode="json"), category):
                 out.status = "FOUND"
+            # For categories OPRA lists outright, keep looking until an operative, general passage is found:
+            # an exemption list naming the category is not the same as the provision that directs redaction.
+            needs_operative = category in CATEGORICAL and not any(
+                (a := ev.analyse_passage(c, category)).operative and not a.restricted_class for c in out.passages)
+            if out.status == "FOUND" and not needs_operative:
                 break
         if out.status != "FOUND" and out.errors and not out.passages:
             out.status = "ERROR"
@@ -148,14 +166,11 @@ class PolicyResearchAgent:
         out.queries.append(query)
         out.targeted_retry = True
         try:
-            result = await self._search(query)
+            result = self._accept(out, await self._search(query))
         except ToolError as exc:
             out.errors.append(f"{exc.code}: {exc.message}")
             return out
         out.retrieval_status.append(result.status)
-        for p in result.passages:
-            if p.chunk.chunk_id not in {c.chunk_id for c in out.passages}:
-                out.passages.append(p.chunk)
         if evidence_names_category(result.model_dump(mode="json"), category):
             out.status = "FOUND"
         return out
@@ -175,7 +190,7 @@ class ComplianceQAAgent:
         caller = tools or self.tools
         result = await caller.call(
             "validate_citations", {"citations": citations},
-            lambda r: f"{sum(c['exists'] and c['excerpt_matches'] is not False for c in r['checks'])}/{len(r['checks'])} valid",
+            lambda r: f"{sum(c['exists'] and c.get('official', False) and c['excerpt_matches'] is not False for c in r['checks'])}/{len(r['checks'])} valid",
         )
         return [CitationCheck.model_validate(c) for c in result["checks"]]
 
@@ -200,7 +215,7 @@ class ComplianceQAAgent:
             refs = {ref.chunk_id: ref.excerpt for r in report.proposal.recommendations for ref in r.policy_references if ref.chunk_id}
             try:
                 report.citation_checks = await self.validate([{"chunk_id": cid, "excerpt": ex} for cid, ex in refs.items()])
-                report.invalid_citations = [c.chunk_id for c in report.citation_checks if not c.exists or c.excerpt_matches is False]
+                report.invalid_citations = [c.chunk_id for c in report.citation_checks if not c.valid]
             except ToolError as exc:
                 report.errors.append(f"validate_citations: {exc.code}: {exc.message}")
                 report.invalid_citations = list(refs)  # unverifiable citations are treated as invalid

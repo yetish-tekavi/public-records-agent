@@ -1,0 +1,18 @@
+{
+  "request_id": "OPRA-TEST-621",
+  "record_id": "TEST-621",
+  "requires_redaction": true,
+  "findings": [
+    {
+      "finding_id": "TEST-621-F01",
+      "record_id": "TEST-621",
+      "category": "PHONE_NUMBER",
+      "text": "609-555-0173",
+      "start": 47,
+      "end": 59,
+      "detector": "ground_truth",
+      "confidence": 1.0
+    }
+  ],
+  "notes": "S21: Reviewer rejects a supported redaction"
+}
