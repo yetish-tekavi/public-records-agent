@@ -1,0 +1,58 @@
+Connected to MCP server; discovered 4 tool(s):
+  - search_policy(query, k, method): Retrieve verbatim passages from official NJ public-records policy documents, with citations.
+  - detect_pii(text, record_id): Identify candidate sensitive information with Microsoft Presidio.
+  - propose_redactions(record_id, findings, policy_chunk_ids): Produce structured redaction recommendations for a record.
+  - validate_citations(citations): Verify that cited policy chunks exist in the indexed official corpus and that excerpts are verbatim.
+
+--- call search_policy
+{
+  "status": "SUFFICIENT",
+  "passages": [
+    {
+      "chunk_id": "opra_statute:0030",
+      "section": "N.J.S.A. 47:1A-1.1 Definitions",
+      "page": 11
+    },
+    {
+      "chunk_id": "opra_statute:0020",
+      "section": "N.J.S.A. 47:1A-1.1 Definitions",
+      "page": 7
+    }
+  ]
+}
+
+--- call detect_pii
+[
+  {
+    "finding_id": "TEST-001-P01",
+    "category": "PHONE_NUMBER",
+    "text": "609-555-0142",
+    "confidence": 0.75
+  },
+  {
+    "finding_id": "TEST-001-P02",
+    "category": "DRIVERS_LICENSE_NUMBER",
+    "text": "D12345678901234",
+    "confidence": 0.65
+  }
+]
+
+--- call propose_redactions
+[
+  {
+    "finding_id": "TEST-001-P01",
+    "action": "REDACT",
+    "rationale": "Retrieved policy names this category: '...ired by a public agency for government applications, services, or programs, any telephone number or driver license number of any person, or, in accordance with section 2 of P.L...'."
+  },
+  {
+    "finding_id": "TEST-001-P02",
+    "action": "REDACT",
+    "rationale": "Retrieved policy names this category: '...ncy for government applications, services, or programs, any telephone number or driver license number of any person, or, in accordance with section 2 of P.L.2021, c.371 (C.47:1B- 2)...'."
+  }
+]
+
+--- call propose_redactions with an invented chunk id (expected error)
+{
+  "error": "NOT_FOUND",
+  "message": "unknown policy chunk id(s): ['made_up:9999']; cite only retrieved passages"
+}

@@ -14,6 +14,7 @@ __pycache__/
 *.egg-info/
 .eggs/
 build/
+!docs/final_capstone/build/
 dist/
 
 # Testing / type checking / linting
@@ -31,8 +32,9 @@ htmlcov/
 outputs/*
 !outputs/.gitkeep
 
-# Logs
+# Logs (Milestone 7 verification logs are deliverables)
 *.log
+!docs/final_capstone/verification_logs/*.log
 
 # Editors / OS
 .vscode/

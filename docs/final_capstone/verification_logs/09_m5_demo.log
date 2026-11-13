@@ -1,0 +1,7 @@
+Running Milestone 5 scenarios (transport: mcp; reviewer inputs are scripted)
+  Scenario A: PASS ToT not invoked / PASS recommendation REDACT with N.J.S.A. 47:1A-5(a) evidence / PASS reviewer approval recorded / PASS derivative finalized after explicit authorization / PASS phone number masked in derivative / PASS original record unchanged / PASS LangGraph workflow completed only after the human decision
+  Scenario B: PASS actual bounded ToT result displayed (from the workflow) / PASS reviewer feedback recorded as structured input / PASS bounded ToT re-run with the feedback / PASS updated recommendation compared with the previous one / PASS updated recommendation returned for human approval / PASS no automatic finalization
+  Scenario C: PASS flagged for human review (no policy basis) / PASS re-evaluation retrieved again and still found no basis / PASS no citation invented / PASS unsupported finalization prevented / PASS escalation and blocked attempt recorded
+Running tests ...
+  full suite: 314 passed in 82.79s (0:01:22); milestone 5: 35 passed in 11.05s
+All scenario checks passed.

@@ -1,0 +1,156 @@
+QUERY:  Is a person's telephone number or driver license number confidential?
+METHOD: hybrid
+STATUS: SUFFICIENT
+        3 passage(s) met the evidence thresholds. Passages are verbatim source text, not legal conclusions; a human reviewer must evaluate them.
+
+  [1] OPRA Exemptions (GRC list)
+      Section:   N.J.S.A. 47:1A-1.1, exemption 20: Personal identifying information. Specifically
+      Location:  pp. 4-5   Effective: updated September 3, 2024
+      Source:    https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf
+      Chunk:     grc_exemptions:0026   Scores: keyword=15.958 (coverage 0.833), semantic=0.585
+      Excerpt (verbatim):
+        | active, or retired judicial officer, law enforcement officer , child protective
+        | investigator in the Division of Child Protection and Permanency, or
+        | prosecutor, or, as defined in section 1 of N.J.S.A. 47:1B-1, any immediate
+        | family member thereof.
+        | c. Credit card numbers.
+        | d. Debit card numbers.
+        | e. Bank account information.
+        | f. Month and day of birth.
+        | g. Personal e -mail address required by a public agency for government
+        | applications, services, or programs.
+        | h. Telephone numbers.
+        | i. Drivers’ license n […]
+
+  [2] Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)
+      Section:   N.J.S.A. 47:1A-1.1 Definitions
+      Location:  pp. 7-8   Effective: as of September 3, 2024 (P.L. 2024, c.16)
+      Source:    https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf
+      Chunk:     opra_statute:0020   Scores: keyword=17.699 (coverage 1.0), semantic=0.541
+      Excerpt (verbatim):
+        | of this State, including members of the Legislative Branch, Executive
+        | Branch, Judicial Branch, and all law enforcement entities, except that
+        | the full name, title, and oath date of that person contained therein
+        | shall not be deemed confidential; and
+        | Personal
+        | information
+        | (including Daniel’s
+        | Law information)
+        | ▪ that portion of any document which discloses the social security
+        | number, credit card number, debit card number, bank account
+        | information, month and day of birth, any personal email address
+        | req […]
+
+  [3] The Open Public Records Act: Handbook for Records Custodians, Eighth Edition
+      Section:   SECTION 1 – OPRA DEFINED: What is a “government record” under OPRA?
+      Location:  pp. 10-11   Effective: Eighth Edition, January 2025
+      Source:    https://nj.gov/grc/custodians/handbook/Custodians%20Handbook%20(Eighth%20Edition%20-%20Jan%202025)(Final).pdf
+      Chunk:     grc_handbook:0031   Scores: keyword=15.643 (coverage 0.833), semantic=0.544
+      Excerpt (verbatim):
+        | applications, services, or programs.
+        | h. Telephone numbers.
+        | i. Drivers’ license numbers.
+        | Except for:
+        | • use by any government agency, including any court or law enforcement
+        | agency, in carrying out its functions, or any private person or entity acting
+        | on behalf thereof;
+        | • any private person or entity seeking to enforce payment of court -ordered
+        | child support;
+        | • with respect to the disclosure of driver information by the New Jersey Motor
+        | Vehicle Commission as permitted by section 2 of P.L. 1997, c. […]
+==============================================================================
+QUERY:  How should a custodian redact an electronic document?
+METHOD: hybrid
+STATUS: SUFFICIENT
+        3 passage(s) met the evidence thresholds. Passages are verbatim source text, not legal conclusions; a human reviewer must evaluate them.
+
+  [1] Redacting Government Records (GRC guidance page)
+      Section:   How to Redact
+      Location:  web page   Effective: not stated
+      Source:    https://www.nj.gov/grc/custodians/redacting/
+      Chunk:     grc_redacting:0003   Scores: keyword=14.281 (coverage 1.0), semantic=0.694
+      Excerpt (verbatim):
+        | If full pages are to be redacted, the custodian should give the requester a visible indication that a particular page of that record is being redacted, such as a blank sheet bearing the word "Page redacted" or a written list of the specific page numbers being withheld. The purpose is to provide formal communication to the requester making it clear that material was not provided.
+        | If an electronic document is subject to redaction (i.e., word processing or Adobe Acrobat files) custodians should be […]
+
+  [2] The Open Public Records Act: Handbook for Records Custodians, Eighth Edition
+      Section:   SECTION 2 – HOW OPRA WORKS: What if I have to redact records?
+      Location:  p. 22   Effective: Eighth Edition, January 2025
+      Source:    https://nj.gov/grc/custodians/handbook/Custodians%20Handbook%20(Eighth%20Edition%20-%20Jan%202025)(Final).pdf
+      Chunk:     grc_handbook:0074   Scores: keyword=12.79 (coverage 1.0), semantic=0.611
+      Excerpt (verbatim):
+        | particular page of that record is being redacted, such as a blank sheet bearing the words “Page
+        | Redacted,” or a written list of the specific page numbers being withheld. The purpose is to provide
+        | notice to the requestor, making it clear that material was redacted and is not being provided.
+        | If an electronic document is subject to redaction (i.e., word processing or Adobe Acrobat® files),
+        | custodians should be sure to delete the material being redacted and insert in place of the redacted
+        | material e […]
+
+  [3] The Open Public Records Act: Handbook for Records Custodians, Eighth Edition
+      Section:   SECTION 2 – HOW OPRA WORKS: What if I have to redact records?
+      Location:  p. 22   Effective: Eighth Edition, January 2025
+      Source:    https://nj.gov/grc/custodians/handbook/Custodians%20Handbook%20(Eighth%20Edition%20-%20Jan%202025)(Final).pdf
+      Chunk:     grc_handbook:0073   Scores: keyword=8.936 (coverage 0.5), semantic=0.6
+      Excerpt (verbatim):
+        | Make a paper copy of the original record and manually “blackout” the information
+        | on the copy with a dark-colored marker. Then make another copy of the blacked-
+        | out record and provide it to the requestor.
+        | In the above example, t he blacked-out area shows where information was redacted, while the
+        | double copying ensures that the requestor will not be able to “see through” to the original, non -
+        | accessible text.
+        | Custodians should refrain from using a “white-out” method. Instead, custodians should co […]
+==============================================================================
+QUERY:  When can body worn camera recordings be released to the public?
+METHOD: hybrid
+STATUS: SUFFICIENT
+        3 passage(s) met the evidence thresholds. Passages are verbatim source text, not legal conclusions; a human reviewer must evaluate them.
+
+  [1] Attorney General Law Enforcement Directive No. 2022-1: Update to Body Worn Camera Policy
+      Section:   § 11 Public Disclosure of BWC Recordings
+      Location:  p. 36   Effective: January 19, 2022
+      Source:    https://www.nj.gov/oag/dcj/agguide/directives/ag-Directive-2022-1.pdf
+      Chunk:     ag_bwc_directive:0121   Scores: keyword=8.924 (coverage 0.75), semantic=0.57
+      Excerpt (verbatim):
+        | 11 Public Disclosure of BWC Recordings
+        | Any agency receiving a subpoena, court order, or request pursuant to the Open Public Records Act,
+        | or the common law right to know, for a BWC recording shall, within one business day of receipt of
+        | such subpoena, court order, or request, and before complying with it, provide notice to the County
+        | Prosecutor, or to the Division of Criminal Justice where the recording was made by a state-level law
+        | enforcement agency. Such notice shall state clearly the deadline […]
+
+  [2] Attorney General Law Enforcement Directive No. 2022-1: Update to Body Worn Camera Policy
+      Section:   § 7 Circumstances When BWC Activation/Use Is Subject to Special Condition…
+      Location:  p. 6   Effective: January 19, 2022
+      Source:    https://www.nj.gov/oag/dcj/agguide/directives/ag-Directive-2022-1.pdf
+      Chunk:     ag_bwc_directive:0012   Scores: keyword=9.01 (coverage 0.75), semantic=0.438
+      Excerpt (verbatim):
+        | 7 Circumstances When BWC Activation/Use Is Subject to Special Conditions or Restrictions.. 18
+        | 8 Retention of BWC Recordings ................................................................................................. 21
+        | 9 Standards to Ensure Secure Storage and Accessibility of BWC Recordings ............................ 23
+        | 10 Restrictions on Access to and Use and Dissemination of BWC Recordings ............................ 26
+        | 11 Public Disclosure of BWC Recordings .......................... […]
+
+  [3] Attorney General Law Enforcement Directive No. 2022-1: Update to Body Worn Camera Policy
+      Section:   § 5.1 BWCs Used Only in Performance of Official Duties
+      Location:  p. 17   Effective: January 19, 2022
+      Source:    https://www.nj.gov/oag/dcj/agguide/directives/ag-Directive-2022-1.pdf
+      Chunk:     ag_bwc_directive:0050   Scores: keyword=6.148 (coverage 0.75), semantic=0.438
+      Excerpt (verbatim):
+        | BWC be used to record conversations involving counseling, guidance sessions, personnel
+        | evaluations, or any similar supervisory interaction. Any recordings from a BWC recorded in
+        | contravention of this Policy or any other applicable law shall be immediately brought to the
+        | attention of agency command staff and immediately destroyed by command staff following
+        | consultation and approval by the County Prosecutor or Director of the Office of Public
+        | Integrity and Accountability. Such footage shall not be […]
+==============================================================================
+QUERY:  What is the speed limit on residential streets?
+METHOD: hybrid
+STATUS: INSUFFICIENT
+        Insufficient policy evidence: no passage met the retrieval thresholds. Human review required.
+==============================================================================
+QUERY:  California Public Records Act exemptions
+METHOD: hybrid
+STATUS: INSUFFICIENT
+        Insufficient policy evidence: the query refers to California, but the policy corpus covers New Jersey only. Human review required.
+
+Retrieved passages are evidence only. They are not legal advice or a disclosure decision.

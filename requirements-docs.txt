@@ -1,0 +1,4 @@
+# Optional: only needed to rebuild the final deliverables in docs/final_capstone/ (slides, report .docx, diagrams).
+# PNG and PDF exports additionally use Microsoft PowerPoint / Word through COM on Windows; without them those steps are skipped.
+python-pptx==1.0.2
+python-docx==1.2.0

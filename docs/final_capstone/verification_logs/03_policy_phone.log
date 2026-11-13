@@ -1,0 +1,79 @@
+QUERY:  What New Jersey law applies when a public record contains someone's personal telephone number?
+METHOD: hybrid
+STATUS: SUFFICIENT
+        4 passage(s) met the evidence thresholds. Passages are verbatim source text, not legal conclusions; a human reviewer must evaluate them.
+
+  [1] OPRA Exemptions (GRC list)
+      Section:   N.J.S.A. 47:1A-1.1, exemption 20: Personal identifying information. Specifically
+      Location:  pp. 4-5   Effective: updated September 3, 2024
+      Source:    https://www.nj.gov/grc/custodians/exempt/OPRA%20Exemptions%20(Sept%202024)(P.L.%202024,%20c.16).pdf
+      Chunk:     grc_exemptions:0026   Scores: keyword=16.164 (coverage 0.636), semantic=0.646
+      Excerpt (verbatim):
+        | active, or retired judicial officer, law enforcement officer , child protective
+        | investigator in the Division of Child Protection and Permanency, or
+        | prosecutor, or, as defined in section 1 of N.J.S.A. 47:1B-1, any immediate
+        | family member thereof.
+        | c. Credit card numbers.
+        | d. Debit card numbers.
+        | e. Bank account information.
+        | f. Month and day of birth.
+        | g. Personal e -mail address required by a public agency for government
+        | applications, services, or programs.
+        | h. Telephone numbers.
+        | i. Drivers’ license n […]
+
+  [2] The Open Public Records Act: Handbook for Records Custodians, Eighth Edition
+      Section:   SECTION 1 – OPRA DEFINED: What is a “government record” under OPRA?
+      Location:  pp. 10-11   Effective: Eighth Edition, January 2025
+      Source:    https://nj.gov/grc/custodians/handbook/Custodians%20Handbook%20(Eighth%20Edition%20-%20Jan%202025)(Final).pdf
+      Chunk:     grc_handbook:0031   Scores: keyword=13.978 (coverage 0.727), semantic=0.622
+      Excerpt (verbatim):
+        | applications, services, or programs.
+        | h. Telephone numbers.
+        | i. Drivers’ license numbers.
+        | Except for:
+        | • use by any government agency, including any court or law enforcement
+        | agency, in carrying out its functions, or any private person or entity acting
+        | on behalf thereof;
+        | • any private person or entity seeking to enforce payment of court -ordered
+        | child support;
+        | • with respect to the disclosure of driver information by the New Jersey Motor
+        | Vehicle Commission as permitted by section 2 of P.L. 1997, c. […]
+
+  [3] Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)
+      Section:   N.J.S.A. 47:1A-5(a) Times during which records may be inspected, examined
+      Location:  p. 15   Effective: as of September 3, 2024 (P.L. 2024, c.16)
+      Source:    https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf
+      Chunk:     opra_statute:0052   Scores: keyword=11.722 (coverage 0.455), semantic=0.654
+      Excerpt (verbatim):
+        | Legislature; regulation promulgated under the authority of any statute or
+        | Executive Order of the Governor; Executive Order of the Governor; Rules
+        | of Court; any federal law; federal regulation; or federal order.
+        | Personal
+        | information to be
+        | redacted
+        | Prior to allowing access to any government record, the custodian thereof
+        | shall redact from that record any information which discloses the social
+        | security number, credit card number, personal telephone number, or driver
+        | license number of any person, or, […]
+
+  [4] Open Public Records Act, N.J.S.A. 47:1A-1 et seq. (GRC Readable Version)
+      Section:   N.J.S.A. 47:1A-1.1 Definitions
+      Location:  pp. 7-8   Effective: as of September 3, 2024 (P.L. 2024, c.16)
+      Source:    https://www.nj.gov/grc/laws/act/Readable%20Version%20of%20OPRA%20(Sept%202024)(P.L.%202024,%20c.16).pdf
+      Chunk:     opra_statute:0020   Scores: keyword=14.663 (coverage 0.545), semantic=0.595
+      Excerpt (verbatim):
+        | of this State, including members of the Legislative Branch, Executive
+        | Branch, Judicial Branch, and all law enforcement entities, except that
+        | the full name, title, and oath date of that person contained therein
+        | shall not be deemed confidential; and
+        | Personal
+        | information
+        | (including Daniel’s
+        | Law information)
+        | ▪ that portion of any document which discloses the social security
+        | number, credit card number, debit card number, bank account
+        | information, month and day of birth, any personal email address
+        | req […]
+
+Retrieved passages are evidence only. They are not legal advice or a disclosure decision.

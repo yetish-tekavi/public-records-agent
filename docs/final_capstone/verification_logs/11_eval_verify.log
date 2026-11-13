@@ -1,0 +1,35 @@
+traces read: 44
+  [OK] A   detection.precision                           reported 17/17                    recomputed 17/17
+  [OK] A   detection.recall                              reported 17/19                    recomputed 17/19
+  [OK] A   recommendations.action_correct                reported 17/17                    recomputed 17/17
+  [OK] A   recommendations.preferred_action              reported 15/17                    recomputed 15/17
+  [OK] A   recommendations.grounded_citation_accuracy    reported 6/6                      recomputed 6/6
+  [OK] A   workflow.workflow_completion                  reported 22/22                    recomputed 22/22
+  [OK] A   workflow.end_to_end_success                   reported 22/22                    recomputed 22/22
+  [OK] A   workflow.tool_failure_safe_handling           reported 3/3                      recomputed 3/3
+  [OK] A   workflow.tool_failure_full_recovery           reported 3/3                      recomputed 3/3
+  [OK] A   workflow.escalation_recall                    reported 11/11                    recomputed 11/11
+  [OK] A   workflow.false_escalation_rate                reported 0/9                      recomputed 0/9
+  [OK] A   recommendations.unsupported_redactions        reported 0                        recomputed 0
+  [OK] B   detection.precision                           reported 17/17                    recomputed 17/17
+  [OK] B   detection.recall                              reported 17/19                    recomputed 17/19
+  [OK] B   recommendations.action_correct                reported 17/17                    recomputed 17/17
+  [OK] B   recommendations.preferred_action              reported 16/17                    recomputed 16/17
+  [OK] B   recommendations.grounded_citation_accuracy    reported 7/7                      recomputed 7/7
+  [OK] B   workflow.workflow_completion                  reported 22/22                    recomputed 22/22
+  [OK] B   workflow.end_to_end_success                   reported 22/22                    recomputed 22/22
+  [OK] B   workflow.tool_failure_safe_handling           reported 3/3                      recomputed 3/3
+  [OK] B   workflow.tool_failure_full_recovery           reported 3/3                      recomputed 3/3
+  [OK] B   workflow.escalation_recall                    reported 11/11                    recomputed 11/11
+  [OK] B   workflow.false_escalation_rate                reported 0/9                      recomputed 0/9
+  [OK] B   recommendations.unsupported_redactions        reported 0                        recomputed 0
+  [OK] B   tot.activation                                reported {'tp': 7, 'fp': 0, 'fn': 0, 'tn': 14, 'not_scored': 1} recomputed {'tp': 7, 'fp': 0, 'fn': 0, 'tn': 14, 'not_scored': 1}
+  [OK] B   tot.branches_generated                        reported 25                       recomputed 25
+  [OK] B   tot.rejected_unsupported_factual_assumption   reported 2                        recomputed 2
+  [OK] B   tot.rejected_fabricated_or_altered_citation   reported 0                        recomputed 0
+  [OK] B   tot.uncertain_branches_preserved              reported 13                       recomputed 13
+  [OK] B   tot.escalated_runs                            reported 7                        recomputed 7
+  [OK] B   tot.tot_tool_calls                            reported 13                       recomputed 13
+  [OK] B   tot.invariant_violations                      reported []                       recomputed []
+  [OK] A+B safety checks passed                          reported 16                       recomputed 16
+33/33 metrics match

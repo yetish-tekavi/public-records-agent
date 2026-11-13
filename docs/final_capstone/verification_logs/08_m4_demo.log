@@ -1,0 +1,9 @@
+Running Milestone 4 scenarios (transport: mcp)
+  Scenario A: PASS paused for human review; nothing authorized / PASS every recommendation requires human approval / PASS ToT not invoked / PASS REDACT citing N.J.S.A. 47:1A-5(a) / PASS disclosure authorized only after the human decision
+  Scenario B: PASS paused for human review; nothing authorized / PASS every recommendation requires human approval / PASS ToT invoked / PASS several candidate interpretations generated / PASS selected branch scored >= 70 with verified assumptions
+  Scenario C: PASS paused for human review; nothing authorized / PASS every recommendation requires human approval / PASS one targeted retry / PASS HUMAN_REVIEW_REQUIRED with no citations / PASS no statute or section invented
+  Scenario D: PASS paused for human review; nothing authorized / PASS every recommendation requires human approval / PASS ToT invoked / PASS unsupported branch rejected / PASS escalated to human review
+  Scenario D-budget: PASS paused for human review; nothing authorized / PASS every recommendation requires human approval / PASS tool budget enforced / PASS no branch selected; escalated
+Running tests ...
+  full suite: 314 passed in 84.98s (0:01:24); milestone 4: 43 passed in 20.15s
+All scenario checks passed. Traces: docs\milestone_4\execution_traces

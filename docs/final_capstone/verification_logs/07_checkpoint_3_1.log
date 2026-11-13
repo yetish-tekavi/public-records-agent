@@ -1,0 +1,34 @@
+
+[Task 1] Ingest the official OPRA document
+  network ingestion failed (URLError: <urlopen error [Errno 11001] getaddrinfo failed>); falling back to the genuine local copy
+  [FAIL] ingestion: network download (URLError: <urlopen error [Errno 11001] getaddrinfo failed>)
+  [PASS] ingestion: N.J.S.A. 47:1A-5(a) passage extracted from the document (1904 chars, pages [15, 16])
+  [PASS] ingestion: source version read from the document (as of September 3, 2024)
+
+[Task 2] Semantic retrieval
+  [PASS] retrieval: semantic search executed against the ChromaDB index (4 results)
+  [PASS] retrieval: N.J.S.A. 47:1A-5(a) telephone provision in the semantic top 4 (rank 2, similarity 0.6537)
+  [PASS] retrieval: retrieved passage is verbatim text of the ingested official passage
+
+[Task 3] Agent run (tools called through the MCP server)
+  [PASS] agent: identified the personal phone number
+  [PASS] agent: called search_policy through MCP (1 call(s), transport mcp-stdio)
+  [PASS] agent: received the actual N.J.S.A. 47:1A-5(a) passage from the tool (opra_statute:0052)
+  [PASS] agent: evidence supports a proposed redaction (REDACT)
+  [PASS] agent: recommendation cites N.J.S.A. 47:1A-5(a) and the official source URL (opra_statute:0052, p. 15)
+  [PASS] agent: exceptions / uncertainty listed for review (3 open question(s))
+  [PASS] agent: human authorization required before release
+
+[Task 4] Missing-evidence run (corpus restricted to the AG body-worn camera directive)
+  [PASS] missing evidence: every policy search returned INSUFFICIENT with no passages (2 search(es))
+  [PASS] missing evidence: recommendation is HUMAN_REVIEW_REQUIRED with no citations
+  [PASS] missing evidence: insufficient policy evidence reported
+  [PASS] missing evidence: no statute, section, or legal explanation invented
+
+[Task 5] Running the test suite
+  checkpoint tests: 9 passed in 18.27s
+  full suite: 314 passed in 87.84s (0:01:27)
+  [PASS] tests: checkpoint tests pass (9 passed in 18.27s)
+  [PASS] tests: full suite passes (314 passed in 87.84s (0:01:27))
+
+18/19 checks passed. Artifacts: docs\checkpoint_3_1

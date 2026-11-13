@@ -207,7 +207,7 @@ def finding_card(session: ReviewSession, state, reviewer: str) -> None:
         for q in rec.open_questions:
             st.markdown(f"- ❓ {q}")
 
-        with st.expander("Reasoning and Evidence"):
+        with st.expander("Reasoning and Evidence", expanded=expanded()):
             st.markdown("**Evidence assessment:** " + ("; ".join(item.assessment_reasons) or "—"))
             st.markdown("**Retrieved passages (verbatim excerpts)**")
             for c in state.evidence:
@@ -310,11 +310,29 @@ def finalization_panel(session: ReviewSession, reviewer: str) -> None:
         st.rerun()
 
 
+def load_from_query() -> None:
+    """Open a saved session from ``?session=<path inside the project>.json`` (read-only convenience for demos)."""
+    rel = st.query_params.get("session")
+    if not rel or st.session_state.get("loaded_query") == rel:
+        return
+    path = (PROJECT_ROOT / rel).resolve()
+    if not path.is_relative_to(PROJECT_ROOT) or path.suffix != ".json" or not path.exists():
+        st.session_state["flash"] = ("error", f"Cannot open session {rel!r}: it must be an existing .json file inside the project.")
+        return
+    st.session_state["session"] = ReviewSession.load(path)
+    st.session_state["loaded_query"] = rel
+
+
+def expanded() -> bool:
+    return st.query_params.get("expand") == "1"
+
+
 def main() -> None:
     st.set_page_config(page_title="Public Records Review", layout="wide")
     st.title("Public Records Compliance Review")
     st.caption("Synthetic records only. The assistant recommends; a human reviewer decides. Nothing is published or transmitted.")
     reviewer = sidebar()
+    load_from_query()
     if "flash" in st.session_state:
         kind, msg = st.session_state.pop("flash")
         (st.error if kind == "error" else st.success)(msg)

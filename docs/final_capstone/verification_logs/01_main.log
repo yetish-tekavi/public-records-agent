@@ -1,0 +1,19 @@
+2026-11-10 19:35:04,738 INFO app.data_loader: Loaded 3 review case(s) from C:\Projects\cmu\capstone\public-records-agent\data
+Loaded 3 synthetic review case(s) from C:\Projects\cmu\capstone\public-records-agent\data
+
+OPRA-TEST-001 -> TEST-001 (interaction_transcript)
+  Title:              Synthetic Police Interaction Record
+  Requires redaction: yes
+  Expected findings:  2 [PHONE_NUMBER, DRIVERS_LICENSE_NUMBER]
+
+OPRA-TEST-002 -> TEST-002 (call_transcript)
+  Title:              Synthetic Non-Emergency Dispatch Call - Noise Complaint
+  Requires redaction: yes
+  Expected findings:  3 [PERSON_NAME, STREET_ADDRESS, PHONE_NUMBER]
+
+OPRA-TEST-003 -> TEST-003 (inspection_log)
+  Title:              Synthetic Public Works Salt Dome Inspection Log
+  Requires redaction: no
+  Expected findings:  0 [none]
+
+No LLM is used in Milestone 1. All outputs require human review.

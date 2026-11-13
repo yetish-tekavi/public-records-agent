@@ -1,0 +1,13 @@
+01_main | exit=0 | 0s | -m app.main
+02_policy_demo | exit=0 | 4s | -m app.policy_search --demo
+03_policy_phone | exit=0 | 4s | -m app.policy_search What New Jersey law applies when a public record contains someone's personal telephone number? -k 4
+04_mcp_client | exit=0 | 9s | -m app.mcp_client_demo
+05_agent_demo | exit=0 | 8s | -m app.agent_demo
+06_agent_demo_mcp | exit=0 | 11s | -m app.agent_demo --request OPRA-TEST-002 --transport mcp
+07_checkpoint_3_1 | exit=1 | 155s | -m app.checkpoint_3_1
+08_m4_demo | exit=0 | 127s | -m app.m4_demo
+09_m5_demo | exit=0 | 114s | -m app.m5_demo
+10_eval_run | exit=0 | 28s | -m app.evaluation.run --tag m7check
+11_eval_verify | exit=0 | 1s | -m app.evaluation.verify
+12_safety_report | exit=0 | 170575s | -m app.evaluation.safety_report
+DONE
