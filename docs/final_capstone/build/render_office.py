@@ -20,12 +20,12 @@ def slides(deck: Path, out: Path) -> None:
     ps(f"$pp = New-Object -ComObject PowerPoint.Application; "
        f"$p = $pp.Presentations.Open('{deck}', $true, $false, $false); "
        f"$i = 1; foreach ($s in $p.Slides) {{ $s.Export((Join-Path '{out}' ('slide{{0:D2}}.png' -f $i)), 'PNG', 1600, 900); $i++ }}; "
-       f"$p.Close(); $pp.Quit()")
+       f"$p.Close(); if ($pp.Presentations.Count -eq 0) {{ $pp.Quit() }}")
 
 
 def pdf(doc: Path, out: Path) -> None:
     ps(f"$w = New-Object -ComObject Word.Application; $w.Visible = $false; "
-       f"$d = $w.Documents.Open('{doc}', $false, $true); $d.ExportAsFixedFormat('{out}', 17); $d.Close($false); $w.Quit()")
+       f"$d = $w.Documents.Open('{doc}', $false, $true); $d.ExportAsFixedFormat('{out}', 17); $d.Close($false); if ($w.Documents.Count -eq 0) {{ $w.Quit() }}")
 
 
 if __name__ == "__main__":

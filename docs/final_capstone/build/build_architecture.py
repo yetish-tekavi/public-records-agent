@@ -1,11 +1,13 @@
 """Build the final architecture diagram files.
 
-    python docs/final_capstone/build/build_architecture.py
+    python docs/final_capstone/build/build_architecture.py [--drawio] [--png]
 
 Writes to docs/final_capstone/architecture/:
-- final_architecture.drawio  editable diagrams.net file
+- final_architecture.drawio  editable diagrams.net file, only with --drawio. The committed file was refined by
+                             hand in diagrams.net, and diagram.py mirrors that layout; --drawio overwrites it.
 - final_architecture.pptx    one native-shape slide (editable in PowerPoint)
-- final_architecture.png     presentation export of that slide (needs Microsoft PowerPoint; skipped otherwise)
+- final_architecture.png     only with --png: export of that slide (needs Microsoft PowerPoint). The committed PNG
+                             is exported from the .drawio in diagrams.net; --png overwrites it.
 """
 
 from __future__ import annotations
@@ -36,7 +38,7 @@ def add_title(slide, title: str, subtitle: str) -> None:
 def export_png(pptx: Path, png: Path) -> bool:
     script = (f"$pp = New-Object -ComObject PowerPoint.Application; "
               f"$p = $pp.Presentations.Open('{pptx}', $true, $false, $false); "
-              f"$p.Slides(1).Export('{png}', 'PNG', 2667, 1500); $p.Close(); $pp.Quit()")
+              f"$p.Slides(1).Export('{png}', 'PNG', 2667, 1500); $p.Close(); if ($pp.Presentations.Count -eq 0) {{ $pp.Quit() }}")
     try:
         subprocess.run(["powershell", "-NoProfile", "-Command", script], check=True, timeout=180)
     except (OSError, subprocess.SubprocessError) as exc:
@@ -47,7 +49,9 @@ def export_png(pptx: Path, png: Path) -> bool:
 
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
-    diagram.to_drawio(OUT / "final_architecture.drawio")
+    write_drawio = "--drawio" in sys.argv[1:]
+    if write_drawio:
+        diagram.to_drawio(OUT / "final_architecture.drawio")
     prs = Presentation()
     prs.slide_width, prs.slide_height = Inches(13.333), Inches(7.5)
     slide = prs.slides.add_slide(prs.slide_layouts[6])
@@ -55,8 +59,9 @@ def main() -> int:
     diagram.draw(slide)
     pptx = OUT / "final_architecture.pptx"
     prs.save(pptx)
-    ok = export_png(pptx.resolve(), (OUT / "final_architecture.png").resolve())
-    for name in ("final_architecture.drawio", "final_architecture.pptx") + (("final_architecture.png",) if ok else ()):
+    ok = "--png" in sys.argv[1:] and export_png(pptx.resolve(), (OUT / "final_architecture.png").resolve())
+    names = (("final_architecture.drawio",) if write_drawio else ()) + ("final_architecture.pptx",)
+    for name in names + (("final_architecture.png",) if ok else ()):
         print(f"wrote {OUT / name}")
     return 0
 

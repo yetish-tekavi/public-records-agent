@@ -28,7 +28,7 @@ Final evaluation commit: `7a1a875`.
 
 ```bash
 pip install -r requirements-docs.txt                     # python-pptx, python-docx
-python docs/final_capstone/build/build_architecture.py   # diagram: drawio, pptx, png (PNG needs PowerPoint)
+python docs/final_capstone/build/build_architecture.py   # diagram pptx; the .drawio and .png are edited/exported in diagrams.net (--drawio / --png regenerate and overwrite them)
 python docs/final_capstone/build/build_presentation.py   # final_presentation.pptx
 python docs/final_capstone/build/build_report_docx.py    # final_report.docx and .pdf (PDF needs Word)
 streamlit run app/review_app.py --server.port 8601 --server.headless true   # then, in another terminal:

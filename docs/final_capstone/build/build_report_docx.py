@@ -282,7 +282,7 @@ def build() -> None:
 
 def export_pdf() -> None:
     script = (f"$w = New-Object -ComObject Word.Application; $w.Visible = $false; "
-              f"$d = $w.Documents.Open('{DOCX}', $false, $true); $d.ExportAsFixedFormat('{PDF}', 17); $d.Close($false); $w.Quit()")
+              f"$d = $w.Documents.Open('{DOCX}', $false, $true); $d.ExportAsFixedFormat('{PDF}', 17); $d.Close($false); if ($w.Documents.Count -eq 0) {{ $w.Quit() }}")
     try:
         subprocess.run(["powershell", "-NoProfile", "-Command", script], check=True, timeout=300)
         print(f"wrote {PDF}")

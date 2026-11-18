@@ -41,11 +41,11 @@ NODES: list[Node] = [
     # containers first (drawn underneath)
     Node("wf", "LangGraph StateGraph workflow (app/workflows/graph.py)", 2.0, 1.1, 8.2, 4.2, SLATE_LIGHT, INK, "ADB5BD", "container", 10),
     Node("tot", "Conditional ToT subgraph\nonly for AMBIGUOUS / CONFLICTING\nbranching 3 · depth 3 · beam 2 · min 70",
-         8.1, 2.3, 1.95, 1.95, TEAL_LIGHT, INK, TEAL, "container", 8, dashed=True),
+         8.0, 2.3, 2.05, 2.0, TEAL_LIGHT, INK, TEAL, "container", 8, dashed=True),
     Node("mcp", "MCP tool layer: official MCP Python SDK, stdio server (app/mcp_server.py), 4 read-only tools",
-         2.0, 5.5, 8.2, 0.85, "EEE8F6", INK, "9C89C9", "container", 9),
+         2.0, 5.6, 8.2, 0.85, "EEE8F6", INK, "9C89C9", "container", 9),
     Node("future", "Future architecture (not implemented)\nLLM planner and critic in the workflow\nAudio / video transcription and redaction\nMulti-user access control\nPersistent cross-process checkpoints",
-         0.25, 5.5, 1.55, 1.75, "FAFAFA", "5F6B73", GREY, "rect", 8, dashed=True),
+         0.25, 5.6, 1.55, 1.75, "FAFAFA", "5F6B73", GREY, "rect", 8, dashed=True),
     # inputs and legend
     Node("in", "Synthetic inputs\nOPRA-style request + synthetic record\n(data/, 'Synthetic: yes' header)", 0.25, 1.45, 1.55, 1.65, "FFF4D6", INK, "D9A400", size=9),
     Node("legend", "Legend\n→ workflow control\n⇢ tool call / feedback\ndashed box: conditional\ngrey box: future", 0.25, 3.45, 1.55, 1.3, WHITE, "5F6B73", "CED4DA", size=8),
@@ -55,32 +55,32 @@ NODES: list[Node] = [
     Node("pr", "Policy Research Agent\nsearch_policy · ≤ 2 queries per category", 4.15, 2.3, 1.75, 0.8, NAVY, size=9),
     Node("qa", "Compliance & QA Agent\npropose_redactions · validate_citations · missed-PII sweep", 6.1, 2.3, 1.75, 0.8, NAVY, size=8.5),
     Node("dec", "Evidence\ndecision", 6.1, 3.35, 1.75, 0.95, AMBER, INK, shape="diamond", size=9),
-    Node("tr", "MISSING → one targeted retrieval, then re-check", 4.15, 3.5, 1.75, 0.6, BLUE_LIGHT, INK, "8FA9C4", size=8.5, bold_first=False),
-    Node("gen", "generate", 8.18, 3.0, 0.85, 0.5, TEAL, size=8.5),
-    Node("eva", "evaluate\nQA critic", 9.12, 3.0, 0.85, 0.5, TEAL, size=8),
-    Node("pru", "prune\nreject · beam", 8.18, 3.65, 0.85, 0.5, TEAL, size=8),
-    Node("sel", "select or\nescalate", 9.12, 3.65, 0.85, 0.5, TEAL, size=8),
+    Node("tr", "MISSING → one targeted retrieval, then re-check", 4.15, 3.525, 1.75, 0.6, BLUE_LIGHT, INK, "8FA9C4", size=8.5, bold_first=False),
+    Node("gen", "generate", 8.3, 3.0, 0.72, 0.4, TEAL, size=8, bold_first=False),
+    Node("eva", "evaluate\nQA critic", 9.15, 3.0, 0.72, 0.4, TEAL, size=8),
+    Node("pru", "prune\nreject · beam", 8.3, 3.65, 0.72, 0.38, TEAL, size=8),
+    Node("sel", "select or\nescalate", 9.15, 3.65, 0.72, 0.38, TEAL, size=8),
     Node("std", "CLEAR → standard ReAct path\n(rule tool + validated citations)", 6.1, 4.5, 1.75, 0.65, BLUE_LIGHT, INK, "8FA9C4", size=8.5, bold_first=False),
     Node("fin", "Finalize recommendations", 8.1, 4.5, 1.95, 0.65, NAVY, size=9),
     Node("state", "Shared typed WorkflowState: findings · evidence · QA report · ToT result · tool_calls · audit (append-only)",
          2.2, 4.5, 3.6, 0.65, WHITE, INK, "ADB5BD", size=8.5, bold_first=False),
     # MCP tools
-    Node("t_search", "search_policy", 2.15, 5.85, 1.9, 0.38, "6C5BA7", size=9),
-    Node("t_valid", "validate_citations", 4.15, 5.85, 1.9, 0.38, "6C5BA7", size=9),
-    Node("t_pii", "detect_pii", 6.15, 5.85, 1.9, 0.38, "6C5BA7", size=9),
-    Node("t_prop", "propose_redactions", 8.15, 5.85, 1.9, 0.38, "6C5BA7", size=9),
+    Node("t_search", "search_policy", 2.15, 5.95, 1.9, 0.38, "6C5BA7", size=9),
+    Node("t_valid", "validate_citations", 4.15, 5.95, 1.9, 0.38, "6C5BA7", size=9),
+    Node("t_pii", "detect_pii", 6.15, 5.95, 1.9, 0.38, "6C5BA7", size=9),
+    Node("t_prop", "propose_redactions", 8.15, 5.95, 1.9, 0.38, "6C5BA7", size=9),
     # knowledge and engines
     Node("rag", "Policy RAG knowledge base\nHybrid BM25 + ChromaDB (all-MiniLM-L6-v2) · 5 official nj.gov documents · 496 chunks · provenance guard",
-         2.0, 6.55, 4.05, 0.75, "E9EEF4", INK, "8FA9C4", size=8.5),
-    Node("pii", "Presidio + spaCy\nPII detector", 6.15, 6.55, 1.9, 0.75, "E9EEF4", INK, "8FA9C4", size=8.5),
-    Node("rules", "Deterministic redaction rules", 8.15, 6.55, 2.05, 0.75, "E9EEF4", INK, "8FA9C4", size=8.5, bold_first=False),
+         2.0, 6.65, 4.05, 0.75, "E9EEF4", INK, "8FA9C4", size=8.5),
+    Node("pii", "Presidio + spaCy\nPII detector", 6.15, 6.65, 1.9, 0.75, "E9EEF4", INK, "8FA9C4", size=8.5),
+    Node("rules", "Deterministic redaction rules", 8.15, 6.65, 2.05, 0.75, "E9EEF4", INK, "8FA9C4", size=8.5, bold_first=False),
     # human review column
-    Node("reeval", "Reviewer-requested re-evaluation\n≤ 2 per finding: Policy Research, QA and ToT run again", 10.45, 1.3, 2.6, 0.95, BLUE_LIGHT, INK, "8FA9C4", size=8.5),
+    Node("reeval", "Reviewer-requested re-evaluation\n≤ 2 per finding: Policy Research, QA and ToT run again", 10.9, 1.25, 2.15, 0.95, BLUE_LIGHT, INK, "8FA9C4", size=8.5),
     Node("hr", "Human review (mandatory)\nLangGraph interrupt() → Streamlit review session\napprove · reject · modify · re-evaluate · add missed redaction",
-         10.45, 2.55, 2.6, 1.5, GREEN, size=9),
-    Node("auth", "Final authorization\nnamed reviewer · every finding resolved", 10.45, 4.3, 2.6, 0.65, GREEN_LIGHT, INK, "74C69D", size=8.5),
-    Node("red", "Deterministic span redaction\nderivative in outputs/ · original unchanged", 10.45, 5.2, 2.6, 0.65, GREEN_LIGHT, INK, "74C69D", size=8.5),
-    Node("aud", "Audit report\nhash-chained review events · tool calls · ToT branches", 10.45, 6.1, 2.6, 0.75, GREEN_LIGHT, INK, "74C69D", size=8.5),
+         10.9, 2.55, 2.15, 1.5, GREEN, size=9),
+    Node("auth", "Final authorization\nnamed reviewer · every finding resolved", 10.9, 4.3, 2.15, 0.65, GREEN_LIGHT, INK, "74C69D", size=8.5),
+    Node("red", "Deterministic span redaction\nderivative in outputs/ · original unchanged", 10.9, 5.2, 2.15, 0.65, GREEN_LIGHT, INK, "74C69D", size=8.5),
+    Node("aud", "Audit report\nhash-chained review events · tool calls · ToT branches", 10.9, 6.1, 2.15, 0.75, GREEN_LIGHT, INK, "74C69D", size=8.5),
 ]
 
 
@@ -95,36 +95,40 @@ class Edge:
     lx: float = 0.0  # label position (inches)
     ly: float = 0.0
     pts: tuple[float, float, float, float] | None = None  # fixed start/end (inches) instead of connection points
+    route: tuple[tuple[float, float], ...] | None = None  # orthogonal polyline (inches), start to end
 
 
 EDGES: list[Edge] = [
-    Edge("in", "orch", 3, 1),
+    Edge("in", "orch", 3, 1, route=((1.8, 2.275), (1.9, 2.275), (1.9, 1.725), (2.2, 1.725))),
     Edge("orch", "ra", 2, 0, pts=(3.075, 2.0, 3.075, 2.3)),
     Edge("ra", "pr", 3, 1),
     Edge("pr", "qa", 3, 1),
     Edge("qa", "dec", 2, 0),
     Edge("dec", "std", 2, 0),
-    Edge("dec", "tot", 3, 1),
+    Edge("dec", "tot", 3, 1, route=((7.85, 3.825), (7.92, 3.825), (7.92, 3.3), (8.0, 3.3))),
     Edge("dec", "tr", 1, 3),
     Edge("tr", "pr", 0, 2),
-    Edge("gen", "eva", 3, 1),
-    Edge("eva", "pru", 2, 0),
-    Edge("pru", "sel", 3, 1),
-    Edge("pru", "gen", 0, 2),  # next depth (at most 3)
+    # inside the ToT subgraph: generate -> evaluate -> prune -> select, prune loops back to generate
+    Edge("gen", "eva", 0, 0, route=((8.66, 3.0), (8.66, 2.85), (9.51, 2.85), (9.51, 3.0))),
+    Edge("eva", "pru", 2, 0, route=((9.51, 3.4), (9.51, 3.52), (8.66, 3.52), (8.66, 3.65))),
+    Edge("pru", "sel", 2, 2, route=((8.66, 4.03), (8.66, 4.18), (9.51, 4.18), (9.51, 4.03))),
+    Edge("pru", "gen", 1, 1, route=((8.3, 3.84), (8.15, 3.84), (8.15, 3.2), (8.3, 3.2))),  # next depth (at most 3)
     Edge("std", "fin", 3, 1),
-    Edge("tot", "fin", 2, 0),
-    Edge("fin", "hr", 3, 1),
+    Edge("tot", "fin", 2, 0, route=((9.075, 4.3), (9.075, 4.5))),
+    Edge("fin", "hr", 3, 1, route=((10.05, 4.825), (10.5, 4.825), (10.5, 3.3), (10.9, 3.3))),
     Edge("hr", "reeval", 0, 2, dashed=True),
-    Edge("reeval", "orch", 1, 3, dashed=True, label="feedback", lx=10.0, ly=2.0),
+    Edge("reeval", "orch", 1, 3, dashed=True, label="feedback", lx=10.2, ly=1.78),
     Edge("hr", "auth", 2, 0),
     Edge("auth", "red", 2, 0),
     Edge("red", "aud", 2, 0),
-    Edge("wf", "mcp", 2, 0, dashed=True, label="every tool call (ToolCaller with timeout)", lx=3.1, ly=5.27),
+    Edge("wf", "mcp", 2, 0, dashed=True, label="every tool call (ToolCaller with timeout)", lx=3.1, ly=5.37),
     Edge("t_search", "rag", 2, 0, dashed=True),
     Edge("t_valid", "rag", 2, 0, dashed=True),
     Edge("t_pii", "pii", 2, 0, dashed=True),
     Edge("t_prop", "rules", 2, 0, dashed=True),
 ]
+
+NODE_BY_ID = {n.id: n for n in NODES}
 
 TITLE = "Final architecture (as implemented)"
 SUBTITLE = "Four deterministic agents on one LangGraph workflow; ToT is a conditional subgraph, not a fifth agent; a human authorizes every output"
@@ -154,8 +158,17 @@ def to_drawio(path) -> None:
         style = "edgeStyle=orthogonalEdgeStyle;rounded=1;html=0;endArrow=block;endFill=1;strokeColor=#495057;fontSize=10;"
         if e.dashed:
             style += "dashed=1;"
+        waypoints = ""
+        if e.route:
+            src, dst = NODE_BY_ID[e.src], NODE_BY_ID[e.dst]
+            (x0, y0), (x1, y1) = e.route[0], e.route[-1]
+            style += (f"exitX={(x0 - src.x) / src.w:.3f};exitY={(y0 - src.y) / src.h:.3f};exitDx=0;exitDy=0;"
+                      f"entryX={(x1 - dst.x) / dst.w:.3f};entryY={(y1 - dst.y) / dst.h:.3f};entryDx=0;entryDy=0;")
+            if len(e.route) > 2:
+                waypoints = ('<Array as="points">'
+                             + "".join(f'<mxPoint x="{px(x)}" y="{px(y)}"/>' for x, y in e.route[1:-1]) + "</Array>")
         cells.append(f'<mxCell id="e{i}" value="{escape(e.label, {chr(10): "&#xa;"})}" style="{style}" edge="1" parent="1" source="{e.src}" target="{e.dst}">'
-                     '<mxGeometry relative="1" as="geometry"/></mxCell>')
+                     f'<mxGeometry relative="1" as="geometry">{waypoints}</mxGeometry></mxCell>')
     xml = ('<mxfile host="app.diagrams.net"><diagram id="final-architecture" name="Final architecture">'
            '<mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" '
            'page="1" pageScale="1" pageWidth="1340" pageHeight="760" math="0" shadow="0"><root>'
@@ -204,7 +217,14 @@ def draw(slide, font: str = "Calibri") -> None:
         shapes[n.id] = sh
 
     for e in EDGES:
-        if e.pts:
+        if e.route:
+            (x0, y0), *rest = e.route
+            fb = slide.shapes.build_freeform(Inches(x0), Inches(y0), scale=1.0)
+            fb.add_line_segments([(Inches(x), Inches(y)) for x, y in rest], close=False)
+            c = fb.convert_to_shape()
+            c.fill.background()
+            c.shadow.inherit = False
+        elif e.pts:
             c = slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, *(Inches(v) for v in e.pts))
         else:
             c = slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, 0, 0, Inches(1), Inches(1))
